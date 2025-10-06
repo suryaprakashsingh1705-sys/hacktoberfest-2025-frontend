@@ -10,12 +10,16 @@ export default function ProductGrid({ products, lastProductElementRef }) {
       {products.map((product, index) => {
         // Attach ref to the last product for infinite scroll
         const isLastProduct = index === products.length - 1;
-        
+
         return (
-          <ProductCard 
-            key={product.id || product._id || `product-${Math.random()}`} 
+          <ProductCard
+            key={product.id || product._id || index}
             product={product}
-            ref={isLastProduct && lastProductElementRef ? lastProductElementRef : null}
+            ref={
+              isLastProduct && lastProductElementRef
+                ? lastProductElementRef
+                : null
+            }
           />
         );
       })}
