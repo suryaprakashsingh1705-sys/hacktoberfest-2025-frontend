@@ -65,6 +65,8 @@
     "react-dom": "19.1.1",
     "react-helmet-async": "^2.0.5",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.9.3"
+    "react-router-dom": "^7.9.3",
+    "react-slick": "^0.31.0",
+    "slick-carousel": "^1.8.1"
   }
 }
