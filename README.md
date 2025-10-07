@@ -4,7 +4,7 @@
 
 [![GitHub last commit](https://img.shields.io/github/last-commit/OpenCodeChicago/hacktoberfest-2025-frontend)](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits/main)
 [![License: MIT](https://img.shields.io/github/license/OpenCodeChicago/hacktoberfest-2025-frontend)](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/blob/main/LICENSE)
-[![CI](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/actions/workflows/ci.yml/badge.svg?style=for-the-badge)](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/actions/workflows/ci.yml)
+[![CI/CD](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/actions/workflows/ci-cd.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/OpenCodeChicago/hacktoberfest-2025-frontend/badge)](https://securityscorecards.dev/viewer/?uri=github.com/OpenCodeChicago/hacktoberfest-2025-frontend)
 [![Open Issues](https://img.shields.io/github/issues/OpenCodeChicago/hacktoberfest-2025-frontend)](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/OpenCodeChicago/hacktoberfest-2025-frontend)](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/pulls)
@@ -272,6 +272,7 @@ Thanks goes to these wonderful people:
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mitaliiiiii"><img src="https://avatars.githubusercontent.com/u/141233593?v=4?s=100" width="100px;" alt="mitaliiiiii"/><br /><sub><b>mitaliiiiii</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=mitaliiiiii" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.anasfarooq.com/"><img src="https://avatars.githubusercontent.com/u/173719230?v=4?s=100" width="100px;" alt="Muhammad Anas Farooq"/><br /><sub><b>Muhammad Anas Farooq</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=anasfarock" title="Code">💻</a> <a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=anasfarock" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/anantjain-afk"><img src="https://avatars.githubusercontent.com/u/188947462?v=4?s=100" width="100px;" alt="anantjain-afk"/><br /><sub><b>anantjain-afk</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=anantjain-afk" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

@@ -35,8 +35,10 @@ const ProductCard = forwardRef(({ product }, ref) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [animateLike, setAnimateLike] = useState(false);
   const likeTimeoutRef = useRef(null);
-  const [animateCart, setAnimateCart] = useState(false);
-  const cartTimeoutRef = useRef(null);
+  const [cartLoading, setCartLoading] = useState(false);
+  const [cartAdded, setCartAdded] = useState(false);
+  const cartLoadingTimeoutRef = useRef(null);
+  const cartAddedTimeoutRef = useRef(null);
 
   const handleProductClick = () => {
     // add to recently viewed list (stored in localStorage) before navigating
@@ -58,11 +60,17 @@ const ProductCard = forwardRef(({ product }, ref) => {
   };
 
   const handleAddToCart = () => {
-    // visual feedback: trigger cart pop + temporary 'ADDED' state
-    setAnimateCart(true);
-    if (cartTimeoutRef.current) clearTimeout(cartTimeoutRef.current);
-    cartTimeoutRef.current = setTimeout(() => setAnimateCart(false), 700);
-    // TODO: wire up add-to-cart integration
+    // visual feedback: show a small loading indicator, then show ADDED for a short time
+    setCartLoading(true);
+    if (cartLoadingTimeoutRef.current) clearTimeout(cartLoadingTimeoutRef.current);
+    cartLoadingTimeoutRef.current = setTimeout(() => {
+      setCartLoading(false);
+      setCartAdded(true);
+      // keep the ADDED state visible for ~1.5s
+      if (cartAddedTimeoutRef.current) clearTimeout(cartAddedTimeoutRef.current);
+      cartAddedTimeoutRef.current = setTimeout(() => setCartAdded(false), 1500);
+    }, 700);
+    // TODO: wire up add-to-cart integration (dispatch, API call, open cart menu, etc.)
   };
 
   const handleWishlistToggle = () => {
@@ -78,7 +86,8 @@ const ProductCard = forwardRef(({ product }, ref) => {
   useEffect(() => {
     return () => {
       if (likeTimeoutRef.current) clearTimeout(likeTimeoutRef.current);
-      if (cartTimeoutRef.current) clearTimeout(cartTimeoutRef.current);
+      if (cartLoadingTimeoutRef.current) clearTimeout(cartLoadingTimeoutRef.current);
+      if (cartAddedTimeoutRef.current) clearTimeout(cartAddedTimeoutRef.current);
     };
   }, []);
 
@@ -220,8 +229,8 @@ const ProductCard = forwardRef(({ product }, ref) => {
           <button
             onClick={(e) => handleActionClick(e, handleWishlistToggle)}
             className={`
-              flex items-center justify-center px-4 py-3 rounded-l-xl border-2 transition-colors duration-150 hover:shadow-lg cursor-pointer
-              ${isWishlisted ? 'bg-blue-800 border-blue-800 text-white hover:bg-blue-900' : 'bg-white border-blue-800 text-blue-800 hover:bg-blue-50'}
+              flex items-center justify-center px-4 py-3 rounded-l-xl border-2 transition-colors duration-150 hover:shadow-lg cursor-pointer focus:outline-none
+              ${isWishlisted ? 'bg-[#023e8a] border-[#023e8a] text-white hover:bg-[#1054ab]' : 'bg-white border-[#023e8a] text-[#023e8a] hover:text-[#1054ab]'}
             `}
             aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
             aria-pressed={isWishlisted}
@@ -230,18 +239,27 @@ const ProductCard = forwardRef(({ product }, ref) => {
           </button>
 
       {/* --- Add to Cart Button --- */}
-      <button 
+      <button
         onClick={(e) => handleActionClick(e, handleAddToCart)}
         className={`
           -ml-px flex-grow flex items-center justify-center gap-2 
-          bg-blue-800 text-white font-medium 
+          bg-[#023e8a] text-white font-medium 
           py-3 px-4 rounded-r-xl 
-          hover:bg-blue-900 transition-colors duration-150 hover:shadow-lg cursor-pointer
+          hover:bg-[#1054ab] transition-colors duration-150 hover:shadow-lg cursor-pointer
           focus:outline-none focus:z-10
         `}
+        aria-live="polite"
       >
-        {animateCart ? (
-          <span className="ml-2 flex items-center gap-2 animate-cart-pop font-semibold">
+        {cartLoading ? (
+          <span className="ml-2 flex items-center gap-2 font-semibold">
+            <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <circle cx="12" cy="12" r="10" strokeWidth="3" stroke="currentColor" opacity="0.25" />
+              <path d="M22 12a10 10 0 00-10-10" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span>ADDING...</span>
+          </span>
+        ) : cartAdded ? (
+          <span className="ml-2 flex items-center gap-2 font-semibold">
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
               <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
