@@ -93,6 +93,15 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "anantjain-afk",
+      "name": "anantjain-afk",
+      "avatar_url": "https://avatars.githubusercontent.com/u/188947462?v=4",
+      "profile": "https://github.com/anantjain-afk",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "commitType": "docs",
