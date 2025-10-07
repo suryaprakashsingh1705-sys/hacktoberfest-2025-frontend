@@ -1,5 +1,6 @@
 import { useState, forwardRef, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { addRecentlyViewed } from '../../utils/recentlyViewed';
 
 const HeartIcon = ({ isWishlisted = false, animate = false, className = 'h-6 w-6' }) => (
   <svg
@@ -40,6 +41,12 @@ const ProductCard = forwardRef(({ product }, ref) => {
   const cartAddedTimeoutRef = useRef(null);
 
   const handleProductClick = () => {
+    // add to recently viewed list (stored in localStorage) before navigating
+    try {
+      addRecentlyViewed(product);
+    } catch {
+      // ignore errors (localStorage not available)
+    }
     navigate(`/product/${product.id}`);
   };
 
