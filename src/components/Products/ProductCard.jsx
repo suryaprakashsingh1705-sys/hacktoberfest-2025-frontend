@@ -230,7 +230,7 @@ const ProductCard = forwardRef(({ product }, ref) => {
             onClick={(e) => handleActionClick(e, handleWishlistToggle)}
             className={`
               flex items-center justify-center px-4 py-3 rounded-l-xl border-2 transition-colors duration-150 hover:shadow-lg cursor-pointer focus:outline-none
-              ${isWishlisted ? 'bg-[#023e8a] border-[#023e8a] text-white hover:bg-[#1054ab]' : 'bg-white border-[#023e8a] text-[#023e8a] hover:text-[#1054ab]'}
+              ${isWishlisted ? 'bg-[#023e8a] border-[#023e8a] text-white hover:bg-[#1054ab] hover:border-[#1054ab]' : 'bg-white border-[#023e8a] text-[#023e8a] hover:text-[#1054ab] hover:border-[#1054ab]'}
             `}
             aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
             aria-pressed={isWishlisted}

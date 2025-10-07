@@ -42,10 +42,10 @@ export default function RecentlyViewed() {
   const visibleItems = items.slice(currentIndex, currentIndex + itemsPerPage);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header section with title and navigation arrows */}
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-5xl lg:text-heading-xxl font-montserrat leading-none uppercase text-center tracking-tight py-10 text-stroke-black">
+        <h2 className="text-5xl lg:text-heading-xxl font-montserrat text-black leading-none uppercase text-center tracking-tight py-10 text-stroke-black">
           RECENTLY
           <span className="ml-5 text-[#f7faff]">VIEWED</span>
         </h2>
