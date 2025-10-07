@@ -44,9 +44,8 @@ export default function Products() {
 
   const prevProductsRef = useRef([]);
   useEffect(() => {
-    const newProductsArrived = allProducts.length > 0 &&
-      prevProductsRef.current.length !== allProducts.length;
-    if (newProductsArrived) {
+    if (allProducts.length > 0 &&
+      prevProductsRef.current.length !== allProducts.length) {
       setDisplayedCount(5);
       prevProductsRef.current = allProducts;
     }
