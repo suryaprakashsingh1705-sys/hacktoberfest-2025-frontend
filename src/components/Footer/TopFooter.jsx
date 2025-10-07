@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'; 
 
 const customerCare = [
   { name: 'My Account', href: '/login' },
