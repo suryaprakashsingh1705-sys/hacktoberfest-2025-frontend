@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router';
+import { toast } from 'react-toastify'; 
 
 const customerCare = [
   { name: 'My Account', href: '/login' },
@@ -21,12 +23,23 @@ export default function TopFooter() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      console.log('Subscribed:', email);
-      setEmail('');
-    } else {
-      alert('Enter a valid email.');
+
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+    if (!isValidEmail) {
+      toast.error('Please enter a valid email address.');
+      return;
     }
+
+    // Simulate subscription success (e.g., API call here)
+    console.log('Subscribed:', email);
+
+    // Show success toast notification
+    toast.success(
+      'Thank you for subscribing! Your email has been received. You’ll now get our latest deals and discounts.'
+    );
+
+    setEmail('');
   };
 
   return (
@@ -34,11 +47,17 @@ export default function TopFooter() {
       <div className="max-w-7xl mx-auto grid gap-12 md:grid-cols-3">
         {/* Logo + Address */}
         <div>
-          <img
-            src="/images/official-logo-core-x-footer.svg"
-            alt="CoreX"
-            className="mb-4 w-32"
-          />
+          <Link
+            to="/"
+            className="inline-block mb-4"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            <img
+              src="/images/official-logo-core-x-footer.svg"
+              alt="CoreX"
+              className="mb-4 w-32"
+            />
+          </Link>
           <ul className="flex space-x-2 mb-4">
             <li>
               <a
@@ -97,7 +116,7 @@ export default function TopFooter() {
               </a>
             </li>
           </ul>
-          <address className="underline not-italic text-sm leading-relaxed">
+          <address className="hover:underline cursor-pointer not-italic text-sm leading-relaxed">
             1234 N Main St,
             <br /> Chicago, IL 60607
           </address>
@@ -148,12 +167,12 @@ export default function TopFooter() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="flex-grow p-3 bg-neutral-800 text-neutral-200 placeholder-neutral-400 outline-none"
+              className="flex-grow p-3 bg-neutral-800 text-neutral-200 placeholder-neutral-400 outline-none hover:bg-neutral-700 hover:ring-1 hover:ring-neutral-500 focus:ring-2 focus:ring-white transition duration-200 ease-in-out"
               required
             />
             <button
               type="submit"
-              className="p-3 rounded-full bg-white hover:bg-neutral-400 text-neutral-900 transition"
+              className="p-3 rounded-full bg-white hover:bg-neutral-400 text-neutral-900 transition cursor-pointer flex items-center justify-center"
               aria-label="Subscribe"
             >
               <ArrowRight className="w-5 h-5 text-neutral-900" />
