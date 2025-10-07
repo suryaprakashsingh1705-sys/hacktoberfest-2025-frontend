@@ -8,6 +8,9 @@
 
   /* Custom Font Sizes */
   --text-heading-xxl: 4rem; /* 64px */
+  
+  --color-white-light: #fafaf9;
+  --color-main: #023e8a
 }
 
 .text-outline {
