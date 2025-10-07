@@ -16,6 +16,7 @@ export default function Products() {
   const observer = useRef();
 
   const [displayedCount, setDisplayedCount] = useState(5);
+  const productListKey = allProducts[0]?._id || 'no-products';
 
   // Simple display of products without filtering
   const displayedProducts = allProducts.slice(0, displayedCount);
@@ -41,15 +42,6 @@ export default function Products() {
   useEffect(() => {
     dispatch(fetchProducts({ page: 1, limit: 1000 }));
   }, [dispatch]);
-
-  const prevProductsRef = useRef([]);
-  useEffect(() => {
-    if (allProducts.length > 0 &&
-      prevProductsRef.current.length !== allProducts.length) {
-      setDisplayedCount(5);
-      prevProductsRef.current = allProducts;
-    }
-  }, [allProducts]);
 
   return (
     <>
@@ -101,7 +93,7 @@ export default function Products() {
 
         {/* Product Grid Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-          <div className="flex flex-col gap-8">
+          <div key={productListKey} className="flex flex-col gap-8">
             <div className="w-full">
               {error && (
                 <div className="bg-red-50 border border-red-200 rounded-2xl p-8 text-center">
@@ -185,3 +177,4 @@ export default function Products() {
     </>
   );
 }
+
