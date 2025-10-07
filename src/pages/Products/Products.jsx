@@ -5,6 +5,7 @@ import SEO from '../../components/SEO';
 import ProductGrid from '../../components/Products/ProductGrid';
 import SortDropdown from '../../components/Products/SortDropdown';
 import ProductSkeleton from '../../components/Products/ProductSkeleton';
+import RecentlyViewed from '../../components/RecentlyViewed';
 
 export default function Products() {
   const dispatch = useDispatch();
@@ -182,6 +183,9 @@ export default function Products() {
             </div>
           </div>
         </section>
+
+        {/* Recently Viewed Section (bottom of page) */}
+        {!loading && !error && <RecentlyViewed />}
       </main>
     </>
   );
