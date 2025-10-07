@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;1,700&family=Poppins&display=swap');
 @import 'tailwindcss';
 
-@theme {
+:root {
   /* Accent Fonts */
   --font-montserrat: 'Montserrat', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
@@ -10,7 +10,7 @@
   --text-heading-xxl: 4rem; /* 64px */
   
   --color-white-light: #fafaf9;
-  --color-main: #023e8a
+  --color-main: #023e8a;
 }
 
 .text-outline {
@@ -29,16 +29,4 @@
 .animate-double-pop {
   transform-origin: center;
   animation: double-pop 520ms cubic-bezier(.22,1,.36,1) both;
-}
-
-@keyframes cart-pop {
-  0% { transform: scale(1); box-shadow: 0 8px 20px rgba(2,6,23,0.12); }
-  40% { transform: scale(1.12); box-shadow: 0 14px 34px rgba(2,6,23,0.18); }
-  70% { transform: scale(0.98); box-shadow: 0 8px 20px rgba(2,6,23,0.12); }
-  100% { transform: scale(1); box-shadow: 0 8px 20px rgba(2,6,23,0.12); }
-}
-
-.animate-cart-pop {
-  transform-origin: center;
-  animation: cart-pop 520ms cubic-bezier(.22,1,.36,1) both;
 }
