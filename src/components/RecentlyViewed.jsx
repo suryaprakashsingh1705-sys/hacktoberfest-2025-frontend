@@ -17,7 +17,7 @@ const ChevronRightIcon = (props) => (
 
 
 export default function RecentlyViewed() {
-  const [items, setItems] = useState(() => getRecentlyViewed());
+  const [items] = useState(() => getRecentlyViewed());
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
 
@@ -80,4 +80,5 @@ export default function RecentlyViewed() {
       </div>
     </section>
   );
+
 }
