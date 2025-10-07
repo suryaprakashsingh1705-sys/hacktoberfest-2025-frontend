@@ -55,7 +55,7 @@ export default function Products() {
       <main className="min-h-screen" style={{ backgroundColor: '#F7FAFF' }}>
         {/* Banner Section */}
         <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 text-white py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h1 className="text-5xl md:text-6xl font-bold mb-6 font-montserrat bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
                 All Products
@@ -69,7 +69,7 @@ export default function Products() {
         </section>
 
         {/* Toolbar Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex justify-between items-center">
             {/* Left: All Filters button (non-functional) */}
             <button className="flex items-center gap-2 bg-transparent text-gray-700 px-6 py-3 rounded-lg font-medium border border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300">
@@ -93,7 +93,7 @@ export default function Products() {
         </section>
 
         {/* Product Grid Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
           <div key={productListKey} className="flex flex-col gap-8">
             <div className="w-full">
               {error && (
