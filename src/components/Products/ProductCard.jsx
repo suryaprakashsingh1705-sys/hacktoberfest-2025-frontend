@@ -1,14 +1,14 @@
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const HeartIcon = ({ isWishlisted = false, className = 'h-6 w-6' }) => (
+const HeartIcon = ({ isWishlisted = false, animate = false, className = 'h-6 w-6' }) => (
   <svg
     width="18"
     height="17"
     viewBox="0 0 18 17"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={`${className} transition-transform duration-150 ${isWishlisted ? 'scale-110' : ''}`}
+  className={`${className} transition-transform duration-200 ease-out ${animate ? 'animate-double-pop' : (isWishlisted ? 'scale-110' : '')} ${isWishlisted ? 'text-white' : 'text-current'}`}
     aria-hidden="true"
     focusable="false"
   >
@@ -32,6 +32,10 @@ const ProductCard = forwardRef(({ product }, ref) => {
   const [imageError, setImageError] = useState(false);
   const [selectedFlavor, setSelectedFlavor] = useState(product.flavors?.[0] || '');
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [animateLike, setAnimateLike] = useState(false);
+  const likeTimeoutRef = useRef(null);
+  const [animateCart, setAnimateCart] = useState(false);
+  const cartTimeoutRef = useRef(null);
 
   const handleProductClick = () => {
     navigate(`/product/${product.id}`);
@@ -47,13 +51,29 @@ const ProductCard = forwardRef(({ product }, ref) => {
   };
 
   const handleAddToCart = () => {
-    console.log(`Added ${product.name} (${selectedFlavor}) to cart.`);
+    // visual feedback: trigger cart pop + temporary 'ADDED' state
+    setAnimateCart(true);
+    if (cartTimeoutRef.current) clearTimeout(cartTimeoutRef.current);
+    cartTimeoutRef.current = setTimeout(() => setAnimateCart(false), 700);
+    // TODO: wire up add-to-cart integration
   };
 
   const handleWishlistToggle = () => {
-    setIsWishlisted(!isWishlisted);
-    console.log(`Product ${product.name} wishlisted: ${!isWishlisted}`);
+    const next = !isWishlisted;
+    setIsWishlisted(next);
+    // trigger the double-pop animation
+    setAnimateLike(true);
+    if (likeTimeoutRef.current) clearTimeout(likeTimeoutRef.current);
+    likeTimeoutRef.current = setTimeout(() => setAnimateLike(false), 520);
+    // TODO: persist wishlist state to backend/store
   };
+
+  useEffect(() => {
+    return () => {
+      if (likeTimeoutRef.current) clearTimeout(likeTimeoutRef.current);
+      if (cartTimeoutRef.current) clearTimeout(cartTimeoutRef.current);
+    };
+  }, []);
 
   if (!product) {
     return null;
@@ -62,15 +82,17 @@ const ProductCard = forwardRef(({ product }, ref) => {
   return (
     <div 
       ref={ref}
-      className="group bg-white rounded-2xl p-4 transition-all duration-300 cursor-pointer shadow-[0_8px_30px_rgb(0,0,0,0.15)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.25)] flex flex-col"
-      onClick={handleProductClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleProductClick()}
-      aria-label={`View details for ${product.name}`}
+      className="bg-white rounded-2xl p-4 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.15)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.25)] flex flex-col select-none"
     >
       {/* --- IMAGE CONTAINER --- */}
-      <div className="relative aspect-square overflow-hidden rounded-xl mb-4 bg-gray-100">
+  <div
+    className="relative aspect-square overflow-hidden rounded-xl mb-4 bg-gray-100 group cursor-pointer"
+    role="button"
+    tabIndex={0}
+    aria-label={`View details for ${product.name}`}
+    onClick={handleProductClick}
+    onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleProductClick()}
+  >
         
         {/* Badges for NEW and SALE */}
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
@@ -121,7 +143,7 @@ const ProductCard = forwardRef(({ product }, ref) => {
         <div className="absolute inset-0 bg-transparent group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
           <button
             onClick={(e) => handleActionClick(e, handleProductClick)}
-            className="opacity-0 group-hover:opacity-80 bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 text-md shadow-lg"
+            className="opacity-0 group-hover:opacity-80 bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 text-md shadow-lg cursor-pointer group-hover:pointer-events-auto"
           >
             VIEW PRODUCT
           </button>
@@ -191,28 +213,39 @@ const ProductCard = forwardRef(({ product }, ref) => {
           <button
             onClick={(e) => handleActionClick(e, handleWishlistToggle)}
             className={`
-              flex items-center justify-center px-4 py-3 rounded-l-xl border-2 transition-colors
+              flex items-center justify-center px-4 py-3 rounded-l-xl border-2 transition-colors duration-150 hover:shadow-lg cursor-pointer
               ${isWishlisted ? 'bg-blue-800 border-blue-800 text-white hover:bg-blue-900' : 'bg-white border-blue-800 text-blue-800 hover:bg-blue-50'}
             `}
             aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
             aria-pressed={isWishlisted}
           >
-            <HeartIcon isWishlisted={isWishlisted} className="h-5 w-5" />
+            <HeartIcon isWishlisted={isWishlisted} animate={animateLike} className="h-5 w-5" />
           </button>
 
       {/* --- Add to Cart Button --- */}
       <button 
         onClick={(e) => handleActionClick(e, handleAddToCart)}
-        className="
+        className={`
           -ml-px flex-grow flex items-center justify-center gap-2 
-          bg-blue-800 text-white font-bold 
+          bg-blue-800 text-white font-medium 
           py-3 px-4 rounded-r-xl 
-          hover:bg-blue-900 transition-colors
-          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:z-10
-        "
+          hover:bg-blue-900 transition-colors duration-150 hover:shadow-lg cursor-pointer
+          focus:outline-none focus:z-10
+        `}
       >
-        <CartIcon />
-        <span>ADD TO CART</span>
+        {animateCart ? (
+          <span className="ml-2 flex items-center gap-2 animate-cart-pop font-semibold">
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>ADDED</span>
+          </span>
+        ) : (
+          <>
+            <CartIcon />
+            <span className="ml-2">ADD TO CART</span>
+          </>
+        )}
       </button>
 
         </div>
