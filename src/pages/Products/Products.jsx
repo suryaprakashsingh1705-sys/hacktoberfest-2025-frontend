@@ -33,9 +33,14 @@ export default function Products() {
     dispatch(fetchProducts({ page: 1, limit: 1000 }));
   }, [dispatch]);
 
-  // Reset displayed count when products change
+  const prevProductsRef = useRef([]);
   useEffect(() => {
-    setDisplayedCount(5);
+    const newProductsArrived = allProducts.length > 0 &&
+      prevProductsRef.current.length !== allProducts.length;
+    if (newProductsArrived) {
+      setDisplayedCount(5);
+      prevProductsRef.current = allProducts;
+    }
   }, [allProducts]);
 
   return (
