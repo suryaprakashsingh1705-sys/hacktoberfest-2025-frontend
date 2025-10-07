@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ProductCard from './Products/ProductCard';
 import { getRecentlyViewed } from '../utils/recentlyViewed';
 
@@ -17,14 +17,9 @@ const ChevronRightIcon = (props) => (
 
 
 export default function RecentlyViewed() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(() => getRecentlyViewed());
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
-
-  useEffect(() => {
-    // Fetch recently viewed items from localStorage
-    setItems(getRecentlyViewed());
-  }, []);
 
   const nextSlide = () => {
     const maxStartIndex = Math.max(0, items.length - itemsPerPage);
