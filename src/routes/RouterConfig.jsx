@@ -20,6 +20,7 @@ const ProductPage = lazy(() => import('../pages/Products/ProductPage'));
 const TermsOfService = lazy(
   () => import('../pages/TermsOfService/TermsOfService')
 );
+const GarageSale = lazy(() => import('../pages/GarageSale/GarageSale'));
 
 const Register = lazy(() => import('../pages/Register'));
 
@@ -39,6 +40,7 @@ export const RouterConfig = () =>
         <Route path="about-corex" element={<About />} />
         <Route path="shipping-policy" element={<ShippingPolicy />} />
         <Route path="terms-of-service" element={<TermsOfService />} />
+        <Route path="garage-sale" element={<GarageSale />} />
       </Route>
     </>
   );
