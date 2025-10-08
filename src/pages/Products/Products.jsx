@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../store/productSlice';
 import SEO from '../../components/SEO';
@@ -6,6 +6,7 @@ import ProductGrid from '../../components/Products/ProductGrid';
 import SortDropdown from '../../components/Products/SortDropdown';
 import ProductSkeleton from '../../components/Products/ProductSkeleton';
 import RecentlyViewed from '../../components/RecentlyViewed';
+import FilterPanel from '../../components/Products/FilterPanel/FilterPanel';
 
 export default function Products() {
   const dispatch = useDispatch();
@@ -16,12 +17,59 @@ export default function Products() {
   } = useSelector((state) => state.products);
   const observer = useRef();
 
-  const [displayedCount, setDisplayedCount] = useState(5);
+  const [displayedCount, setDisplayedCount] = useState(12);
+  
+  // Get max price from products
+  const maxProductPrice = useMemo(() => {
+    if (!allProducts || allProducts.length === 0) return 100;
+    const prices = allProducts.map(p => Number(p.price || 0)).filter(p => !isNaN(p) && p > 0);
+    return Math.ceil(Math.max(...prices)) || 100;
+  }, [allProducts]);
+
+  const [filters, setFilters] = useState({
+    priceRange: [0, 100], // Initial fallback
+    categories: [],
+    goals: [],
+    garageSaleOnly: false,
+  });
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const productListKey = allProducts[0]?._id || 'no-products';
 
-  // Simple display of products without filtering
-  const displayedProducts = allProducts.slice(0, displayedCount);
-  const hasMoreProducts = displayedCount < allProducts.length;
+  // Client-side filtered products (real-time)
+  const filteredProducts = useMemo(() => {
+    if (!allProducts || allProducts.length === 0) return [];
+    const [minPrice, maxPrice] = filters.priceRange || [0, maxProductPrice];
+    return allProducts.filter((p) => {
+      const price = Number(p.price || 0);
+      if (Number.isNaN(price)) return false;
+      
+      if (price < minPrice || price > maxPrice) return false;
+
+
+      if (filters.garageSaleOnly) {
+        // consider sale fields: sale > 0 or onSale flag
+        const saleVal = Number(p.sale || 0) || (p.onSale ? 1 : 0);
+        if (!(saleVal > 0)) return false;
+      }
+
+      if (filters.categories && filters.categories.length > 0) {
+        if (!filters.categories.includes(p.category)) return false;
+      }
+
+      if (filters.goals && filters.goals.length > 0) {
+        const productGoals = Array.isArray(p.goals) ? p.goals : [];
+        // include if productGoals intersects selected goals
+        const hasGoal = filters.goals.some((g) => productGoals.includes(g));
+        if (!hasGoal) return false;
+      }
+
+      return true;
+    });
+  }, [allProducts, filters, maxProductPrice]);
+
+  // Simple display of filtered products with pagination/infinite scroll
+  const displayedProducts = filteredProducts.slice(0, displayedCount);
+  const hasMoreProducts = displayedCount < filteredProducts.length;
 
   // Infinite scroll callback
   const lastProductElementRef = useCallback(
@@ -31,13 +79,13 @@ export default function Products() {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMoreProducts) {
           setDisplayedCount((prevCount) =>
-            Math.min(prevCount + 5, allProducts.length)
+            Math.min(prevCount + 5, filteredProducts.length)
           );
         }
       });
       if (node) observer.current.observe(node);
     },
-    [loading, hasMoreProducts, allProducts.length]
+    [loading, hasMoreProducts, filteredProducts.length]
   );
 
   useEffect(() => {
@@ -52,7 +100,15 @@ export default function Products() {
         keywords="sports nutrition, supplements, protein powder, pre-workout, fitness products, CoreX Nutrition"
       />
 
-      <main className="min-h-screen" style={{ backgroundColor: '#F7FAFF' }}>
+      <main className={`min-h-screen bg-[#F7FAFF] ${isFilterOpen ? 'relative' : ''}`}>
+        {/* Filter Panel Backdrop - covers entire viewport including header */}
+        {isFilterOpen && (
+          <div 
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+            style={{ zIndex: 9998 }}
+            onClick={() => setIsFilterOpen(false)}
+          />
+        )}
         {/* Banner Section */}
         <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 text-white py-20">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,9 +127,8 @@ export default function Products() {
         {/* Toolbar Section */}
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex justify-between items-center">
-            {/* Left: All Filters button (non-functional) */}
-            <button className="flex items-center gap-2 bg-transparent text-gray-700 px-6 py-3 rounded-lg font-medium border border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300">
-              All Filters
+            {/* Left: All Filters button */}
+            <button onClick={() => setIsFilterOpen(true)} className="flex items-center gap-2 bg-transparent text-gray-700 px-6 py-3 rounded-lg font-medium border border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300">
               <svg
                 width="19"
                 height="15"
@@ -87,6 +142,7 @@ export default function Products() {
                   strokeLinecap="round"
                 />
               </svg>
+              All Filters
             </button>
             <SortDropdown />
           </div>
@@ -128,7 +184,7 @@ export default function Products() {
                 </div>
               )}
 
-              {loading && <ProductSkeleton count={5} />}
+              {loading && <ProductSkeleton count={12} />}
 
               {!loading && !error && displayedProducts.length > 0 && (
                 <>
@@ -138,8 +194,8 @@ export default function Products() {
                   />
                   {hasMoreProducts && (
                     <div className="flex justify-center mt-8">
-                      <div className="animate-pulse text-gray-500">
-                        Loading more products...
+                      <div className="text-gray-500">
+                        Loading more...
                       </div>
                     </div>
                   )}
@@ -167,7 +223,7 @@ export default function Products() {
                     No Products Found
                   </h3>
                   <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                    We couldn't find any products. Please try again later.
+                    We couldn't find any products matching your filters.
                   </p>
                 </div>
               )}
@@ -175,10 +231,26 @@ export default function Products() {
           </div>
         </section>
 
-        {/* Recently Viewed Section (bottom of page) */}
+        {/* Filter Panel (slide-in) */}
+        <FilterPanel
+          open={isFilterOpen}
+          onClose={() => setIsFilterOpen(false)}
+          products={allProducts}
+          filters={filters}
+          onChangeFilters={(next) => {
+            const pr = next.priceRange || [0, maxProductPrice];
+            setFilters({
+              priceRange: [pr[0] ?? 0, pr[1] ?? maxProductPrice],
+              categories: next.categories || [],
+              goals: next.goals || [],
+              garageSaleOnly: !!next.garageSaleOnly,
+            });
+            setDisplayedCount(12);
+          }}
+        />
+
         {!loading && !error && <RecentlyViewed />}
       </main>
     </>
   );
 }
-
