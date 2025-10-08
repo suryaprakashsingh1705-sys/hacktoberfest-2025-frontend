@@ -32,6 +32,9 @@ export default function Products() {
     goals: [],
     garageSaleOnly: false,
   });
+  // Sorting state (client-side)
+  const [sortBy, setSortBy] = useState('best_selling');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const productListKey = allProducts[0]?._id || 'no-products';
 
@@ -67,8 +70,51 @@ export default function Products() {
     });
   }, [allProducts, filters, maxProductPrice]);
 
+  // Apply client-side sorting to filtered products
+  const sortedProducts = useMemo(() => {
+    if (!filteredProducts || filteredProducts.length === 0) return [];
+
+    // shallow copy to avoid mutating original array
+    const copy = [...filteredProducts];
+
+    const getString = (p, key) => (p[key] || p.name || p.title || '').toString().toLowerCase();
+    const getNumber = (p, key) => {
+      const val = p[key];
+      if (val === undefined || val === null || val === '') return 0;
+      const n = Number(val);
+      return Number.isNaN(n) ? 0 : n;
+    };
+
+    switch (`${sortBy}:${sortOrder}`) {
+      case 'title:asc':
+        copy.sort((a, b) => getString(a, 'name').localeCompare(getString(b, 'name')));
+        break;
+      case 'title:desc':
+        copy.sort((a, b) => getString(b, 'name').localeCompare(getString(a, 'name')));
+        break;
+      case 'price:asc':
+        copy.sort((a, b) => getNumber(a, 'price') - getNumber(b, 'price'));
+        break;
+      case 'price:desc':
+        copy.sort((a, b) => getNumber(b, 'price') - getNumber(a, 'price'));
+        break;
+      case 'rating:asc':
+        copy.sort((a, b) => getNumber(a, 'rating') - getNumber(b, 'rating'));
+        break;
+      case 'rating:desc':
+        copy.sort((a, b) => getNumber(b, 'rating') - getNumber(a, 'rating'));
+        break;
+      case 'best_selling:desc':
+      default:
+        // Best Selling is a placeholder - keep original order (assumed backend order)
+        break;
+    }
+
+    return copy;
+  }, [filteredProducts, sortBy, sortOrder]);
+
   // Simple display of filtered products with pagination/infinite scroll
-  const displayedProducts = filteredProducts.slice(0, displayedCount);
+  const displayedProducts = sortedProducts.slice(0, displayedCount);
   const hasMoreProducts = displayedCount < filteredProducts.length;
 
   // Infinite scroll callback
@@ -144,7 +190,17 @@ export default function Products() {
               </svg>
               All Filters
             </button>
-            <SortDropdown />
+            <SortDropdown
+              sortBy={sortBy}
+              sortOrder={sortOrder}
+              onSortChange={(field, order) => {
+                // If user chooses Best Selling (placeholder), map empty or best_selling
+                setSortBy(field || 'best_selling');
+                setSortOrder(order || 'desc');
+                // reset displayed count to show top results
+                setDisplayedCount(12);
+              }}
+            />
           </div>
         </section>
 
