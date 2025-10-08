@@ -8,10 +8,13 @@ import {
   User,
   ShoppingCart,
 } from 'lucide-react';
+import SearchBox  from '../Search/SearchBox';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
+  const [search, setSearch] = useState(false);
+
 
   return (
     <header className="bg-white shadow-md w-full fixed top-8 left-0 z-50">
@@ -62,8 +65,31 @@ export default function Header() {
           <div className="flex items-center space-x-6">
             {/* Desktop Icons */}
             <div className="hidden md:flex items-center space-x-6 text-gray-700">
-              <a href="#" aria-label="Search">
+              {/* search box logic */}
+              <a aria-label="Search" 
+              onClick={() => setSearch(!search)} 
+              className="cursor-pointer ">
                 <Search className="h-5 w-5 hover:text-black" />
+                {(search) && 
+                <div className='fixed h-full w-1/2 top-0 right-0 z-5'>
+                    <div className='flex items-center w-full justify-between mt-2 h-15 px-2 bg-gray-100'>
+                      <div className='font-bold text-lg mr-4'>
+                        <p>SEARCH</p>
+                    </div>
+                    <div className='font-bold text-lg mr-4'>
+                      <button
+                        className='cursor-pointer'
+                        onClick={() =>{
+                          setSearch(!search);
+                        } }
+                      >x</button>
+                    </div>
+                  </div>
+                  <SearchBox 
+                  className=""
+                  />
+                </div>
+                }
               </a>
               <a href="#" aria-label="Wishlist">
                 <Heart className="h-5 w-5 hover:text-black" />
