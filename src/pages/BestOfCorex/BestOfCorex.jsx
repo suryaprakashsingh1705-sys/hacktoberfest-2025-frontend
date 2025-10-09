@@ -7,11 +7,11 @@ const CollectionStatus = ({ name, endpoint }) => {
   const { data, loading, error } = useFetch(endpoint);
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: '10px', margin: '10px', borderRadius: '5px' }}>
-      <h3>{name}</h3>
-      {loading && <p>Status: Loading...</p>}
-      {error && <p style={{ color: 'red' }}>Status: Error - {error.message}</p>}
-      {data && <p style={{ color: 'green' }}>Status: Fetched Successfully</p>}
+    <div className="border border-gray-300 p-4 rounded-lg shadow-sm">
+      <h3 className="text-lg font-semibold text-gray-800 truncate">{name}</h3>
+      {loading && <p className="text-gray-500">Status: Loading...</p>}
+      {error && <p className="text-red-600">Status: Error - {error.message}</p>}
+      {data && <p className="text-green-600">Status: Fetched Successfully</p>}
     </div>
   );
 };
@@ -25,15 +25,16 @@ const BestOfCorex = () => {
   const collections = Object.entries(API_ENDPOINTS.COLLECTIONS);
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
-      <h1>API Collection Status</h1>
-      <p>Fetching data from all collection endpoints:</p>
-      {collections.map(([name, endpoint]) => (
-        <CollectionStatus key={name} name={name} endpoint={endpoint} />
-      ))}
-    </div>
+    <main className="px-8 py-5 font-sans">
+      <h1 className="text-2xl font-bold mb-2">API Collection Status</h1>
+      <p className="text-gray-600 mb-6">Fetching data from all collection endpoints:</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        {collections.map(([name, endpoint]) => (
+          <CollectionStatus key={name} name={name} endpoint={endpoint} />
+        ))}
+      </div>
+    </main>
   );
 };
 
-export default BestOfCorex
-
+export default BestOfCorex;

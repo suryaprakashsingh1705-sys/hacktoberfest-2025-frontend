@@ -1,6 +1,6 @@
 /**
  * @file Centralized API endpoint constants.
- * Using a centralized file for endpoints reduces typos and makes maintenance easier.
+ * Using a centralized file for endpoints makes maintenance easier.
  */
 
 export const API_ENDPOINTS = {
@@ -16,6 +16,5 @@ export const API_ENDPOINTS = {
     HEALTH_WELLNESS: '/api/collections/health-wellness-supplements',
   },
 
-  // You can add other endpoints here as the app grows
-  // e.g., AUTH: { LOGIN: '/api/auth/login', REGISTER: '/api/auth/register' }
+
 };
