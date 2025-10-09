@@ -16,7 +16,7 @@ export default function FeaturedProductImage({
     <Link
       to={`/product/${productId}`}
       aria-label={`View product ${alt}`}
-      className={'group w-full rounded-2xl' + className}
+      className={'group w-full' + className}
     >
       <img
         src={finalSrc}
@@ -24,7 +24,7 @@ export default function FeaturedProductImage({
         loading="lazy"
         onLoad={onLoad}
         onError={onError}
-        className="w-full h-full rounded-2xl object-contain transition-transform duration-300 transform group-hover:scale-95 cursor-pointer"
+        className="w-full h-full object-contain transition-transform duration-300 transform group-hover:scale-95 cursor-pointer"
       />
     </Link>
   );
