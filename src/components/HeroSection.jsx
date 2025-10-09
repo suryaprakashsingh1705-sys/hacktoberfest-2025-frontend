@@ -4,16 +4,16 @@ import { heroJoin, heroCorex, heroUnlock, heroSales } from "../assets/hero";
 
 const slides = [
     {
-        image: heroJoin,
-        buttonLabel: "Join Us",
-        href: "/about-corex",
-        alt: "Join the CoreX community - Premium supplements for serious athletes"
-    },
-    {
         image: heroCorex,
         buttonLabel: "Shop Now",
         href: "/products",
         alt: "CoreX Nutrition - Science-backed supplements for peak performance"
+    },
+    {
+        image: heroSales,
+        buttonLabel: "Shop Now",
+        href: "/products",
+        alt: "Special offer - CoreX supplements on 40% off sale now"
     },
     {
         image: heroUnlock,
@@ -21,12 +21,13 @@ const slides = [
         href: "/products",
         alt: "Unlock your potential with CoreX performance supplements"
     },
+
     {
-        image: heroSales,
-        buttonLabel: "Shop Now",
-        href: "/products",
-        alt: "Special offer - CoreX supplements on 40% off sale now"
-    }
+        image: heroJoin,
+        buttonLabel: "Join Us",
+        href: "/about-corex",
+        alt: "Join the CoreX community - Premium supplements for serious athletes"
+    },
 ];
 
 function HeroSection() {
