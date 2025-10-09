@@ -12,7 +12,7 @@
 .hero-slider {
   --dot-size: 1rem;
   --dot-gap: 0.75rem;
-  --animation-duration: 8s;
+  --animation-duration: 12s;
   --dot-color: white;
   
   height: auto;
