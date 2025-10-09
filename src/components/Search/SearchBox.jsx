@@ -72,7 +72,7 @@ export default function SearchBox(){
 
             <div className='space-y-4'>
             {filteredProducts.map((product) => (
-            <div className='flex items-center justify-start space-x-4 p-2 bg-white rounded-lg shadow hover:shadow-lg'>
+            <div className='flex items-center justify-start space-x-4 p-2 bg-white rounded-lg shadow hover:shadow-lg hover:scale-[1.02] transition-transform cursor-pointer'>
                 <div className="w-16 h-16 object-cover rounded">
                     <img src={product.image} alt="Product_Image" />
                 </div>
