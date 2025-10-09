@@ -7,7 +7,7 @@ const mockProducts = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
   title: `Sample Product ${i + 1}`,
   price: (19.99 + i * 5).toFixed(2),
-  images: ['https://via.placeholder.com/400'], // Using a placeholder image
+  images: ['https://via.placeholder.com/400'],
   rating: (3.5 + (i % 3) * 0.5).toFixed(1),
   numReviews: 15 + i * 7,
 }));
@@ -18,7 +18,7 @@ const BestOfCorex = () => {
 
   return (
     <main className="px-8 py-5 font-sans">
-      <h1 className="text-3xl font-bold mb-4 text-center">Best of CoreX</h1>
+      <h1 className="text-3xl font-bold mt-8 mb-4 text-center">Best of CoreX</h1>
       {/* Tab Navigation */}
       <div className="flex justify-center flex-wrap gap-2 mb-8">
         {collections.map(([name]) => (
