@@ -24,6 +24,9 @@ const GarageSale = lazy(() => import('../pages/GarageSale/GarageSale'));
 
 const Register = lazy(() => import('../pages/Register'));
 
+const BestOfCoreX = lazy(() => import('../pages/BestofCorex/BestofCorex'));
+
+
 // Router configuration
 export const RouterConfig = () =>
   createRoutesFromElements(
@@ -41,6 +44,7 @@ export const RouterConfig = () =>
         <Route path="shipping-policy" element={<ShippingPolicy />} />
         <Route path="terms-of-service" element={<TermsOfService />} />
         <Route path="garage-sale" element={<GarageSale />} />
+        <Route path="best-of-corex" element={<BestOfCoreX/>} />
       </Route>
     </>
   );
