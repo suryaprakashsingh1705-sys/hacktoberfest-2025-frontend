@@ -1,3 +1,4 @@
+import FeaturedProductImage from '../../components/NewProductsBanner/NewProductsBanner';
 import {
   CollectionSection,
   HeroSection,
@@ -6,7 +7,6 @@ import {
   WhyChoose,
   SupplementForGoalsSection,
 } from '../../components';
-import FeaturedProductImage from '../../components/Products/FeaturedProductImage';
 
 export default function Home() {
   return (
@@ -39,5 +39,5 @@ export default function Home() {
         <CollectionSection />
       </main>
     </>
-  )
+  );
 }
