@@ -2,7 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 export default function TopHeader() {
-  const messages = ['Buy 1 get 1 50% off', 'Free shipping on orders over $110'];
+  const messages = [
+    <>
+      Buy 1 get 1{' '}
+      <span className="underline decoration-red-500 decoration-2 underline-offset-4 text-white">
+        50% off
+      </span>
+    </>,
+    <>
+      <span className="underline decoration-red-500 decoration-2 underline-offset-4 text-white">
+        Free shipping
+      </span>{' '}
+      on orders over $110
+    </>,
+  ];
 
   const [index, setIndex] = useState(0);
 
@@ -14,13 +27,14 @@ export default function TopHeader() {
   }, [messages.length]);
 
   return (
-    <header className="w-full bg-[#0D1B2A] text-white text-sm fixed py-2 px-4 flex items-center justify-between">
+    <header className="w-full bg-[#0D1B2A] text-white text-sm fixed py-2 px-4 flex items-center justify-between z-50">
       {/* Center Promo Message */}
       <div className="flex-1 text-center font-medium">
         <p className="transition-opacity duration-500 ease-in-out">
           {messages[index]}
         </p>
       </div>
+      {/* Right Side Icons */}
       <div className="flex space-x-4 ml-4">
         <a href="#" aria-label="Facebook" className="hover:text-gray-300">
           <Facebook
