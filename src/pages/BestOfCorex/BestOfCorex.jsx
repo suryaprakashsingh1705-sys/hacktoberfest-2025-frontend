@@ -1,12 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { API_ENDPOINTS } from '../../routes/apiEndpoints';
 import ProductCard from '../../components/Products/ProductCard';
+import { motion, AnimatePresence } from 'framer-motion';
 
 
-const mockProducts = Array.from({ length: 10 }, (_, i) => ({
+const mockProducts = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
   title: `Sample Product ${i + 1}`,
-  price: (19.99 + i * 5).toFixed(2),
+  price: (19.99 + i * 3.5).toFixed(2),
   images: ['https://via.placeholder.com/400'],
   rating: (3.5 + (i % 3) * 0.5).toFixed(1),
   numReviews: 15 + i * 7,
@@ -18,6 +19,7 @@ const BestOfCorex = () => {
   const collections = Object.entries(API_ENDPOINTS.COLLECTIONS);
   const [activeTab, setActiveTab] = useState(collections[0]?.[0] || '');
   const [currentPage, setCurrentPage] = useState(1);
+  const gridRef = useRef(null);
 
 
   const totalPages = useMemo(() => Math.ceil(mockProducts.length / PRODUCTS_PER_PAGE), []);
@@ -30,14 +32,21 @@ const BestOfCorex = () => {
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
+      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
       setCurrentPage(currentPage + 1);
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
+      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
       setCurrentPage(currentPage - 1);
     }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
   };
 
   return (
@@ -61,9 +70,21 @@ const BestOfCorex = () => {
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-
-        {currentProducts.map((product) => <ProductCard key={product.id} product={product} />)}
+      <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <AnimatePresence mode="wait">
+          {currentProducts.map((product) => (
+            <motion.div
+              key={`${activeTab}-${product.id}`} // Ensure re-animation on tab and product change
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              transition={{ duration: 0.3 }}
+            >
+              <ProductCard product={product} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
 
       {/* Pagination Controls */}
