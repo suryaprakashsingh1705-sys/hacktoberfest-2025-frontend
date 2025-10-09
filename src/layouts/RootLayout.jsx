@@ -12,7 +12,7 @@ function RootLayout() {
     <>
       <TopHeader />
       <MainHeader />
-      <main>
+      <main className="mt-[84px]">
         <SEO
           title="CoreX Nutrition"
           description="CoreX Nutrition official site — explore accessibility, policies, and open-source projects."
