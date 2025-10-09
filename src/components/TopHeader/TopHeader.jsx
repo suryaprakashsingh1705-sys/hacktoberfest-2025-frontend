@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedinIn,
+} from 'react-icons/fa';
 
 export default function TopHeader() {
   const messages = [
@@ -37,24 +42,24 @@ export default function TopHeader() {
       {/* Right Side Icons */}
       <div className="flex space-x-4 ml-4">
         <a href="#" aria-label="Facebook" className="hover:text-gray-300">
-          <Facebook
+          <FaFacebookF
             size={18}
             className="fill-current text-white hover:text-gray-300"
             stroke="none"
           />
         </a>
         <a href="#" aria-label="Twitter" className="hover:text-gray-300">
-          <Twitter
+          <FaTwitter
             size={18}
             className="fill-current text-white hover:text-gray-300"
             stroke="none"
           />
         </a>
         <a href="#" aria-label="Instagram" className="hover:text-gray-300">
-          <Instagram size={18} />
+          <FaInstagram size={18} />
         </a>
         <a href="#" aria-label="LinkedIn" className="hover:text-gray-300">
-          <Linkedin
+          <FaLinkedinIn
             size={18}
             className="fill-current text-white hover:text-gray-300"
             stroke="none"
