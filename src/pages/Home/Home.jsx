@@ -4,6 +4,7 @@ import {
   LogoCarousel,
   SEO,
   WhyChoose,
+  SupplementForGoalsSection,
 } from '../../components';
 import FeaturedProductImage from '../../components/Products/FeaturedProductImage';
 
@@ -27,6 +28,7 @@ export default function Home() {
       <main id="main-content" className="min-h-screen bg-gray-50 -mt-16 pt-16">
         <HeroSection />
         <WhyChoose />
+        <SupplementForGoalsSection />
         <LogoCarousel />
         <FeaturedProductImage
           imageUrl="/images/test-product-image.jpg"
@@ -37,5 +39,5 @@ export default function Home() {
         <CollectionSection />
       </main>
     </>
-  );
+  )
 }
