@@ -5,12 +5,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import SEO from '../components/SEO';
 import TopFooter from '../components/Footer';
 import MainHeader from '../components/Header';
-import TopHeader from '../components/TopHeader';
+
 
 function RootLayout() {
   return (
     <>
-      <TopHeader />
       <MainHeader />
       <main className="mt-[84px]">
         <SEO
