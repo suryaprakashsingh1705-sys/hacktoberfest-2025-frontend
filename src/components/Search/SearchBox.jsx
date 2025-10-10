@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { X, Loader2 } from "lucide-react";
 import notfound from "../../assets/Not-found.svg";
-
+import { Link } from "react-router-dom";
+import missingimg from "../../assets/missing-picture-product.jpg"
 export default function SearchBox({ onClose, isOpen }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]);
@@ -78,9 +79,8 @@ export default function SearchBox({ onClose, isOpen }) {
     <>
       {/* Overlay with smooth fade */}
       <div
-        className={`fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ease-in-out ${
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        } z-[998]`}
+        className={`fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          } z-[998]`}
       />
 
       {/* Drawer with smooth slide and content fade */}
@@ -92,9 +92,8 @@ export default function SearchBox({ onClose, isOpen }) {
       >
         {/* Drawer Content with Fade */}
         <div
-          className={`flex flex-col h-full transition-opacity duration-300 ease-in-out ${
-            isOpen ? "opacity-100 delay-100" : "opacity-0"
-          }`}
+          className={`flex flex-col h-full transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-100 delay-100" : "opacity-0"
+            }`}
         >
           {/* HEADER */}
           <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200">
@@ -166,10 +165,10 @@ export default function SearchBox({ onClose, isOpen }) {
                     >
                       <div className="w-16 h-16 flex justify-center items-center overflow-hidden">
                         <img
-                          src={product.image || "/placeholder.png"}
+                          src={product.image || missingimg}
                           alt={product.name}
                           className="w-16 h-16 object-contain transition-transform duration-300"
-                          onError={(e) => (e.target.src = "/placeholder.png")}
+                          onError={(e) => (e.target.src = missingimg)}
                         />
                       </div>
                       <div>
@@ -207,12 +206,19 @@ export default function SearchBox({ onClose, isOpen }) {
           {/* SEE ALL PRODUCTS BUTTON FIXED ABOVE BOTTOM */}
           {!loading && !error && products.length > 0 && (
             <div className="absolute bottom-[30px] left-0 w-full px-6">
-              <button
-                className="w-full py-3 bg-[#023E8A] text-white rounded-md font-semibold 
-                         hover:bg-blue-800 transition-all duration-300 cursor-pointer shadow-lg"
-              >
-                SEE ALL PRODUCTS →
-              </button>
+              <Link to="/products">
+                <button
+                  onClick={onClose}
+                  className="group w-full py-3 bg-[#023E8A] text-white rounded-md font-semibold 
+                 hover:bg-blue-800 transition-all duration-300 cursor-pointer shadow-lg flex items-center justify-center"
+                >
+                  <span>   SEE ALL PRODUCTS</span>
+
+                  <span className="ml-2 text-2xl transition-transform duration-300 group-hover:translate-x-2">
+                    →
+                  </span>
+                </button>
+              </Link>
             </div>
           )}
         </div>
