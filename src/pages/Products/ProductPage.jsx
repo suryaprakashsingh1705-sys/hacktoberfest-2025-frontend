@@ -18,14 +18,21 @@ export default function ProductPage() {
 
   const [recommendedProducts, setRecommendedProducts] = useState([])
 
-  const fetchRecommendedProducts = async (id) => {
-    const products = await getRecommendedProducts(id)
-    setRecommendedProducts(products.data)
-  }
+
 
   useEffect(() => {
     if (!id) return;
     dispatch(fetchProductById(id));
+
+    const fetchRecommendedProducts = async (id) => {
+      try {
+        const products = await getRecommendedProducts(id)
+        setRecommendedProducts(products.data)
+      } catch (error) {
+        console.error('Error fetching recommended products:', error);
+      }
+    }
+
     fetchRecommendedProducts(id)
     return () => {
       dispatch(clearCurrentProduct());
