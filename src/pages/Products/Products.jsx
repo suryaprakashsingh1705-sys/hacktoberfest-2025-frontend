@@ -104,9 +104,9 @@ export default function Products() {
       case 'rating:desc':
         copy.sort((a, b) => getNumber(b, 'rating') - getNumber(a, 'rating'));
         break;
-      case 'best_selling:desc':
+      case 'featured:desc':
       default:
-        // Best Selling is a placeholder - keep original order (assumed backend order)
+        // Featured is a placeholder - keep original order (assumed backend order)
         break;
     }
 

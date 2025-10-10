@@ -111,6 +111,24 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "rmbarley",
+      "name": "Ryan Barley",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3730559?v=4",
+      "profile": "http://ryanbarley.dev",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "PriscaTonia",
+      "name": "Onwudebelu Prisca Ebubechukwu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60774343?v=4",
+      "profile": "http://prisca.vercel.app",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "commitType": "docs",

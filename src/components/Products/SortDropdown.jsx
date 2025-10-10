@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 const SORT_OPTIONS = [
-  { label: 'Best Selling', field: 'best_selling', order: 'desc' },
+  { label: 'Featured', field: 'featured', order: 'desc' },
   { label: 'A - Z', field: 'title', order: 'asc' },
   { label: 'Z - A', field: 'title', order: 'desc' },
   { label: 'Price - Low to High', field: 'price', order: 'asc' },
@@ -10,7 +10,7 @@ const SORT_OPTIONS = [
   { label: 'Rating - High to Low', field: 'rating', order: 'desc' },
 ];
 
-export default function SortDropdown({ sortBy = 'best_selling', sortOrder = 'desc', onSortChange = () => {} }) {
+export default function SortDropdown({ sortBy = 'featured', sortOrder = 'desc', onSortChange = () => {} }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
