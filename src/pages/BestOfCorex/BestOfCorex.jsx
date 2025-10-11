@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { API_ENDPOINTS } from '../../routes/apiEndpoints';
 import SEO from '../../components/SEO';
-import { RefreshCw, AlertTriangle } from 'lucide-react';
+import { RefreshCw, AlertTriangle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ApiErrorDisplay } from '../../components/ApiErrorDIsplay';
 import { useFetchnCache } from '../../utils/useFetchnCache';
+import { useProductCarousel } from '../../utils/useProductCarousel';
 import ProductSkeleton from '../../components/Products/ProductSkeleton';
 import ProductCarousel from '../../components/Products/ProductCarousel';
 
 const BestOfCorex = () => {
   const collections = Object.entries(API_ENDPOINTS.COLLECTIONS); //Invokes all the endpoints
   const [activeTab, setActiveTab] = useState(collections[0]?.[0] || '');
-
-  const PRODUCTS_PER_PAGE = import.meta.env.VITE_PRODUCTS_PER_PAGE || 6;
 
   // Fetch all collection URLs on page load using the refactored hook
   const { data: allCollectionsData, loading, error, errors, refetch } = useFetchnCache(Object.values(API_ENDPOINTS.COLLECTIONS));
@@ -20,6 +19,15 @@ const BestOfCorex = () => {
   // Select the data for the active tab from the pre-fetched data
   const productData = allCollectionsData ? allCollectionsData[activeEndpoint] : null;
   const products = productData?.products || [];
+
+  // Use the custom hook to manage all carousel state and logic
+  const {
+    scrollContainerRef,
+    currentPage,
+    productPages,
+    scroll,
+    showArrows,
+  } = useProductCarousel({ products, productsPerPage: 6 });
 
   return (
     <>
@@ -42,8 +50,10 @@ const BestOfCorex = () => {
           <RefreshCw className={`h-5 w-5 text-gray-700 ${loading ? 'animate-spin' : ''}`} />
         </button>
       </div>
-      {/* Tab Navigation */}
-      <div className="flex justify-center flex-wrap gap-2 mb-8">
+
+      {/* Tab Navigation & Carousel Arrows */}
+      <div className="flex justify-center items-center flex-wrap gap-4 mb-8">
+        {/* Tab Buttons */}
         {collections.map(([name]) => (
           <button
             key={name}
@@ -57,12 +67,32 @@ const BestOfCorex = () => {
             {name}
           </button>
         ))}
+
+        {/* Carousel Arrows */}
+        {showArrows && !loading && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => scroll(-1)}
+              disabled={currentPage === 0}
+              className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => scroll(1)}
+              disabled={currentPage >= productPages.length - 1}
+              className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Loading and Error States */}
       {loading && (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 p-1 md:p-2">
-          {Array.from({ length: PRODUCTS_PER_PAGE }).map((_, index) => (
+          {Array.from({ length: 6 }).map((_, index) => (
             <ProductSkeleton key={index} />
           ))}
         </div>
@@ -88,7 +118,8 @@ const BestOfCorex = () => {
       {!loading && allCollectionsData && (
         <ProductCarousel
           products={products}
-          productsPerPage={PRODUCTS_PER_PAGE}
+          scrollContainerRef={scrollContainerRef}
+          productsPerPage={6}
         />
       )}
       </main>
