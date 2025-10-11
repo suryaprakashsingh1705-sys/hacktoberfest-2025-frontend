@@ -61,7 +61,7 @@ export default function SortDropdown({ sortBy = 'featured', sortOrder = 'desc', 
         </button>
 
         <div
-          className={`absolute top-0 left-0 right-0 z-50 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${
+          className={`absolute top-0 left-0 right-0 z-20 w-full bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${
             isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
           }`}
           aria-hidden={!isOpen}
@@ -105,4 +105,5 @@ export default function SortDropdown({ sortBy = 'featured', sortOrder = 'desc', 
       </div>
     </div>
   );
+
 }
