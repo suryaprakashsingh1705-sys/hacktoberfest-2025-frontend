@@ -6,11 +6,10 @@ import SEO from '../../components/SEO';
 import ProductSkeleton from '../../components/Products/ProductSkeleton';
 import RecentlyViewed from '../../components/RecentlyViewed';
 import {
-  getWishlist,
   toggleWishlist,
   isInWishlist,
 } from '../../utils/wishlist';
-import { getCart, toggleCart, isInCart } from '../../utils/cart';
+import { toggleCart, isInCart } from '../../utils/cart';
 
 export default function GarageSale() {
   const [products, setProducts] = useState([]);
@@ -55,7 +54,7 @@ export default function GarageSale() {
           setError('Failed to load products');
         }
       } catch (err) {
-        setError('Failed to load products');
+        setError('Failed to load products ' + err.message);
       } finally {
         setLoading(false);
       }
