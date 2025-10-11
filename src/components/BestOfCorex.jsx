@@ -6,7 +6,21 @@ import ProductSkeleton from './Products/ProductSkeleton';
 import ProductCarousel from './Products/ProductCarousel';
 import { useBestOfCoreX } from '../utils/useBestOfCoreX';
 
+// Set to true to use mock data, false to use the live API.
+const useMockData = true;
+
+const mockProducts = Array.from({ length: 16 }, (_, i) => ({
+  id: `mock_prod_${i + 1}`,
+  name: `Mock Product ${i + 1}`,
+  price: (19.99 + i * 2.5).toFixed(2),
+  image: `https://via.placeholder.com/300x300.png?text=Product+${i + 1}`,
+  description: `This is a mock description for product ${i + 1}.`,
+}));
+
 const BestOfCoreX = () => {
+  const realData = useBestOfCoreX();
+
+  // Conditionally use mock data or real data from the hook
   const {
     collections,
     activeTab,
@@ -15,7 +29,15 @@ const BestOfCoreX = () => {
     loading,
     error,
     allCollectionsData,
-  } = useBestOfCoreX();
+  } = useMockData
+    ? {
+        ...realData, // Keep tab logic from the real hook
+        products: mockProducts,
+        loading: false,
+        error: null,
+        allCollectionsData: { mock: { products: mockProducts } },
+      }
+    : realData;
 
   // Use the custom hook to manage all carousel state and logic
   const { scrollContainerRef, currentPage, productPages, scroll, showArrows } =
@@ -25,22 +47,17 @@ const BestOfCoreX = () => {
     <section className="px-4 sm:px-8 py-12 font-sans">
       <div className="container mx-auto">
         <div className="flex justify-center items-center gap-4">
-
-        <h2
-        id="why-choose"
-        className="text-4xl lg:text-heading-xxl font-montserrat text-black leading-none uppercase py-16 section-title"
-      >
-         <span className="text-[#000]">BEST </span><span>OF</span>
-        <span className="capitalize text-[#000]"> Core</span>
-        <span className="text-red-500">X</span>
-        <span className="text-[#000]"> NUTRITION</span>
-      </h2>
-
-
-
+          <h2
+            id="why-choose"
+            className="text-4xl lg:text-heading-xxl font-montserrat text-black leading-none uppercase py-16 section-title"
+          >
+            <span className="text-[#000]">BEST </span>
+            <span>OF</span>
+            <span className="capitalize text-[#000]"> Core</span>
+            <span className="text-red-500">X</span>
+            <span className="text-[#000]"> NUTRITION</span>
+          </h2>
         </div>
-
-
 
         {/* Tab Navigation & Carousel Arrows */}
         <div className="flex justify-center items-center flex-wrap gap-4 mb-8">
@@ -72,7 +89,7 @@ const BestOfCoreX = () => {
               <button
                 onClick={() => scroll(1)}
                 disabled={currentPage >= productPages.length - 1}
-                className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50 disabled::hover:cursor-not-allowed"
+                className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50 disabled:hover:cursor-not-allowed"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
@@ -114,9 +131,8 @@ const BestOfCoreX = () => {
         {/* Product Carousel */}
         {!loading && allCollectionsData && (
           <ProductCarousel
-            products={products}
+            productPages={productPages}
             scrollContainerRef={scrollContainerRef}
-            productsPerPage={6}
           />
         )}
       </div>

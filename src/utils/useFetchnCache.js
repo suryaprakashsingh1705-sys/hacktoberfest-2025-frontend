@@ -115,7 +115,7 @@ export const useFetchnCache = (urlOrUrls) => {
 
     fetchData();
     return () => abortController.abort();
-  }, [urlsKey, forceRefetch]);
+  }, [urlsKey, forceRefetch]); //intentional
 
   const refetch = () => {
     if (Array.isArray(urlOrUrls)) {

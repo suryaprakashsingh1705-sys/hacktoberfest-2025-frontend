@@ -1,6 +1,7 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion'; // need this for motion.div need to updadte linting rules
 import ProductCard from './ProductCard';
+import PropTypes from 'prop-types';
 
 
 const cardVariants = {
@@ -8,39 +9,8 @@ const cardVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const ProductCarousel = ({ products, productsPerPage = 6, scrollContainerRef }) => {
-
-  const [responsiveProductsPerPage, setResponsiveProductsPerPage] = useState(productsPerPage);
-
-  // Simplified responsive logic
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-
-      if (width < 640) { // Screens smaller than the 'sm' breakpoint
-        setResponsiveProductsPerPage(1);
-      } else {
-        setResponsiveProductsPerPage(productsPerPage);
-      }
-    };
-
-    handleResize(); // Set initial value
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [productsPerPage]);
-
-
-  // Chunk products into pages
-  const productPages = useMemo(() => {
-    if (!products) return [];
-    const pages = [];
-    for (let i = 0; i < products.length; i += responsiveProductsPerPage) {
-      pages.push(products.slice(i, i + responsiveProductsPerPage));
-    }
-    return pages;
-  }, [products, responsiveProductsPerPage]);
-
-  if (!products || products.length === 0) {
+const ProductCarousel = ({ productPages, scrollContainerRef }) => {
+  if (!productPages || productPages.flat().length === 0) {
     return (
       <div className="flex h-64 items-center justify-center text-center text-gray-500">
         No products found in this collection.
@@ -82,6 +52,18 @@ const ProductCarousel = ({ products, productsPerPage = 6, scrollContainerRef }) 
         ))}
       </div>
   );
+};
+
+ProductCarousel.propTypes = {
+  productPages: PropTypes.arrayOf(PropTypes.array).isRequired,
+  scrollContainerRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]).isRequired,
+};
+
+ProductCarousel.defaultProps = {
+  productPages: [],
 };
 
 export default ProductCarousel;
