@@ -2,6 +2,10 @@
  * @file Centralized API endpoint constants.
  * Using a centralized file for endpoints makes maintenance easier.
  */
+const COLLECTIONS_BASE_URL = `${import.meta.env.VITE_API_URL}/collections`
+
+
+
 
 export const API_ENDPOINTS = {
   // Product Endpoints
@@ -9,11 +13,12 @@ export const API_ENDPOINTS = {
   PRODUCT_BY_ID: (id) => `/api/products/${id}`,
 
   // Collection Endpoints
+  //Incase URL are to be change in production
   COLLECTIONS: {
-    BEST_SELLERS: '/api/collections/best-sellers',
-    PROTEIN_POWDER: '/api/collections/protein-powder',
-    WEIGHT_MANAGEMENT: '/api/collections/weight-management',
-    HEALTH_WELLNESS: '/api/collections/health-wellness-supplements',
+    'BEST SELLERS': `${COLLECTIONS_BASE_URL}/best-sellers`,
+    'PROTEIN POWDER': `${COLLECTIONS_BASE_URL}/protein-powder`,
+    'WEIGHT MANAGEMENT': `${COLLECTIONS_BASE_URL}/weight-management`,
+    'HEALTH WELLNESS': `${COLLECTIONS_BASE_URL}/health-wellness-supplements`,
   },
 
 
