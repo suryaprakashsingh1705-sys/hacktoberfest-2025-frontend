@@ -1,187 +1,94 @@
-import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router';
-import { toast } from 'react-toastify'; 
-
-const customerCare = [
-  { name: 'My Account', href: '/login' },
-  { name: 'My Orders', href: '/login' },
-  { name: 'Email Support', href: 'mailto:info@opencodechicago.org' },
-  { name: 'Call Support', href: 'tel:+13125551234' },
-];
-
-const information = [
-  { name: 'Shipping Policy', href: '/shipping-policy' },
-  { name: 'Return Policy', href: '/return-policy' },
-  { name: 'Privacy Policy', href: '/privacy-policy' },
-  { name: 'Accessibility', href: '/accessibility' },
-  { name: 'Terms of Service', href: '/terms-of-service' },
-];
-
 export default function TopFooter() {
-  const [email, setEmail] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-
-    if (!isValidEmail) {
-      toast.error('Please enter a valid email address.');
-      return;
-    }
-
-    // Simulate subscription success (e.g., API call here)
-    console.log('Subscribed:', email);
-
-    // Show success toast notification
-    toast.success(
-      'Thank you for subscribing! Your email has been received. You’ll now get our latest deals and discounts.'
-    );
-
-    setEmail('');
-  };
+  // Payment logos. Replace or add entries as needed. (You provided the Amazon CDN URL.)
+  const paymentLogos = [
+    {
+      name: 'Amazon',
+      href: 'https://www.amazon.com',
+      src: 'https://cdn-icons-png.flaticon.com/512/5968/5968269.png',
+    },
+    {
+      name: 'AM EX',
+      href: 'https://icon2.cleanpng.com/20180810/uso/bbd4a303dbe657ecf8304b7b0b5145e0.webp',
+      src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLTHuULYXTweiF0qwt9JYVRkLmldDoTBnaUw&s',
+    },
+    {
+      name: 'Apple Pay',
+      href: 'https://thumbnail.imgbin.com/11/0/10/apple-pay-logo-zgRR8rE3_t.jpg',
+      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Apple_Pay_logo.svg/2560px-Apple_Pay_logo.svg.png',
+    },
+    {
+      name: 'Google Pay',
+      href: 'https://toppng.com/uploads/small/11735759504pvxnd3mon8eobctp8qktesr6ayeytipihdlcxiotspns27ljc8xuhkl76cxstyyuftl5e38e1pq1tycfmezlpbrmtro5v5rglc58.webp',
+      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/640px-Google_Pay_Logo.svg.png',
+    },
+    {
+      name: 'Mastercard',
+      href: 'https://icon2.cleanpng.com/lnd/20241123/ca/85dda930e3465f586e2b20700028d0.webp',
+      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1200px-Mastercard-logo.svg.png',
+    },
+    {
+      name: 'Pay Pal',
+      href: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3no113HIfYGlfiWW58lJVwmAXif0Plr9Jkg&s',
+      src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeyP_0YtjGAPJnOyzHmO-qQ82oXl_v4nIoFw&s',
+    },
+    {
+      name: 'Shop Pay',
+      href: 'https://digiteon.com/wp-content/uploads/2025/05/about-shop-pay.jpg',
+      src: 'https://digiteon.com/wp-content/uploads/2025/05/about-shop-pay.jpg',
+    },
+    {
+      name: 'Visa',
+      href: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png',
+      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png',
+    },
+  ];
 
   return (
-    <footer className="bg-neutral-900 text-neutral-200 px-6 py-12">
-      <div className="max-w-7xl mx-auto grid gap-12 md:grid-cols-3">
-        {/* Logo + Address */}
-        <div>
-          <Link
-            to="/"
-            className="inline-block mb-4"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          >
-            <img
-              src="/images/official-logo-core-x-footer.svg"
-              alt="CoreX"
-              className="mb-4 w-32"
-            />
-          </Link>
-          <ul className="flex space-x-2 mb-4">
-            <li>
+    <footer className="bg-[#071827] text-neutral-200">
+      {/* Top disclaimer bar */}
+      <div className="max-w-7xl mx-auto px-6 py-6 text-center text-sm text-neutral-200/90">
+        <p className="max-w-4xl mx-auto">**The Food and Drug Administration has not evaluated these statements. This product is not meant to diagnose, treat, cure, or prevent any illness.</p>
+      </div>
+
+      {/* Bottom footer area */}
+      <div className="max-w-7xl mx-auto px-6 py-12 border-t border-neutral-800">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+          {/* Left block: copyright + powered by + links */}
+          <div className="flex-1">
+            <div className="mb-6">
+              <p className="text-xl md:text-xl leading-tight font-bold">© 2025 <span className="font-black">Core<span className="text-red-500">X</span> Nutrition</span></p>
+              <p className="mt-2 text-base md:text-lg text-neutral-300">Powered by: Open Code Chicago</p>
+            </div>
+
+            <div className="flex flex-wrap gap-6 text-base text-neutral-300">
+              <a href="/return-policy" className="hover:underline">Refund policy</a>
+              <a href="/privacy-policy" className="hover:underline">Privacy policy</a>
+              <a href="/terms-of-service" className="hover:underline">Terms of service</a>
+              <a href="/shipping-policy" className="hover:underline">Shipping policy</a>
+            </div>
+          </div>
+
+          {/* Right block: payment icons */}
+          <div className="flex items-center justify-end gap-4">
+            {paymentLogos.length > 0 && paymentLogos.map((logo) => (
               <a
-                href="#"
+                key={logo.name}
+                href={logo.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-neutral-300 transition-transform duration-300 ease-in-out"
+                aria-label={logo.name}
+                className="inline-flex items-center"
               >
                 <img
-                  src="/images/youtube_icon.png"
-                  alt="YouTube"
-                  className="w-6 h-6 hover:scale-110 transform hover:rotate-2 hover:shadow-lg"
+                  src={logo.src}
+                  alt={logo.name}
+                  className="h-10 w-auto object-contain bg-white rounded-sm p-1"
+                  loading="lazy"
                 />
               </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-300 transition-transform duration-300 ease-in-out"
-              >
-                <img
-                  src="/images/linkedin_icon.png"
-                  alt="LinkedIn"
-                  className="w-6 h-6 hover:scale-110 transform hover:rotate-2 hover:shadow-lg"
-                />
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-300 transition-transform duration-300 ease-in-out"
-              >
-                <img
-                  src="/images/x_icon.png"
-                  alt="Twitter"
-                  className="w-6 h-6 hover:scale-110 transform hover:rotate-2 hover:shadow-lg"
-                />
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-300 transition-transform duration-300 ease-in-out"
-              >
-                <img
-                  src="/images/facebook_icon.png"
-                  alt="Facebook"
-                  className="w-6 h-6 hover:scale-110 transform hover:rotate-2 hover:shadow-lg"
-                />
-              </a>
-            </li>
-          </ul>
-          <address className="hover:underline cursor-pointer not-italic text-sm leading-relaxed">
-            1234 N Main St,
-            <br /> Chicago, IL 60607
-          </address>
+            ))}
+          </div>
         </div>
-
-        {/* Navigation Links */}
-        <nav className="grid grid-cols-2 gap-8 text-sm">
-          <div>
-            <h3 className="font-semibold text-white mb-3">Customer Care</h3>
-            <ul className="space-y-2">
-              {customerCare.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-neutral-300 hover:text-[#1054ab] transition"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold text-white mb-3">Information</h3>
-            <ul className="space-y-2">
-              {information.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-neutral-300 hover:text-[#1054ab] transition"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
-
-        {/* Newsletter Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col justify-center">
-          <h3 className="text-4xl uppercase font-bold mb-4">
-            Get our latest deals and discounts!
-          </h3>
-          <div className="flex bg-neutral-800 rounded-lg overflow-hidden">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="flex-grow p-3 bg-neutral-800 text-neutral-200 placeholder-neutral-400 outline-none hover:bg-neutral-700 hover:ring-1 hover:ring-neutral-500 focus:ring-2 focus:ring-white transition duration-200 ease-in-out"
-              required
-            />
-            <button
-              type="submit"
-              className="p-3 rounded-full bg-white hover:bg-neutral-400 text-neutral-900 transition cursor-pointer flex items-center justify-center"
-              aria-label="Subscribe"
-            >
-              <ArrowRight className="w-5 h-5 text-neutral-900" />
-            </button>
-          </div>
-          <p className="mt-2 text-xs">
-            Become a Core<span className="text-red-500">X</span> Insider!
-          </p>
-        </form>
       </div>
     </footer>
   );
