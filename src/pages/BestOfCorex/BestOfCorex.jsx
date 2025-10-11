@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { API_ENDPOINTS } from '../../routes/apiEndpoints';
 import SEO from '../../components/SEO';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, AlertTriangle } from 'lucide-react';
 import { ApiErrorDisplay } from '../../components/ApiErrorDIsplay';
 import { useFetchnCache } from '../../utils/useFetchnCache';
 import ProductSkeleton from '../../components/Products/ProductSkeleton';
@@ -14,7 +14,7 @@ const BestOfCorex = () => {
   const PRODUCTS_PER_PAGE = import.meta.env.VITE_PRODUCTS_PER_PAGE || 6;
 
   // Fetch all collection URLs on page load using the refactored hook
-  const { data: allCollectionsData, loading, error, refetch } = useFetchnCache(Object.values(API_ENDPOINTS.COLLECTIONS));
+  const { data: allCollectionsData, loading, error, errors, refetch } = useFetchnCache(Object.values(API_ENDPOINTS.COLLECTIONS));
 
   const activeEndpoint = activeTab ? API_ENDPOINTS.COLLECTIONS[activeTab] : null;
   // Select the data for the active tab from the pre-fetched data
@@ -68,12 +68,24 @@ const BestOfCorex = () => {
         </div>
       )}
 
-      {error && (
+      {/* Handle complete failure */}
+      {error && !allCollectionsData && (
         <ApiErrorDisplay developerError={error.message} />
       )}
 
+      {/* Handle partial success with a non-blocking warning */}
+      {errors.length > 0 && allCollectionsData && (
+        <div className="my-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg flex items-center gap-4">
+          <AlertTriangle className="h-6 w-6 text-yellow-500" />
+          <div>
+            <h4 className="font-semibold text-yellow-800">Some collections failed to load.</h4>
+            <p className="text-sm text-yellow-700">The displayed products might be incomplete. You can try refreshing.</p>
+          </div>
+        </div>
+      )}
+
       {/* Product Carousel */}
-      {!loading && !error && (
+      {!loading && allCollectionsData && (
         <ProductCarousel
           products={products}
           productsPerPage={PRODUCTS_PER_PAGE}

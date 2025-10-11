@@ -12,6 +12,9 @@ const ProductCarousel = ({ products, productsPerPage = 6 }) => {
   const scrollContainerRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
 
+  const isSinglePageWithFewItems = products.length < productsPerPage;
+  const isSingleItem = products.length === 1;
+
   const productPages = useMemo(() => {
     const pages = [];
     for (let i = 0; i < products.length; i += productsPerPage) {
@@ -26,11 +29,33 @@ const ProductCarousel = ({ products, productsPerPage = 6 }) => {
     scrollContainerRef.current?.scrollTo({ left: 0, behavior: 'auto' });
   }, [products]);
 
+  // Update current page based on manual scroll position
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      // Debounce or throttle this in a real app if performance is an issue
+      const pageIndex = Math.round(container.scrollLeft / container.clientWidth);
+      setCurrentPage(pageIndex);
+    };
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [productPages.length]); // Re-attach listener if the number of pages changes
+
+
   const scroll = (direction) => {
     const container = scrollContainerRef.current;
     if (container) {
       const newPage = currentPage + direction;
-      if (newPage >= 0 && newPage < productPages.length) {
+      const isLastPage = newPage === productPages.length - 1;
+
+      if (isLastPage && direction > 0) {
+        // If scrolling to the last page, scroll to the very end of the container
+        container.scrollTo({ left: container.scrollWidth - container.clientWidth, behavior: 'smooth' });
+        setCurrentPage(newPage);
+      } else if (newPage >= 0 && newPage < productPages.length) {
         container.scrollTo({ left: newPage * container.clientWidth, behavior: 'smooth' });
         setCurrentPage(newPage);
       }
@@ -59,12 +84,16 @@ const ProductCarousel = ({ products, productsPerPage = 6 }) => {
 
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
+        className="flex overflow-x-auto snap-x snap-proximity scroll-smooth pb-4"
       >
         {productPages.map((page, pageIndex) => (
           <div
             key={pageIndex}
-            className="flex-shrink-0 w-full snap-start grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 p-1 md:p-2"
+            className={`flex-shrink-0 w-full snap-start p-1 md:p-2 ${
+              isSinglePageWithFewItems
+                ? `flex justify-center ${isSingleItem ? '' : 'gap-8'}`
+                : 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6'
+            }`}
           >
             {page.map((product) => (
               <motion.div
