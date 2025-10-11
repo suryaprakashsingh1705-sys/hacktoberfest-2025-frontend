@@ -1,6 +1,6 @@
 /**
  * @file Centralized API endpoint constants.
- * Using a centralized file for endpoints makes maintenance easier.
+ *  for easier maintenance
  */
 const COLLECTIONS_BASE_URL = `${import.meta.env.VITE_API_URL}/collections`
 

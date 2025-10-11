@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import axiosInstance from '../api/axiosInstance';
-import { mockCollectionsData, getMockProductById } from '../api/mockData';
 
 // In-memory cache stored outside the component lifecycle
 const cache = new Map();
@@ -41,25 +40,6 @@ export const useFetchnCache = (urlOrUrls) => {
       return;
     }
 
-    // --- MOCK DATA HANDLING ---
-    if (import.meta.env.VITE_USE_MOCK_DATA === 'true') {
-      console.warn('Using mock data. Set VITE_USE_MOCK_DATA=false in .env to use live data.');
-      setLoading(true);
-      setTimeout(() => { // Simulate network delay
-        if (isArray) {
-          // For multiple URLs, return the entire mock collection
-          setData(mockCollectionsData);
-        } else {
-          // For a single URL (like a product page), find the ID and return a mock product
-          const id = urlOrUrls.split('/').pop();
-          setData(getMockProductById(id));
-        }
-        setLoading(false);
-      }, 500);
-      return; // Skip real data fetching
-    }
-    // --- END MOCK DATA HANDLING ---
-
     const abortController = new AbortController();
     const fetchData = async () => {
       setLoading(true);
@@ -69,7 +49,7 @@ export const useFetchnCache = (urlOrUrls) => {
       try {
         let resultData;
         if (isArray) {
-          // Use Promise.allSettled to handle partial failures
+          // Used Promise.allSettled to handle partial failures
           const settledResults = await Promise.allSettled(
             urlOrUrls.map(async (u) => {
               if (cache.has(u)) return { url: u, data: cache.get(u) };
@@ -106,7 +86,7 @@ export const useFetchnCache = (urlOrUrls) => {
           setData(resultData);
         }
       } catch (err) {
-        // This will now primarily catch errors from the single-URL path
+        //catch error from url(s)
         if (err.name !== 'CanceledError' && JSON.stringify(urlOrUrls) === JSON.stringify(requestRef.current)) {
           setError(err);
           setErrors([err]);
