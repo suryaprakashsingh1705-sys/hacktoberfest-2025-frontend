@@ -8,46 +8,114 @@
   --font-inter: 'Inter', sans-serif;
 
   /* Custom Font Sizes */
-  --text-heading-xxl: 4rem; /* 64px */
-  
+  --text-heading-xxl: 4rem;
+  /* 64px */
+
   --color-white-light: #fafaf9;
   --color-main: #023e8a;
+  --color-white-back: #F7FAFF;
+  --color-black: #010409;
 }
 
-.text-outline {
-  -webkit-text-stroke: 2px black;
-}
+@layer components {
+  .section-title {
+    @apply text-4xl lg:text-heading-xxl font-montserrat font-bold leading-none uppercase text-center tracking-tight;
 
-/* Black text stroke utility (explicit name used in RecentlyViewed)Use multiple text-shadow layers to create an outer-only outline so the stroke doesn't bleed into inner counters of glyphs.*/
-.text-stroke-black {
-  /* multiple offsets around the glyph to simulate an even outline */
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000,
-    0 -2px 0 #000,
-    2px 0 0 #000,
-    0 2px 0 #000,
-    -2px 0 0 #000,
-    -2px -2px 0 #000,
-    2px -2px 0 #000,
-    2px 2px 0 #000,
-    -2px 2px 0 #000;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    & span {
+      color: white;
+      -webkit-text-stroke: 3px black;
+      paint-order: stroke fill;
+    }
+  }
 }
 
 /* Product Card Action Button Animations */
 @keyframes double-pop {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.18); }
-  55% { transform: scale(0.96); }
-  80% { transform: scale(1.06); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(1.18);
+  }
+
+  55% {
+    transform: scale(0.96);
+  }
+
+  80% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .animate-double-pop {
   transform-origin: center;
-  animation: double-pop 520ms cubic-bezier(.22,1,.36,1) both;
+  animation: double-pop 520ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.link-underline {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 260ms ease;
+}
+
+.link-underline:hover::after {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+.link-underline-inverse {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* start full (100%) — expand/contract direction controlled by transform-origin */
+.link-underline-inverse::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(1);
+  /* visible by default */
+  transform-origin: left;
+  /* collapse/expand will use left as origin when returning */
+  transition: transform 260ms ease;
+}
+
+/* on hover collapse toward the right (animate to 0%) */
+.link-underline-inverse:hover::after,
+.link-underline-inverse:focus::after {
+  transform-origin: right;
+  /* collapse toward right */
+  transform: scaleX(0);
+}
+
+/* respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .link-underline-inverse::after {
+    transition: none;
+  }
 }

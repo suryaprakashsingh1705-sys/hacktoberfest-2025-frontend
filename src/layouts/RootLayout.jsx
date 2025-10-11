@@ -3,38 +3,28 @@ import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SEO from '../components/SEO';
-import TopFooter from '../components/Footer';
+import TopFooter from '../components/TopFooter';
 import MainHeader from '../components/Header';
-import TopHeader from '../components/TopHeader';
+import Loader from '../components/Loader';
+import BottomFooter from '../components/BottomFooter';
 
 function RootLayout() {
   return (
     <>
-      <TopHeader />
       <MainHeader />
-      <main>
+      <main className="mt-[84px] min-h-screen">
         <SEO
           title="CoreX Nutrition"
           description="CoreX Nutrition official site — explore accessibility, policies, and open-source projects."
           keywords="CoreX Nutrition, Open Source, Accessibility"
         />
         {/* Sets page-specific title/meta */}
-        <Suspense
-          fallback={
-            <div
-              role="status"
-              aria-live="polite"
-              className="text-center py-8 text-gray-500"
-            >
-              Loading content...
-            </div>
-          }
-        >
+        <Suspense fallback={<Loader />}>
           <Outlet />
         </Suspense>
       </main>
       <TopFooter />
-      {/* <Footer /> */}
+      <BottomFooter />
 
       <ToastContainer
         position="top-right"

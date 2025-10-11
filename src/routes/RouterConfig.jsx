@@ -23,15 +23,17 @@ const TermsOfService = lazy(
 const GarageSale = lazy(() => import('../pages/GarageSale/GarageSale'));
 
 const Register = lazy(() => import('../pages/Register'));
+const Login = lazy(() => import('../pages/Login'));
 
 // Router configuration
 export const RouterConfig = () =>
   createRoutesFromElements(
     <>
       <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Home />} />
-        <Route path="products" element={<Products />} />
+        <Route path="/products" element={<Products />} />
         <Route path="product/:id" element={<ProductPage />} />
         <Route path="accessibility" element={<Accessibility />} />
         <Route path="privacy-policy" element={<PrivacyPolicy />} />

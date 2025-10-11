@@ -33,7 +33,7 @@ export default function Products() {
     garageSaleOnly: false,
   });
   // Sorting state (client-side)
-  const [sortBy, setSortBy] = useState('best_selling');
+  const [sortBy, setSortBy] = useState('featured');
   const [sortOrder, setSortOrder] = useState('desc');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const productListKey = allProducts[0]?._id || 'no-products';
@@ -70,51 +70,7 @@ export default function Products() {
     });
   }, [allProducts, filters, maxProductPrice]);
 
-  // Apply client-side sorting to filtered products
-  const sortedProducts = useMemo(() => {
-    if (!filteredProducts || filteredProducts.length === 0) return [];
-
-    // shallow copy to avoid mutating original array
-    const copy = [...filteredProducts];
-
-    const getString = (p, key) => (p[key] || p.name || p.title || '').toString().toLowerCase();
-    const getNumber = (p, key) => {
-      const val = p[key];
-      if (val === undefined || val === null || val === '') return 0;
-      const n = Number(val);
-      return Number.isNaN(n) ? 0 : n;
-    };
-
-    switch (`${sortBy}:${sortOrder}`) {
-      case 'title:asc':
-        copy.sort((a, b) => getString(a, 'name').localeCompare(getString(b, 'name')));
-        break;
-      case 'title:desc':
-        copy.sort((a, b) => getString(b, 'name').localeCompare(getString(a, 'name')));
-        break;
-      case 'price:asc':
-        copy.sort((a, b) => getNumber(a, 'price') - getNumber(b, 'price'));
-        break;
-      case 'price:desc':
-        copy.sort((a, b) => getNumber(b, 'price') - getNumber(a, 'price'));
-        break;
-      case 'rating:asc':
-        copy.sort((a, b) => getNumber(a, 'rating') - getNumber(b, 'rating'));
-        break;
-      case 'rating:desc':
-        copy.sort((a, b) => getNumber(b, 'rating') - getNumber(a, 'rating'));
-        break;
-      case 'best_selling:desc':
-      default:
-        // Best Selling is a placeholder - keep original order (assumed backend order)
-        break;
-    }
-
-    return copy;
-  }, [filteredProducts, sortBy, sortOrder]);
-
-  // Simple display of filtered products with pagination/infinite scroll
-  const displayedProducts = sortedProducts.slice(0, displayedCount);
+  const displayedProducts = filteredProducts.slice(0, displayedCount);
   const hasMoreProducts = displayedCount < filteredProducts.length;
 
   // Infinite scroll callback
@@ -135,7 +91,7 @@ export default function Products() {
   );
 
   useEffect(() => {
-    dispatch(fetchProducts({ page: 1, limit: 1000 }));
+    dispatch(fetchProducts({ page: 1, limit: 1000, sort: 'feature' }));
   }, [dispatch]);
 
   return (
@@ -172,9 +128,11 @@ export default function Products() {
 
         {/* Toolbar Section */}
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex justify-between items-center">
-            {/* Left: All Filters button */}
-            <button onClick={() => setIsFilterOpen(true)} className="flex items-center gap-2 bg-transparent text-gray-700 px-6 py-3 rounded-lg font-medium border border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            {/* Left: All Filters button (full width on mobile) */}
+            <button onClick={() => setIsFilterOpen(true)} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-transparent text-gray-700 px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-medium border border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 cursor-pointer">
+              <span className="hidden sm:inline">All Filters</span>
+              <span className="sm:hidden">Filters</span>
               <svg
                 width="19"
                 height="15"
@@ -188,19 +146,34 @@ export default function Products() {
                   strokeLinecap="round"
                 />
               </svg>
-              All Filters
             </button>
-            <SortDropdown
-              sortBy={sortBy}
-              sortOrder={sortOrder}
-              onSortChange={(field, order) => {
-                // If user chooses Best Selling (placeholder), map empty or best_selling
-                setSortBy(field || 'best_selling');
-                setSortOrder(order || 'desc');
-                // reset displayed count to show top results
-                setDisplayedCount(12);
-              }}
-            />
+            <div className="self-end sm:self-auto w-full sm:w-auto">
+              <SortDropdown
+                className="w-full sm:w-auto"
+                sortBy={sortBy}
+                sortOrder={sortOrder}
+                onSortChange={(field, order) => {
+                  // Update local sort state
+                  setSortBy(field || 'featured');
+                  setSortOrder(order || 'desc');
+                  setDisplayedCount(12);
+
+                  // Map selection to backend sort key
+                  // Supported backend keys: feature (default), a-z, z-a, price_asc, price_desc, rating_asc, rating_desc
+                  let sortKey = 'feature';
+                  if (field === 'title' && order === 'asc') sortKey = 'a-z';
+                  else if (field === 'title' && order === 'desc') sortKey = 'z-a';
+                  else if (field === 'price' && order === 'asc') sortKey = 'price_asc';
+                  else if (field === 'price' && order === 'desc') sortKey = 'price_desc';
+                  else if (field === 'rating' && order === 'asc') sortKey = 'rating_asc';
+                  else if (field === 'rating' && order === 'desc') sortKey = 'rating_desc';
+                  else sortKey = 'feature';
+
+                  // Fetch products from backend with sort
+                  dispatch(fetchProducts({ page: 1, limit: 1000, sort: sortKey }));
+                }}
+              />
+            </div>
           </div>
         </section>
 
