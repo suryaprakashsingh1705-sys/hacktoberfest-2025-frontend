@@ -3,8 +3,10 @@ import {
   HeroSection,
   LogoCarousel,
   SEO,
-  WhyChoose
+  WhyChoose,
 } from '../../components';
+import BestOfCoreX from '../../components/BestOfCoreX';
+
 
 export default function Home() {
   return (
@@ -32,6 +34,7 @@ export default function Home() {
         <LogoCarousel />
         {/* Shop Collection Component */}
         <CollectionSection />
+        <BestOfCoreX/>
       </main >
     </>
   )

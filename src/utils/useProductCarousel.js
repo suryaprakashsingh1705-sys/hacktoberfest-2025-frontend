@@ -1,17 +1,31 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 
 /**
+ * A simple debounce function.
+ * @param {Function} func The function to debounce.
+ * @param {number} wait The delay in milliseconds.
+ * @returns {Function} The debounced function.
+ */
+const debounce = (func, wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+};
+
+/**
  * A custom hook to manage the state and logic for a paginated product carousel.
  * @param {{products: any[], productsPerPage: number}} config - The configuration object.
  * @param {any[]} config.products - The array of products to display.
  * @param {number} [config.productsPerPage=6] - The number of products per page on desktop.
  * @returns {{
- *   scrollContainerRef: React.RefObject<HTMLDivElement>,
- *   currentPage: number,
- *   productPages: any[][],
- *   scroll: (direction: number) => void,
- *   showArrows: boolean
- * }}
+ *  scrollContainerRef: React.RefObject<HTMLDivElement>,
+ *  currentPage: number,
+ *  productPages: Array<any[]>,
+ *  scroll: (direction: -1 | 1) => void,
+ *  showArrows: boolean
+ * }} An object containing carousel state and control functions.
  */
 export const useProductCarousel = ({ products, productsPerPage = 6 }) => {
   const scrollContainerRef = useRef(null);
@@ -20,17 +34,21 @@ export const useProductCarousel = ({ products, productsPerPage = 6 }) => {
 
   // Handle responsive products per page
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 640) {
-        setResponsiveProductsPerPage(1);
-      } else {
-        setResponsiveProductsPerPage(productsPerPage);
-      }
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver(
+      debounce((entries) => {
+        const { width } = entries[0].contentRect;
+        setResponsiveProductsPerPage(width < 640 ? 1 : productsPerPage);
+      }, 150)
+    );
+
+    observer.observe(container);
+
+    return () => {
+      observer.disconnect();
     };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, [productsPerPage]);
 
   // Memoize the pages based on products and responsive page size
@@ -52,14 +70,20 @@ export const useProductCarousel = ({ products, productsPerPage = 6 }) => {
   // Sync current page state with manual scrolling
   useEffect(() => {
     const container = scrollContainerRef.current;
-    if (!container) return;
-    const handleScroll = () => {
-      const pageIndex = Math.round(container.scrollLeft / container.clientWidth);
-      if (pageIndex !== currentPage) setCurrentPage(pageIndex);
-    };
-    container.addEventListener('scroll', handleScroll, { passive: true });
+    if (!container) return; // Exit if the ref is not attached yet.
+
+    const handleScroll = debounce(() => {
+      if (container) {
+        const pageIndex = Math.round(
+          container.scrollLeft / container.clientWidth
+        );
+        setCurrentPage(pageIndex);
+      }
+    }, 100);
+
+    container.addEventListener('scroll', handleScroll);
     return () => container.removeEventListener('scroll', handleScroll);
-  }, [currentPage]);
+  }, []); // Empty dependency array ensures this runs only once.
 
   // Scroll function for arrow navigation
   const scroll = (direction) => {
@@ -67,8 +91,11 @@ export const useProductCarousel = ({ products, productsPerPage = 6 }) => {
     if (container) {
       const newPage = currentPage + direction;
       if (newPage >= 0 && newPage < productPages.length) {
-        container.scrollTo({ left: newPage * container.clientWidth, behavior: 'smooth' });
         setCurrentPage(newPage);
+        container.scrollTo({
+          left: newPage * container.clientWidth,
+          behavior: 'smooth',
+        });
       }
     }
   };

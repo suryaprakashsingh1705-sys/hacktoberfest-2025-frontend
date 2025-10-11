@@ -1,48 +1,32 @@
-import React, { useState } from 'react';
-import { API_ENDPOINTS } from '../../routes/apiEndpoints';
-import SEO from '../../components/SEO';
-import { AlertTriangle, ChevronLeft, ChevronRight } from 'lucide-react';
-import { ApiErrorDisplay } from '../../components/ApiErrorDisplay';
-import { useFetchnCache } from '../../utils/useFetchnCache';
-import { useProductCarousel } from '../../utils/useProductCarousel';
-import ProductSkeleton from '../../components/Products/ProductSkeleton';
-import ProductCarousel from '../../components/Products/ProductCarousel';
+import React from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ApiErrorDisplay } from './ApiErrorDisplay';
+import { useProductCarousel } from '../utils/useProductCarousel';
+import ProductSkeleton from './Products/ProductSkeleton';
+import ProductCarousel from './Products/ProductCarousel';
+import { useBestOfCoreX } from '../utils/useBestOfCoreX';
 
-const BestOfCorex = () => {
-  const collections = Object.entries(API_ENDPOINTS.COLLECTIONS); //Invokes all the endpoints
-  const [activeTab, setActiveTab] = useState(collections[0]?.[0] || '');
-
-  // Fetch all collection URLs on page load using the hook
+const BestOfCoreX = () => {
   const {
-    data: allCollectionsData,
+    collections,
+    activeTab,
+    setActiveTab,
+    products,
     loading,
     error,
     errors,
-  } = useFetchnCache(Object.values(API_ENDPOINTS.COLLECTIONS));
-
-  const activeEndpoint = activeTab
-    ? API_ENDPOINTS.COLLECTIONS[activeTab]
-    : null;
-  // Select the data for the active tab from the pre-fetched data
-  const productData = allCollectionsData
-    ? allCollectionsData[activeEndpoint]
-    : null;
-  const products = productData?.products || [];
+    allCollectionsData,
+  } = useBestOfCoreX();
 
   // Use the custom hook to manage all carousel state and logic
   const { scrollContainerRef, currentPage, productPages, scroll, showArrows } =
     useProductCarousel({ products, productsPerPage: 6 });
 
   return (
-    <>
-      <SEO
-        title="Best of CoreX | Featured Collections & Best Sellers"
-        description="Explore the best of CoreX Nutrition. Shop our featured collections including best-sellers, protein powders, pre-workouts, and more to fuel your performance."
-        keywords="best sellers, protein, pre-workout, supplements, featured products, CoreX Nutrition"
-      />
-      <main className="px-4 sm:px-8 pt-32 pb-12 font-sans">
+    <section className="px-4 sm:px-8 py-12 font-sans">
+      <div className="container mx-auto">
         <div className="flex justify-center items-center gap-4">
-          <h1 className="text-4xl md:text-5xl font-montserrat text-black leading-none tracking-wide text-center  py-10 text-stroke-black">
+          <h1 className="text-4xl md:text-5xl font-montserrat text-black leading-none tracking-tight text-center  py-10 text-stroke-black">
             BEST
             <span className="text-[#f7faff] mx-2 md:mx-4">OF</span> Core
             <span className="text-red-600">X</span> NUTRITION
@@ -72,14 +56,14 @@ const BestOfCorex = () => {
               <button
                 onClick={() => scroll(-1)}
                 disabled={currentPage === 0}
-                className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50 disabled:hover:cursor-not-allowed"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
               <button
                 onClick={() => scroll(1)}
                 disabled={currentPage >= productPages.length - 1}
-                className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition disabled:opacity-50 disabled::hover:cursor-not-allowed"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
@@ -101,7 +85,8 @@ const BestOfCorex = () => {
           <ApiErrorDisplay developerError={error.message} />
         )}
 
-        {/* Handle partial success with a non-blocking warning */}
+        {/*//TODO:Delete if not required post closing of #88 */}
+        {/* Handle partial success with a non-blocking warning
         {errors.length > 0 && allCollectionsData && (
           <div className="my-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg flex items-center gap-4">
             <AlertTriangle className="h-6 w-6 text-yellow-500" />
@@ -115,7 +100,7 @@ const BestOfCorex = () => {
               </p>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Product Carousel */}
         {!loading && allCollectionsData && (
@@ -125,9 +110,9 @@ const BestOfCorex = () => {
             productsPerPage={6}
           />
         )}
-      </main>
-    </>
+      </div>
+    </section>
   );
 };
 
-export default BestOfCorex;
+export default BestOfCoreX;

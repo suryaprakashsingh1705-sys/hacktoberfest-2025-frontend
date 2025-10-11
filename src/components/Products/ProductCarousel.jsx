@@ -9,15 +9,14 @@ const cardVariants = {
 };
 
 const ProductCarousel = ({ products, productsPerPage = 6, scrollContainerRef }) => {
-  // Note: currentPage state and scroll logic are now managed by the parent component.
+
   const [responsiveProductsPerPage, setResponsiveProductsPerPage] = useState(productsPerPage);
 
   // Simplified responsive logic
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      // For the 3x2 grid, we need 6 items, but for mobile we only want 1.
-      // The grid classes will handle the visual layout.
+
       if (width < 640) { // Screens smaller than the 'sm' breakpoint
         setResponsiveProductsPerPage(1);
       } else {
@@ -49,7 +48,7 @@ const ProductCarousel = ({ products, productsPerPage = 6, scrollContainerRef }) 
     );
   }
 
-  // Determine if the arrows should be visible. Only show them if there's more than one page.
+  // Will show arrow if more than one page
   const showAsGrid = productPages.length > 1;
 
   return (
@@ -62,7 +61,7 @@ const ProductCarousel = ({ products, productsPerPage = 6, scrollContainerRef }) 
             key={pageIndex}
             className={`w-full flex-shrink-0 snap-start p-1 md:p-2 ${
               showAsGrid
-                ? 'grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-6' // sm-lg: 3x2 grid, lg+: 1x6 grid
+                ? 'grid grid-cols-1 gap-4 sm:grid-cols-3 xl:grid-cols-6' // sm-lg: 3x2 grid, lg+: 1x6 grid
                 : 'flex justify-center gap-6'
             }`}
           >

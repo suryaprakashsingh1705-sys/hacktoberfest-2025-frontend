@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import axiosInstance from '../api/axiosInstance';
 
 // In-memory cache stored outside the component lifecycle
@@ -20,7 +20,13 @@ export const invalidateCache = (url) => {
  * A custom hook to fetch data from a single URL or multiple URLs with in-memory caching.
  * It manages loading, error, and data states.
  * @param {string | string[] | null} urlOrUrls The URL or array of URLs to fetch data from.
- * @returns {{data: any, loading: boolean, error: Error | null, errors: Error[], refetch: () => void}}
+ * @returns {{
+ *  data: any | null,
+ *  loading: boolean,
+ *  error: Error | null,
+ *  errors: Error[],
+ *  refetch: () => void
+ * }} An object containing the fetched data, loading state, error details, and a refetch function.
  */
 export const useFetchnCache = (urlOrUrls) => {
   const [data, setData] = useState(null);
@@ -31,6 +37,11 @@ export const useFetchnCache = (urlOrUrls) => {
   // Use a ref to track the current URL to prevent race conditions
   const requestRef = useRef(urlOrUrls);
   requestRef.current = urlOrUrls;
+
+  // Memoize the stringified URL(s) to use as a stable dependency for useEffect.
+  const urlsKey = useMemo(() => {
+    return urlOrUrls ? JSON.stringify(urlOrUrls) : null;
+  }, [urlOrUrls]);
 
   useEffect(() => {
     const isArray = Array.isArray(urlOrUrls);
@@ -69,7 +80,11 @@ export const useFetchnCache = (urlOrUrls) => {
             }
           });
           resultData = successfulData;
-          if (failedRequests.length > 0) setErrors(failedRequests);
+          if (failedRequests.length > 0) {
+            setErrors(failedRequests);
+            // Set the primary error to the first one for convenience.
+            setError(failedRequests[0]);
+          }
         } else {
           // Handle single URL
           const singleUrl = urlOrUrls;
@@ -82,26 +97,25 @@ export const useFetchnCache = (urlOrUrls) => {
           }
         }
 
-        if (JSON.stringify(urlOrUrls) === JSON.stringify(requestRef.current)) {
+        if (urlsKey === JSON.stringify(requestRef.current)) {
           setData(resultData);
         }
       } catch (err) {
         //catch error from url(s)
-        if (err.name !== 'CanceledError' && JSON.stringify(urlOrUrls) === JSON.stringify(requestRef.current)) {
+        if (err.name !== 'CanceledError' && urlsKey === JSON.stringify(requestRef.current)) {
           setError(err);
           setErrors([err]);
         }
       } finally {
-        if (JSON.stringify(urlOrUrls) === JSON.stringify(requestRef.current)) {
+        if (urlsKey === JSON.stringify(requestRef.current)) {
           setLoading(false);
-          if (errors.length > 0) setError(errors[0]);
         }
       }
     };
 
     fetchData();
     return () => abortController.abort();
-  }, [JSON.stringify(urlOrUrls), forceRefetch]);
+  }, [urlsKey, forceRefetch]);
 
   const refetch = () => {
     if (Array.isArray(urlOrUrls)) {
