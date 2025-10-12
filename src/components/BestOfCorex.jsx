@@ -1,6 +1,5 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { ApiErrorDisplay } from './ApiErrorDisplay';
 import { useProductCarousel } from '../hooks/useProductCarousel';
 import ProductSkeleton from './Products/ProductSkeleton';
 import ProductCarousel from './Products/ProductCarousel';
@@ -84,27 +83,6 @@ const BestOfCoreX = () => {
           </div>
         )}
 
-        {/* Handle complete failure */}
-        {error && !allCollectionsData && (
-          <ApiErrorDisplay developerError={error.message} />
-        )}
-
-        {/*//TODO:Delete if not required post closing of #88 */}
-        {/* Handle partial success with a non-blocking warning
-        {errors.length > 0 && allCollectionsData && (
-          <div className="my-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg flex items-center gap-4">
-            <AlertTriangle className="h-6 w-6 text-yellow-500" />
-            <div>
-              <h4 className="font-semibold text-yellow-800">
-                Some collections failed to load.
-              </h4>
-              <p className="text-sm text-yellow-700">
-                The displayed products might be incomplete. You can try
-                refreshing.
-              </p>
-            </div>
-          </div>
-        )} */}
 
         {/* Product Carousel */}
         {!loading && allCollectionsData && (
