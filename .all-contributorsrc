@@ -148,6 +148,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Turbash",
+      "name": "Turbash Negi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/170945289?v=4",
+      "profile": "https://github.com/Turbash",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "commitType": "docs",
