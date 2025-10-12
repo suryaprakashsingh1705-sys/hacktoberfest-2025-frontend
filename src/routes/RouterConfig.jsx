@@ -24,9 +24,6 @@ const GarageSale = lazy(() => import('../pages/GarageSale/GarageSale'));
 
 const Register = lazy(() => import('../pages/Register'));
 
-const BestOfCoreX = lazy(() => import('../components/BestOfCoreX'));
-
-
 // Router configuration
 export const RouterConfig = () =>
   createRoutesFromElements(
