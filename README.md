@@ -279,6 +279,9 @@ Thanks goes to these wonderful people:
       <td align="center" valign="top" width="14.28%"><a href="http://prisca.vercel.app"><img src="https://avatars.githubusercontent.com/u/60774343?v=4?s=100" width="100px;" alt="Onwudebelu Prisca Ebubechukwu"/><br /><sub><b>Onwudebelu Prisca Ebubechukwu</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=PriscaTonia" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/shourya2006"><img src="https://avatars.githubusercontent.com/u/75479705?v=4?s=100" width="100px;" alt="Shourya"/><br /><sub><b>Shourya</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=shourya2006" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/codervipul775"><img src="https://avatars.githubusercontent.com/u/184411035?v=4?s=100" width="100px;" alt="Vipul"/><br /><sub><b>Vipul</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=codervipul775" title="Code">💻</a></td>
+    </tr>
   </tbody>
 </table>
 
