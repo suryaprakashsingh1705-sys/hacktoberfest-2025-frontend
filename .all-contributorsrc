@@ -157,6 +157,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "NirajDN",
+      "name": "Niraj Nillawar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/149431848?v=4",
+      "profile": "https://github.com/NirajDN",
+      "contributions": [
+        "design"
+      ]
     }
   ],
   "commitType": "docs",
