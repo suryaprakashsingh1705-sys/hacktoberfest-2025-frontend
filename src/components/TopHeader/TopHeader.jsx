@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedinIn,
-} from 'react-icons/fa';
+import { FaFacebook, FaYoutube, FaLinkedin } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 
 export default function TopHeader() {
   const messages = [
@@ -32,34 +28,34 @@ export default function TopHeader() {
   }, [messages.length]);
 
   return (
-    <header className="w-full bg-[#0D1B2A] py-2.5 text-white top-0 text-sm fixed z-50 px-4 flex items-center justify-between">
+    <header className="w-full bg-[#0D1B2A] py-3 text-white text-sm fixed top-0 z-50 flex items-center justify-end px-4 absolute">
       {/* Center Promo Message */}
-      <div className="flex-1 text-center font-medium">
+      <div className="absolute left-1/2 transform -translate-x-1/2 font-medium text-center">
         <p className="transition-opacity duration-500 ease-in-out">
           {messages[index]}
         </p>
       </div>
       {/* Right Side Icons */}
       <div className="flex space-x-4 ml-4">
-        <a href="#" aria-label="Facebook" className="hover:text-gray-300">
-          <FaFacebookF
+        <a href="#" aria-label="Instagram" className="hover:text-gray-300">
+          <FaYoutube size={18} />
+        </a>
+        <a href="#" aria-label="LinkedIn" className="hover:text-gray-300">
+          <FaLinkedin
             size={18}
             className="fill-current text-white hover:text-gray-300"
             stroke="none"
           />
         </a>
         <a href="#" aria-label="Twitter" className="hover:text-gray-300">
-          <FaTwitter
+          <FaXTwitter
             size={18}
             className="fill-current text-white hover:text-gray-300"
             stroke="none"
           />
         </a>
-        <a href="#" aria-label="Instagram" className="hover:text-gray-300">
-          <FaInstagram size={18} />
-        </a>
-        <a href="#" aria-label="LinkedIn" className="hover:text-gray-300">
-          <FaLinkedinIn
+        <a href="#" aria-label="Facebook" className="hover:text-gray-300">
+          <FaFacebook
             size={18}
             className="fill-current text-white hover:text-gray-300"
             stroke="none"
