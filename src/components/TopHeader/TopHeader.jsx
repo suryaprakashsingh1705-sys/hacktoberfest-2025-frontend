@@ -28,16 +28,16 @@ export default function TopHeader() {
   }, [messages.length]);
 
   return (
-    <header className="w-full bg-[#0D1B2A] py-3 text-white text-sm fixed top-0 z-50 flex items-center justify-end px-4 absolute">
-      {/* Center Promo Message */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 font-medium text-center">
+    <header className="w-full bg-[#0D1B2A] py-3 text-white text-sm fixed top-0 z-50 flex items-center justify-end px-4">
+      {/* Promo Message - Left on mobile, centered on desktop */}
+      <div className="absolute left-4 md:left-1/2 md:transform md:-translate-x-1/2 font-medium text-left md:text-center">
         <p className="transition-opacity duration-500 ease-in-out">
           {messages[index]}
         </p>
       </div>
       {/* Right Side Icons */}
-      <div className="flex space-x-4 ml-4">
-        <a href="#" aria-label="Instagram" className="hover:text-gray-300">
+      <div className="flex space-x-4">
+        <a href="#" aria-label="YouTube" className="hover:text-gray-300">
           <FaYoutube size={18} />
         </a>
         <a href="#" aria-label="LinkedIn" className="hover:text-gray-300">
