@@ -7,7 +7,7 @@ import {
   WhyChoose,
   SupplementForGoalsSection,
 } from '../../components';
-import BestOfCoreX from '../../components/BestOfCoreX';
+import BestOfCoreX from '../../components/BestOfCorex';
 
 
 export default function Home() {
