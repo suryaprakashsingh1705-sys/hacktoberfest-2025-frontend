@@ -28,39 +28,41 @@ export default function TopHeader() {
   }, [messages.length]);
 
   return (
-    <header className="w-full bg-[#0D1B2A] py-3 text-white text-sm fixed top-0 z-50 flex items-center justify-end px-4">
-      {/* Promo Message - Left on mobile, centered on desktop */}
-      <div className="absolute left-4 md:left-1/2 md:transform md:-translate-x-1/2 font-medium text-left md:text-center">
-        <p className="transition-opacity duration-500 ease-in-out">
-          {messages[index]}
-        </p>
-      </div>
-      {/* Right Side Icons */}
-      <div className="flex space-x-4">
-        <a href="#" aria-label="YouTube" className="hover:text-gray-300">
-          <FaYoutube size={18} />
-        </a>
-        <a href="#" aria-label="LinkedIn" className="hover:text-gray-300">
-          <FaLinkedin
-            size={18}
-            className="fill-current text-white hover:text-gray-300"
-            stroke="none"
-          />
-        </a>
-        <a href="#" aria-label="Twitter" className="hover:text-gray-300">
-          <FaXTwitter
-            size={18}
-            className="fill-current text-white hover:text-gray-300"
-            stroke="none"
-          />
-        </a>
-        <a href="#" aria-label="Facebook" className="hover:text-gray-300">
-          <FaFacebook
-            size={18}
-            className="fill-current text-white hover:text-gray-300"
-            stroke="none"
-          />
-        </a>
+    <header className="w-full bg-[#0D1B2A] py-3 text-white text-sm fixed top-0 left-0 right-0 z-50">
+      <div className="flex items-center justify-end px-4">
+        {/* Promo Message - Left on mobile, centered across full page on desktop */}
+        <div className="absolute left-4 md:left-0 md:right-0 md:text-center font-medium text-left md:pointer-events-none">
+          <p className="transition-opacity duration-500 ease-in-out">
+            {messages[index]}
+          </p>
+        </div>
+        {/* Right Side Icons */}
+        <div className="flex space-x-4 relative z-10 md:pointer-events-auto">
+          <a href="#" aria-label="YouTube" className="hover:text-gray-300">
+            <FaYoutube size={18} />
+          </a>
+          <a href="#" aria-label="LinkedIn" className="hover:text-gray-300">
+            <FaLinkedin
+              size={18}
+              className="fill-current text-white hover:text-gray-300"
+              stroke="none"
+            />
+          </a>
+          <a href="#" aria-label="Twitter" className="hover:text-gray-300">
+            <FaXTwitter
+              size={18}
+              className="fill-current text-white hover:text-gray-300"
+              stroke="none"
+            />
+          </a>
+          <a href="#" aria-label="Facebook" className="hover:text-gray-300">
+            <FaFacebook
+              size={18}
+              className="fill-current text-white hover:text-gray-300"
+              stroke="none"
+            />
+          </a>
+        </div>
       </div>
     </header>
   );
