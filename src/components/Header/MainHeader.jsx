@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Menu,
   X,
@@ -8,9 +8,10 @@ import {
   Heart,
   User,
   ShoppingCart,
-} from "lucide-react";
-import SearchBox from "../Search/SearchBox";
+} from 'lucide-react';
+import SearchBox from '../Search/SearchBox';
 import TopHeader from "../TopHeader/TopHeader";
+import ShopMenu from '../ShopMenu';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -18,31 +19,18 @@ export default function Header() {
   const [search, setSearch] = useState(false);
   const mobileMenuRef = useRef(null);
 
-  // Close mobile menu on outside click
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target)) {
-        setMobileOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  // Handle shop button click
+  const handleShopClick = () => {
+    setShopOpen(!shopOpen);
+  };
 
-  // Close mobile menu on Escape key
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === "Escape") {
-        setMobileOpen(false);
-      }
-    };
-    document.addEventListener("keydown", handleEscape);
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, []);
+  // Handle shop button keyboard events
+  const handleShopButtonKeyDown = (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleShopClick();
+    }
+  };
 
   return (
     <>
@@ -63,63 +51,25 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              {/* Shop Dropdown */}
+            {/* Center: Desktop Navigation */}
+            <nav className="hidden md:flex space-x-8 items-center">
               <div className="relative">
-                <button
-                  onClick={() => setShopOpen(!shopOpen)}
-                  className="group flex items-center gap-1 text-gray-700 hover:text-black transition"
-                >
-                  <span className="relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-black after:transition-all group-hover:after:w-full">
-                    Shop
-                  </span>
-                  <ChevronDown
-                    className={`h-4 w-4 transition-transform duration-300 ${
-                      shopOpen ? 'rotate-180' : 'rotate-0'
-                    }`}
-                  />
-                </button>
-
-                {shopOpen && (
-                  <div className="absolute left-0 top-full mt-2 w-screen max-w-4xl bg-white shadow-lg p-6 animate-fadeIn">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="p-4 bg-gray-100 rounded hover:bg-gray-200 transition">
-                        Category 1
-                      </div>
-                      <div className="p-4 bg-gray-100 rounded hover:bg-gray-200 transition">
-                        Category 2
-                      </div>
-                      <div className="p-4 bg-gray-100 rounded hover:bg-gray-200 transition">
-                        Category 3
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <ShopMenu 
+                  shopOpen={shopOpen}
+                  setShopOpen={setShopOpen}
+                  onShopClick={handleShopClick}
+                  onShopKeyDown={handleShopButtonKeyDown}
+                />
               </div>
-
-              <Link
-                to="/garage-sale"
-                className="relative text-gray-700 hover:text-black transition group"
-              >
-                Garage Sale
-                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
-              </Link>
               
-              <Link
-                to="/products"
-                className="relative text-gray-700 hover:text-black transition group"
-              >
-                All Products
-                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
+              <Link to="/garage-sale" className="text-gray-700 hover:text-black font-medium">
+                GARAGE SALE
               </Link>
-              
-              <Link
-                to="/about-corex"
-                className="relative text-gray-700 hover:text-black transition group"
-              >
-                About CoreX
-                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-black transition-all duration-300 group-hover:w-full"></span>
+              <Link to="/products" className="text-gray-700 hover:text-black font-medium">
+                ALL PRODUCTS
+              </Link>
+              <Link to="/about-corex" className="text-gray-700 hover:text-black font-medium">
+                ABOUT COREX
               </Link>
             </nav>
 
