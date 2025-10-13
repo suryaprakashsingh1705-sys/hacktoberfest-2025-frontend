@@ -1,6 +1,6 @@
 import ProductCard from './ProductCard';
 
-export default function ProductGrid({ products, lastProductElementRef, }) {
+export default function ProductGrid({ products, lastProductElementRef }) {
   if (!products || products.length === 0) {
     return null;
   }
