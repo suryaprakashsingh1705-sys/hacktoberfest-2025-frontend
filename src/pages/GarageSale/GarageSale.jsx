@@ -200,7 +200,7 @@ export default function GarageSale() {
           </div>
         </section>
 
-        {!loading && !error && <RecentlyViewed />}
+  {!loading && !error && <RecentlyViewed saleOnly={true} />}
       </main>
     </>
   );

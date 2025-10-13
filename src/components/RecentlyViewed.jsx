@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ProductCard from './Products/ProductCard';
-import { getRecentlyViewed } from '../utils/recentlyViewed';
+import { getRecentlyViewed, getRecentlyViewedOnSale } from '../utils/recentlyViewed';
 
 // SVG component for the navigation arrows
 const ChevronLeftIcon = (props) => (
@@ -15,8 +15,8 @@ const ChevronRightIcon = (props) => (
   </svg>
 );
 
-export default function RecentlyViewed() {
-  const [items] = useState(() => getRecentlyViewed());
+export default function RecentlyViewed({ saleOnly = false }) {
+  const [items] = useState(() => (saleOnly ? getRecentlyViewedOnSale() : getRecentlyViewed()));
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
 
