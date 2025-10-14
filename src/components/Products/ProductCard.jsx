@@ -2,6 +2,8 @@ import { useState, forwardRef, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addRecentlyViewed } from '../../utils/recentlyViewed';
 
+import { addToWishList, RemoveFromWishList } from '../../store/wishListSlice';
+import { useDispatch } from 'react-redux';
 const HeartIcon = ({
   isWishlisted = false,
   animate = false,
@@ -55,7 +57,7 @@ const ProductCard = forwardRef(
     const [cartAdded, setCartAdded] = useState(false);
     const cartLoadingTimeoutRef = useRef(null);
     const cartAddedTimeoutRef = useRef(null);
-
+    const dispatch = useDispatch();
     // Check if current product+flavor is in cart
     const itemIsInCart = isInCart ? isInCart(selectedFlavor) : false;
 
@@ -108,8 +110,10 @@ const ProductCard = forwardRef(
       if (likeTimeoutRef.current) clearTimeout(likeTimeoutRef.current);
       likeTimeoutRef.current = setTimeout(() => setAnimateLike(false), 520);
       // Call the toggle wishlist function
-      if (onAddToWishlist) {
-        onAddToWishlist(product);
+      if (isWishlisted) {
+        dispatch(RemoveFromWishList(product));
+      } else {
+        dispatch(addToWishList(product));
       }
     };
 
