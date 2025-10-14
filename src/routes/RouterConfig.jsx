@@ -25,6 +25,8 @@ const GarageSale = lazy(() => import('../pages/GarageSale/GarageSale'));
 const Register = lazy(() => import('../pages/Register'));
 const Login = lazy(() => import('../pages/Login'));
 
+const NotFound = lazy(() => import('../pages/PageNotFound/NotFound'));
+
 // Router configuration
 export const RouterConfig = () =>
   createRoutesFromElements(
@@ -43,6 +45,7 @@ export const RouterConfig = () =>
         <Route path="shipping-policy" element={<ShippingPolicy />} />
         <Route path="terms-of-service" element={<TermsOfService />} />
         <Route path="garage-sale" element={<GarageSale />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </>
   );
