@@ -161,18 +161,23 @@ export default function TopFooter() {
           <h3 className="text-4xl uppercase font-bold mb-4">
             Get our latest deals and discounts!
           </h3>
-          <div className="flex bg-neutral-800 rounded-lg overflow-hidden">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="flex-grow p-3 bg-neutral-800 text-neutral-200 placeholder-neutral-400 outline-none hover:bg-neutral-700 hover:ring-1 hover:ring-neutral-500 focus:ring-2 focus:ring-white transition duration-200 ease-in-out"
-              required
-            />
+          <div className="flex bg-neutral-800 rounded-lg overflow-hidden hover:bg-neutral-700 transition relative">
+            <div className="relative flex-grow">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder=" "
+                className="w-full p-3 bg-transparent text-neutral-200 outline-none transition duration-200 ease-in-out peer pt-4"
+                required
+              />
+              <label className="absolute left-3 top-1 text-neutral-400 transition-all duration-200 ease-in-out pointer-events-none peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-neutral-400 peer-focus:top-1 peer-focus:text-xs peer-focus:text-neutral-400 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-400">
+                Enter your email
+              </label>
+            </div>
             <button
               type="submit"
-              className="p-3 rounded-full bg-white hover:bg-neutral-400 text-neutral-900 transition cursor-pointer flex items-center justify-center"
+              className="p-2 m-2 rounded-full bg-white text-neutral-900 transition cursor-pointer flex items-center justify-center"
               aria-label="Subscribe"
             >
               <ArrowRight className="w-5 h-5 text-neutral-900" />

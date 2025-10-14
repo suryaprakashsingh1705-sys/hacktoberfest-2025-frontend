@@ -66,7 +66,7 @@ const ProductCard = forwardRef(
       } catch {
         // ignore errors (localStorage not available)
       }
-      navigate(`/product/${product.id}`);
+      navigate(`/products/${product.id}`);
     };
 
     const formatPrice = (price) => {

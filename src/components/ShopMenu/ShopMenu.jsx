@@ -1,9 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  ChevronDown,
-  ChevronUp,
-  ArrowRight,
-} from 'lucide-react';
+import { ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
 
 const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
   const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -13,7 +9,10 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
   // Close shop menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (shopButtonRef.current && !shopButtonRef.current.contains(event.target)) {
+      if (
+        shopButtonRef.current &&
+        !shopButtonRef.current.contains(event.target)
+      ) {
         setShopOpen(false);
         setFocusedIndex(-1);
       }
@@ -38,7 +37,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
           break;
         case 'ArrowDown':
           event.preventDefault();
-          setFocusedIndex(prev => {
+          setFocusedIndex((prev) => {
             const nextIndex = prev + 1;
             const totalItems = menuItemsRef.current.length;
             return nextIndex >= totalItems ? 0 : nextIndex;
@@ -46,7 +45,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
           break;
         case 'ArrowUp':
           event.preventDefault();
-          setFocusedIndex(prev => {
+          setFocusedIndex((prev) => {
             const prevIndex = prev - 1;
             const totalItems = menuItemsRef.current.length;
             return prevIndex < 0 ? totalItems - 1 : prevIndex;
@@ -54,23 +53,25 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
           break;
         case 'ArrowRight':
           event.preventDefault();
-          setFocusedIndex(prev => {
+          setFocusedIndex((prev) => {
             // Move to next column (every 4 items per column)
             const itemsPerColumn = 4;
             const currentColumn = Math.floor(prev / itemsPerColumn);
             const nextColumn = (currentColumn + 1) % 8; // 8 total columns
-            const nextIndex = nextColumn * itemsPerColumn + (prev % itemsPerColumn);
+            const nextIndex =
+              nextColumn * itemsPerColumn + (prev % itemsPerColumn);
             return nextIndex < menuItemsRef.current.length ? nextIndex : prev;
           });
           break;
         case 'ArrowLeft':
           event.preventDefault();
-          setFocusedIndex(prev => {
+          setFocusedIndex((prev) => {
             // Move to previous column (every 4 items per column)
             const itemsPerColumn = 4;
             const currentColumn = Math.floor(prev / itemsPerColumn);
             const prevColumn = currentColumn === 0 ? 7 : currentColumn - 1; // 8 total columns
-            const prevIndex = prevColumn * itemsPerColumn + (prev % itemsPerColumn);
+            const prevIndex =
+              prevColumn * itemsPerColumn + (prev % itemsPerColumn);
             return prevIndex < menuItemsRef.current.length ? prevIndex : prev;
           });
           break;
@@ -110,15 +111,15 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
 
   // Helper function to create menu item with accessibility
   const createMenuItem = (collectionName, displayName, index) => (
-    <button 
-      ref={el => menuItemsRef.current[index] = el}
+    <button
+      ref={(el) => (menuItemsRef.current[index] = el)}
       onClick={() => handleCollectionClick(collectionName)}
       className="text-black hover:text-gray-600 transition-all duration-300 ease-in-out relative group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-0 py-1 cursor-pointer"
-      style={{ 
-        fontSize: '22px', 
-        lineHeight: '26px', 
+      style={{
+        fontSize: '22px',
+        lineHeight: '26px',
         letterSpacing: '-1.5px',
-        fontWeight: '400'
+        fontWeight: '400',
       }}
       role="menuitem"
       tabIndex={focusedIndex === index ? 0 : -1}
@@ -130,7 +131,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
 
   return (
     <>
-      {/* Shop Button */}
+      {/* Shop Button - Updated to match other navigation buttons */}
       <button
         ref={shopButtonRef}
         onClick={(e) => {
@@ -139,26 +140,31 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
           onShopClick();
         }}
         onKeyDown={onShopKeyDown}
-        className={`flex items-center gap-2 transition-all duration-200 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 px-4 cursor-pointer rounded-full ${
-          shopOpen 
-            ? 'bg-blue-600 text-white border-2 border-blue-600' 
-            : 'text-gray-700 hover:text-black'
+        className={`px-5 py-2 rounded-full font-medium transition-all duration-300 cursor-pointer flex items-center ${
+          shopOpen
+            ? 'bg-[#0D1B2A] text-white'
+            : 'text-gray-700 hover:bg-[#0D1B2A] hover:text-white'
         }`}
         aria-expanded={shopOpen}
         aria-haspopup="true"
       >
-        SHOP {shopOpen ? <ChevronUp className="h-4 w-4 transition-transform duration-200" /> : <ChevronDown className="h-4 w-4 transition-transform duration-200" />}
+        SHOP{' '}
+        {shopOpen ? (
+          <ChevronUp className="ml-1 h-4 w-4 transition-transform duration-200" />
+        ) : (
+          <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200" />
+        )}
       </button>
 
       {/* Mega Menu */}
       {shopOpen && (
-        <div 
+        <div
           className="fixed left-0 w-screen shadow-lg transition-all duration-300 ease-in-out transform origin-top opacity-100 translate-y-0 scale-y-100 z-40 overflow-y-auto"
-          style={{ 
+          style={{
             top: '104px',
             backgroundColor: '#F7FAFF',
             fontFamily: 'Inter, sans-serif',
-            maxHeight: 'calc(100vh - 104px)'
+            maxHeight: 'calc(100vh - 104px)',
           }}
           onWheel={(e) => e.stopPropagation()}
           role="menu"
@@ -168,13 +174,13 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
             {/* SHOP ALL Section */}
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
-                <h2 
+                <h2
                   className="font-bold text-black uppercase"
-                  style={{ 
-                    fontSize: '28px', 
-                    lineHeight: '28px', 
+                  style={{
+                    fontSize: '28px',
+                    lineHeight: '28px',
                     letterSpacing: '-1.5px',
-                    fontWeight: '700'
+                    fontWeight: '700',
                   }}
                 >
                   SHOP ALL
@@ -187,13 +193,13 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
             <div className="grid grid-cols-5 gap-16 mb-8">
               {/* Column 1: SHOP ALL */}
               <div>
-                <h3 
+                <h3
                   className="font-bold text-black mb-4 uppercase"
-                  style={{ 
-                    fontSize: '28px', 
-                    lineHeight: '28px', 
+                  style={{
+                    fontSize: '28px',
+                    lineHeight: '28px',
                     letterSpacing: '-1.5px',
-                    fontWeight: '700'
+                    fontWeight: '700',
                   }}
                 >
                   SHOP ALL
@@ -211,43 +217,59 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
                 <div className="grid grid-cols-2 gap-12">
                   {/* SPORT NUTRITION Sub-column */}
                   <div className="mr-4">
-                    <h3 
+                    <h3
                       className="font-bold text-black mb-4 uppercase whitespace-nowrap"
-                      style={{ 
-                        fontSize: '28px', 
-                        lineHeight: '28px', 
+                      style={{
+                        fontSize: '28px',
+                        lineHeight: '28px',
                         letterSpacing: '-1.5px',
-                        fontWeight: '700'
+                        fontWeight: '700',
                       }}
                     >
                       SPORT NUTRITION
                     </h3>
                     <ul className="space-y-4">
                       <li>{createMenuItem('pre-workout', 'Pre-Workout', 4)}</li>
-                      <li>{createMenuItem('intra-workout', 'Intra-Workout', 5)}</li>
-                      <li>{createMenuItem('muscle-recovery', 'Muscle Recovery', 6)}</li>
+                      <li>
+                        {createMenuItem('intra-workout', 'Intra-Workout', 5)}
+                      </li>
+                      <li>
+                        {createMenuItem(
+                          'muscle-recovery',
+                          'Muscle Recovery',
+                          6
+                        )}
+                      </li>
                       <li>{createMenuItem('supplements', 'Supplements', 7)}</li>
                     </ul>
                   </div>
 
                   {/* PROTEIN Sub-column */}
                   <div className="ml-8">
-                    <h3 
+                    <h3
                       className="font-bold text-black mb-4 uppercase"
-                      style={{ 
-                        fontSize: '28px', 
-                        lineHeight: '28px', 
+                      style={{
+                        fontSize: '28px',
+                        lineHeight: '28px',
                         letterSpacing: '-1.5px',
-                        fontWeight: '700'
+                        fontWeight: '700',
                       }}
                     >
                       PROTEIN
                     </h3>
                     <ul className="space-y-4">
-                      <li>{createMenuItem('lactose-free', 'Lactose Free', 8)}</li>
-                      <li>{createMenuItem('whey-protein', 'Whey Protein', 9)}</li>
-                      <li>{createMenuItem('iso-protein', 'ISO Protein', 10)}</li>
-                      <li>{createMenuItem('vegan-protein', 'Vegan Protein', 11)}</li>
+                      <li>
+                        {createMenuItem('lactose-free', 'Lactose Free', 8)}
+                      </li>
+                      <li>
+                        {createMenuItem('whey-protein', 'Whey Protein', 9)}
+                      </li>
+                      <li>
+                        {createMenuItem('iso-protein', 'ISO Protein', 10)}
+                      </li>
+                      <li>
+                        {createMenuItem('vegan-protein', 'Vegan Protein', 11)}
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -255,13 +277,13 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
 
               {/* Column 3: AMINO ACIDS */}
               <div>
-                <h3 
+                <h3
                   className="font-bold text-black mb-4 uppercase"
-                  style={{ 
-                    fontSize: '28px', 
-                    lineHeight: '28px', 
+                  style={{
+                    fontSize: '28px',
+                    lineHeight: '28px',
                     letterSpacing: '-1.5px',
-                    fontWeight: '700'
+                    fontWeight: '700',
                   }}
                 >
                   AMINO ACIDS
@@ -276,20 +298,24 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
 
               {/* Column 4: HEALTH & WELLNESS */}
               <div>
-                <h3 
+                <h3
                   className="font-bold text-black mb-4 uppercase"
-                  style={{ 
-                    fontSize: '28px', 
-                    lineHeight: '28px', 
+                  style={{
+                    fontSize: '28px',
+                    lineHeight: '28px',
                     letterSpacing: '-1.5px',
-                    fontWeight: '700'
+                    fontWeight: '700',
                   }}
                 >
                   HEALTH & WELLNESS
                 </h3>
                 <ul className="space-y-4">
-                  <li>{createMenuItem('multivitamins', 'Multivitamins', 16)}</li>
-                  <li>{createMenuItem('greens-and-reds', 'Greens and Reds', 17)}</li>
+                  <li>
+                    {createMenuItem('multivitamins', 'Multivitamins', 16)}
+                  </li>
+                  <li>
+                    {createMenuItem('greens-and-reds', 'Greens and Reds', 17)}
+                  </li>
                   <li>{createMenuItem('joint-health', 'Joint Health', 18)}</li>
                 </ul>
               </div>
@@ -299,51 +325,65 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
             <div className="grid grid-cols-4 gap-16 mt-12">
               {/* Column 1: WEIGHT MANAGEMENT */}
               <div>
-                <h3 
+                <h3
                   className="font-bold text-black mb-4 uppercase"
-                  style={{ 
-                    fontSize: '28px', 
-                    lineHeight: '28px', 
+                  style={{
+                    fontSize: '28px',
+                    lineHeight: '28px',
                     letterSpacing: '-1.5px',
-                    fontWeight: '700'
+                    fontWeight: '700',
                   }}
                 >
                   WEIGHT MANAGEMENT
                 </h3>
                 <ul className="space-y-4">
-                  <li>{createMenuItem('meal-replacement', 'Meal Replacement', 19)}</li>
+                  <li>
+                    {createMenuItem('meal-replacement', 'Meal Replacement', 19)}
+                  </li>
                   <li>{createMenuItem('fat-burner', 'Fat Burner', 20)}</li>
-                  <li>{createMenuItem('weight-management-supplements', 'Supplements', 21)}</li>
+                  <li>
+                    {createMenuItem(
+                      'weight-management-supplements',
+                      'Supplements',
+                      21
+                    )}
+                  </li>
                 </ul>
               </div>
 
               {/* Column 2: HORMONE HEALTH */}
               <div>
-                <h3 
+                <h3
                   className="font-bold text-black mb-4 uppercase"
-                  style={{ 
-                    fontSize: '28px', 
-                    lineHeight: '28px', 
+                  style={{
+                    fontSize: '28px',
+                    lineHeight: '28px',
                     letterSpacing: '-1.5px',
-                    fontWeight: '700'
+                    fontWeight: '700',
                   }}
                 >
                   HORMONE HEALTH
                 </h3>
                 <ul className="space-y-4">
-                  <li>{createMenuItem('testosterone-booster', 'Testosterone Booster', 22)}</li>
+                  <li>
+                    {createMenuItem(
+                      'testosterone-booster',
+                      'Testosterone Booster',
+                      22
+                    )}
+                  </li>
                 </ul>
               </div>
 
               {/* Column 3: SHOP BY GOAL */}
               <div>
-                <h3 
+                <h3
                   className="font-bold text-black mb-4 uppercase"
-                  style={{ 
-                    fontSize: '28px', 
-                    lineHeight: '28px', 
+                  style={{
+                    fontSize: '28px',
+                    lineHeight: '28px',
                     letterSpacing: '-1.5px',
-                    fontWeight: '700'
+                    fontWeight: '700',
                   }}
                 >
                   SHOP BY GOAL
@@ -351,20 +391,28 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
                 <ul className="space-y-4">
                   <li>{createMenuItem('build-mass', 'Build Mass', 23)}</li>
                   <li>{createMenuItem('endurance', 'Endurance', 24)}</li>
-                  <li>{createMenuItem('athletic-performance', 'Athletic Performance', 25)}</li>
-                  <li>{createMenuItem('health-wellness', 'Health & Wellness', 26)}</li>
+                  <li>
+                    {createMenuItem(
+                      'athletic-performance',
+                      'Athletic Performance',
+                      25
+                    )}
+                  </li>
+                  <li>
+                    {createMenuItem('health-wellness', 'Health & Wellness', 26)}
+                  </li>
                 </ul>
               </div>
 
               {/* Column 4: APPAREL & GEAR */}
               <div>
-                <h3 
+                <h3
                   className="font-bold text-black mb-4 uppercase"
-                  style={{ 
-                    fontSize: '28px', 
-                    lineHeight: '28px', 
+                  style={{
+                    fontSize: '28px',
+                    lineHeight: '28px',
                     letterSpacing: '-1.5px',
-                    fontWeight: '700'
+                    fontWeight: '700',
                   }}
                 >
                   APPAREL & GEAR
