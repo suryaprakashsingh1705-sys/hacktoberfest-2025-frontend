@@ -52,7 +52,7 @@ export default function Header() {
             </div>
 
             {/* Center: Desktop Navigation */}
-            <nav className="hidden md:flex space-x-6 items-center">
+            <nav className="hidden md:flex items-center">
               <div className="relative">
                 <ShopMenu
                   shopOpen={shopOpen}
@@ -89,7 +89,7 @@ export default function Header() {
             </nav>
 
             {/* Right: Icons (desktop) + Mobile Hamburger */}
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center ">
               {/* Desktop Icons */}
               <div className="hidden md:flex items-center space-x-6 text-gray-700">
                 <button
