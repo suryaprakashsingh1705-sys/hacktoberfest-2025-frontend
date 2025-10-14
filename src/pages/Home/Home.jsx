@@ -7,8 +7,6 @@ import {
   WhyChoose,
   SupplementForGoalsSection,
 } from '../../components';
-import BestOfCoreX from '../../components/BestOfCorex';
-
 
 export default function Home() {
   return (
@@ -37,10 +35,8 @@ export default function Home() {
           productId="68e7dc29bdf0349b226db12a"
           alt="Featured Product - CoreX Whey Protein"
         />
-        {/* Shop Collection Component */}
         <CollectionSection />
-        <BestOfCoreX/>
-      </main >
+      </main>
     </>
   );
 }
