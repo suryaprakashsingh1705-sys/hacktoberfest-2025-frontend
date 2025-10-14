@@ -115,7 +115,7 @@ export const useFetchnCache = (urlOrUrls) => {
 
     fetchData();
     return () => abortController.abort();
-  }, [urlsKey, forceRefetch]); //intentional
+  }, [urlsKey, forceRefetch, urlOrUrls]); // include urlOrUrls to satisfy eslint/react-hooks/exhaustive-deps
 
   const refetch = () => {
     if (Array.isArray(urlOrUrls)) {
