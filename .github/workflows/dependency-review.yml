@@ -1,6 +1,6 @@
 name: Dependency Review
 
-on: 
+on:
   pull_request:
 
 permissions:
@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   dependency-review:
+    name: dependency-review
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
