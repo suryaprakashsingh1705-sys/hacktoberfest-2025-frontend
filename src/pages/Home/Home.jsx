@@ -11,7 +11,6 @@ import {
 export default function Home() {
   return (
     <>
-      {/* Skip link for keyboard users */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 p-2 bg-blue-600 text-white z-50"
