@@ -9,7 +9,28 @@ const initialState = {
   error: null,
 };
 
-// Auth slice (stub implementation)
+// helper to persist
+const persistAuth = (state) => {
+  try {
+    const payload = {
+      user: state.user,
+      token: state.token,
+    };
+    localStorage.setItem('auth', JSON.stringify(payload));
+  } catch  {
+    // ignore storage errors
+  }
+};
+
+const clearPersist = () => {
+  try {
+    localStorage.removeItem('auth');
+  } catch {
+    // ignore
+  }
+};
+
+// Auth slice implementation with persistence helpers
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -19,12 +40,12 @@ const authSlice = createSlice({
       state.error = null;
     },
     loginSuccess: (state, action) => {
-      // TODO: Implement login success functionality
       state.loading = false;
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.error = null;
+      persistAuth(state);
     },
     loginFailure: (state, action) => {
       state.loading = false;
@@ -32,24 +53,24 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
     },
     logout: (state) => {
-      // TODO: Implement logout functionality
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
       state.loading = false;
       state.error = null;
+      clearPersist();
     },
     registerStart: (state) => {
       state.loading = true;
       state.error = null;
     },
     registerSuccess: (state, action) => {
-      // TODO: Implement register success functionality
       state.loading = false;
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.error = null;
+      persistAuth(state);
     },
     registerFailure: (state, action) => {
       state.loading = false;
@@ -61,6 +82,15 @@ const authSlice = createSlice({
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
+    },
+    // Rehydrate auth state from storage
+    setUserFromStorage: (state, action) => {
+      const payload = action.payload;
+      if (payload && payload.token) {
+        state.user = payload.user || null;
+        state.token = payload.token;
+        state.isAuthenticated = true;
+      }
     },
   },
 });
@@ -75,6 +105,7 @@ export const {
   registerFailure,
   clearError,
   setLoading,
+  setUserFromStorage,
 } = authSlice.actions;
 
 export default authSlice.reducer;

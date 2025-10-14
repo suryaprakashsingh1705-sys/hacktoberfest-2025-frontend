@@ -42,6 +42,23 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+// Attach token from localStorage (if present) to outgoing requests
+axiosInstance.interceptors.request.use((config) => {
+  try {
+    const raw = localStorage.getItem('auth');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed?.token) {
+        config.headers = config.headers || {};
+        config.headers['Authorization'] = `Bearer ${parsed.token}`;
+      }
+    }
+  } catch {
+    // ignore parsing errors
+  }
+  return config;
+});
+
 export default axiosInstance;
 export { axiosInstance };
 
