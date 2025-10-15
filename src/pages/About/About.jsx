@@ -111,7 +111,7 @@ const AboutAccordion = () => {
         </Accordion.Header>
         <Accordion.Content className="text-base font-normal mt-4">
           <p className="mb-2">Click the link below to visit our store:</p>
-          <a href='https://corexshop.com' target='_blank' >https://corexshop.com</a>
+          <a href='https://opencodechicago.org' target='_blank' >https://opencodechicago.org</a>
           <p className="mt-2">(This will open a new tab with the homepage.)</p>
         </Accordion.Content>
       </Accordion.Item>

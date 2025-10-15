@@ -1,5 +1,8 @@
 import { useState, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import SearchBox from '../Search/SearchBox';
+import TopHeader from '../TopHeader/TopHeader';
+import ShopMenu from '../ShopMenu';
 import {
   Menu,
   X,
@@ -9,9 +12,6 @@ import {
   User,
   ShoppingCart,
 } from 'lucide-react';
-import SearchBox from '../Search/SearchBox';
-import TopHeader from '../TopHeader/TopHeader';
-import ShopMenu from '../ShopMenu';
 import { useSelector } from 'react-redux';
 import WishListProductCard from '../Products/WishListProduct';
 import { RemoveFromWishList } from '../../store/wishListSlice';
@@ -115,7 +115,7 @@ export default function Header() {
             <div className="flex-shrink-0">
               <Link to="/">
                 <img
-                  src="/images/official-logo-core-x.svg"
+                  src="/icons/official-logo-core-x.svg"
                   alt="CoreX Logo"
                   className="h-10 w-auto"
                 />
@@ -123,7 +123,7 @@ export default function Header() {
             </div>
 
             {/* Center: Desktop Navigation */}
-            <nav className="hidden md:flex space-x-6 items-center">
+            <nav className="hidden md:flex items-center">
               <div className="relative">
                 <ShopMenu
                   shopOpen={shopOpen}
@@ -160,7 +160,7 @@ export default function Header() {
             </nav>
 
             {/* Right: Icons (desktop) + Mobile Hamburger */}
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center ">
               {/* Desktop Icons */}
               <div className="hidden md:flex items-center space-x-6 text-gray-700">
                 <button
