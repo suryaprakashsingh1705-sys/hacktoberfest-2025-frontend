@@ -26,16 +26,18 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (error.response) {
-      console.error('API Error:', {
-        status: error.response.status,
-        url: error.config?.url,
-        message: error.response.data?.message || error.message,
-      });
-    } else if (error.request) {
-      console.error('Network Error: No response received from server');
-    } else {
-      console.error('Request Setup Error:', error.message);
+    if (import.meta.env.DEV) {
+      if (error.response) {
+        console.error('API Error:', {
+          status: error.response.status,
+          url: error.config?.url,
+          message: error.response.data?.message || error.message,
+        });
+      } else if (error.request) {
+        console.error('Network Error: No response received from server');
+      } else {
+        console.error('Request Setup Error:', error.message);
+      }
     }
 
     return Promise.reject(error);

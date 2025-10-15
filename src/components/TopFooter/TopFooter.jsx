@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
 import { toast } from 'react-toastify';
+import { FaXTwitter } from 'react-icons/fa6';
+import { FaFacebook, FaYoutube, FaLinkedin } from 'react-icons/fa';
 
 const customerCare = [
   { name: 'My Account', href: '/login' },
@@ -53,65 +55,57 @@ export default function TopFooter() {
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
             <img
-              src="/images/official-logo-core-x-footer.svg"
+              src="/icons/official-logo-core-x-footer.svg"
               alt="CoreX"
               className="mb-4 w-32"
             />
           </Link>
-          <ul className="flex space-x-2 mb-4">
-            <li>
+          <ul className="flex items-center space-x-6 mb-4">
+            <li className="transform transition-transform duration-200 hover:scale-110">
               <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-300 transition-transform duration-300 ease-in-out"
+                href="https://www.youtube.com/@AlexSmaginDev"
+                aria-label="YouTube"
+                className="hover:text-gray-300 transition-colors"
               >
-                <img
-                  src="/images/youtube_icon.png"
-                  alt="YouTube"
-                  className="w-6 h-6 hover:scale-110 transform hover:rotate-2 hover:shadow-lg"
+                <FaYoutube size={18} />
+              </a>
+            </li>
+            <li className="transform transition-transform duration-200 hover:scale-110">
+              <a
+                href="https://www.linkedin.com/company/104436074"
+                aria-label="LinkedIn"
+                className="hover:text-gray-300 transition-colors"
+              >
+                <FaLinkedin
+                  size={18}
+                  className="fill-current text-white hover:text-gray-300"
+                  stroke="none"
                 />
               </a>
             </li>
-            <li>
+            <li className="transform transition-transform duration-200 hover:scale-110">
               <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-300 transition-transform duration-300 ease-in-out"
+                href="https://x.com/alexsmagin29"
+                aria-label="Twitter"
+                className="hover:text-gray-300 transition-colors"
               >
-                <img
-                  src="/images/linkedin_icon.png"
-                  alt="LinkedIn"
-                  className="w-6 h-6 hover:scale-110 transform hover:rotate-2 hover:shadow-lg"
+                <FaXTwitter
+                  size={18}
+                  className="fill-current text-white hover:text-gray-300"
+                  stroke="none"
                 />
               </a>
             </li>
-            <li>
+            <li className="transform transition-transform duration-200 hover:scale-110">
               <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-300 transition-transform duration-300 ease-in-out"
+                href="https://www.facebook.com/profile.php?id=61580367112591"
+                aria-label="Facebook"
+                className="hover:text-gray-300 transition-colors"
               >
-                <img
-                  src="/images/x_icon.png"
-                  alt="Twitter"
-                  className="w-6 h-6 hover:scale-110 transform hover:rotate-2 hover:shadow-lg"
-                />
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-neutral-300 transition-transform duration-300 ease-in-out"
-              >
-                <img
-                  src="/images/facebook_icon.png"
-                  alt="Facebook"
-                  className="w-6 h-6 hover:scale-110 transform hover:rotate-2 hover:shadow-lg"
+                <FaFacebook
+                  size={18}
+                  className="fill-current text-white hover:text-gray-300"
+                  stroke="none"
                 />
               </a>
             </li>

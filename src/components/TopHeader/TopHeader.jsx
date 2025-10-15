@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { FaFacebook, FaYoutube, FaLinkedin } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
 import { FaXTwitter } from 'react-icons/fa6';
+import { FaFacebook, FaYoutube, FaLinkedin } from 'react-icons/fa';
 
 export default function TopHeader() {
   const messages = [
@@ -48,16 +48,16 @@ export default function TopHeader() {
           {/* Right Side Icons - Aligned with main header icons */}
           <div className="ml-auto flex items-center space-x-6 relative z-10 pointer-events-auto">
             <a
-              href="#"
+              href="https://www.youtube.com/@AlexSmaginDev"
               aria-label="YouTube"
-              className="hover:text-gray-300 transition-colors"
+              className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
             >
               <FaYoutube size={18} />
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/company/104436074"
               aria-label="LinkedIn"
-              className="hover:text-gray-300 transition-colors"
+              className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
             >
               <FaLinkedin
                 size={18}
@@ -66,9 +66,9 @@ export default function TopHeader() {
               />
             </a>
             <a
-              href="#"
+              href="https://x.com/alexsmagin29"
               aria-label="Twitter"
-              className="hover:text-gray-300 transition-colors"
+              className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
             >
               <FaXTwitter
                 size={18}
@@ -77,9 +77,9 @@ export default function TopHeader() {
               />
             </a>
             <a
-              href="#"
+              href="https://www.facebook.com/profile.php?id=61580367112591"
               aria-label="Facebook"
-              className="hover:text-gray-300 transition-colors"
+              className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
             >
               <FaFacebook
                 size={18}

@@ -50,6 +50,7 @@ export const productServices = {
   },
 };
 
+// Auth services can be removed if not implemented
 export const authServices = {
   login: (credentials) => {
     console.warn('⚠️  authServices not yet implemented. Use new API services from @/api when available.');

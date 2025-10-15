@@ -1,5 +1,8 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import SearchBox from '../Search/SearchBox';
+import TopHeader from '../TopHeader/TopHeader';
+import ShopMenu from '../ShopMenu';
 import {
   Menu,
   X,
@@ -9,9 +12,6 @@ import {
   User,
   ShoppingCart,
 } from 'lucide-react';
-import SearchBox from '../Search/SearchBox';
-import TopHeader from '../TopHeader/TopHeader';
-import ShopMenu from '../ShopMenu';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -44,7 +44,7 @@ export default function Header() {
             <div className="flex-shrink-0">
               <Link to="/">
                 <img
-                  src="/images/official-logo-core-x.svg"
+                  src="/icons/official-logo-core-x.svg"
                   alt="CoreX Logo"
                   className="h-10 w-auto"
                 />
