@@ -14,7 +14,7 @@ export function getRecentlyViewed() {
   }
 }
 
-export function getRecentlyViewedOnSale(){
+export function getRecentlyViewedOnSale() {
   try {
     const raw = localStorage.getItem('recently_viewed_on_sale');
     if (!raw) return [];
@@ -32,24 +32,32 @@ export function addRecentlyViewed(product) {
   try {
     const pid = product.id || product._id;
 
-    // update general recently_viewed list
+    // Create a sanitized product object to store
+    const sanitizedProduct = {
+      id: pid,
+      name: product.name, // Ensure only non-sensitive data is stored
+      image: product.image, // Example of non-sensitive data
+      // Add other non-sensitive fields as needed
+    };
+
+    // Update general recently_viewed list
     try {
       const current = getRecentlyViewed();
       const deduped = current.filter((p) => (p?.id || p?._id) !== pid);
-      deduped.unshift(product);
+      deduped.unshift(sanitizedProduct);
       const trimmed = deduped.slice(0, 10);
       localStorage.setItem('recently_viewed', JSON.stringify(trimmed));
     } catch {
       // ignore per-list failures
     }
 
-    // if product is on sale, also update the sale-specific list
+    // If product is on sale, also update the sale-specific list
     const isSale = product.onSale;
     if (isSale) {
       try {
         const currentSale = getRecentlyViewedOnSale();
         const dedupedSale = currentSale.filter((p) => (p?.id || p?._id) !== pid);
-        dedupedSale.unshift(product);
+        dedupedSale.unshift(sanitizedProduct);
         const trimmedSale = dedupedSale.slice(0, 10);
         localStorage.setItem('recently_viewed_on_sale', JSON.stringify(trimmedSale));
       } catch {

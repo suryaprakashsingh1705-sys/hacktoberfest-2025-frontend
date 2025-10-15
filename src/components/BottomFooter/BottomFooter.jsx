@@ -1,47 +1,5 @@
 export default function BottomFooter() {
-  // Payment logos. Replace or add entries as needed. (You provided the Amazon CDN URL.)
-  const paymentLogos = [
-    {
-      name: 'Amazon',
-      href: 'https://www.amazon.com',
-      src: 'https://cdn-icons-png.flaticon.com/512/5968/5968269.png',
-    },
-    {
-      name: 'AM EX',
-      href: 'https://icon2.cleanpng.com/20180810/uso/bbd4a303dbe657ecf8304b7b0b5145e0.webp',
-      src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLTHuULYXTweiF0qwt9JYVRkLmldDoTBnaUw&s',
-    },
-    {
-      name: 'Apple Pay',
-      href: 'https://thumbnail.imgbin.com/11/0/10/apple-pay-logo-zgRR8rE3_t.jpg',
-      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Apple_Pay_logo.svg/2560px-Apple_Pay_logo.svg.png',
-    },
-    {
-      name: 'Google Pay',
-      href: 'https://toppng.com/uploads/small/11735759504pvxnd3mon8eobctp8qktesr6ayeytipihdlcxiotspns27ljc8xuhkl76cxstyyuftl5e38e1pq1tycfmezlpbrmtro5v5rglc58.webp',
-      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/640px-Google_Pay_Logo.svg.png',
-    },
-    {
-      name: 'Mastercard',
-      href: 'https://icon2.cleanpng.com/lnd/20241123/ca/85dda930e3465f586e2b20700028d0.webp',
-      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1200px-Mastercard-logo.svg.png',
-    },
-    {
-      name: 'Pay Pal',
-      href: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3no113HIfYGlfiWW58lJVwmAXif0Plr9Jkg&s',
-      src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeyP_0YtjGAPJnOyzHmO-qQ82oXl_v4nIoFw&s',
-    },
-    {
-      name: 'Shop Pay',
-      href: 'https://digiteon.com/wp-content/uploads/2025/05/about-shop-pay.jpg',
-      src: 'https://digiteon.com/wp-content/uploads/2025/05/about-shop-pay.jpg',
-    },
-    {
-      name: 'Visa',
-      href: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png',
-      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png',
-    },
-  ];
+  const paymentLogos = [];
 
   return (
     <footer className="bg-[#071827] text-neutral-200">
@@ -100,21 +58,12 @@ export default function BottomFooter() {
           <div className="flex items-center justify-end gap-4">
             {paymentLogos.length > 0 &&
               paymentLogos.map((logo) => (
-                <a
-                  key={logo.name}
-                  href={logo.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={logo.name}
-                  className="inline-flex items-center"
-                >
-                  <img
-                    src={logo.src}
-                    alt={logo.name}
-                    className="h-6 w-auto object-contain bg-white rounded-sm p-1"
-                    loading="lazy"
-                  />
-                </a>
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  className="h-6 w-auto object-contain bg-white rounded-sm p-1"
+                  loading="lazy"
+                />
               ))}
           </div>
         </div>
