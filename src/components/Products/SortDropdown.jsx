@@ -19,14 +19,16 @@ export default function SortDropdown({
   className = '',
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(defaultOption);
+  const [_, setSelected] = useState(defaultOption);
   const dropdownRef = useRef(null);
 
   // Filter out the unused default option
   const SORT_OPTIONS = useMemo(() => {
     return BASE_SORT_OPTIONS.filter((opt) => {
-      if (defaultOption === 'best-selling' && opt.field === 'featured') return false;
-      if (defaultOption === 'featured' && opt.field === 'best-selling') return false;
+      if (defaultOption === 'best-selling' && opt.field === 'featured')
+        return false;
+      if (defaultOption === 'featured' && opt.field === 'best-selling')
+        return false;
       return true;
     });
   }, [defaultOption]);
@@ -61,7 +63,10 @@ export default function SortDropdown({
   };
 
   return (
-    <div ref={dropdownRef} className={`relative flex items-center gap-2 sm:gap-4 ${className}`}>
+    <div
+      ref={dropdownRef}
+      className={`relative flex items-center gap-2 sm:gap-4 ${className}`}
+    >
       <div className="flex-shrink-0">
         <span className="font-semibold text-lg text-gray-800">Sort by:</span>
         <div className="absolute left-0 w-12 h-0.5 bg-gray-800" />
@@ -75,8 +80,18 @@ export default function SortDropdown({
           aria-expanded={isOpen}
         >
           <span className="truncate text-left">{currentSort.label}</span>
-          <svg className="w-4 h-4 ml-2 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <svg
+            className="w-4 h-4 ml-2 text-gray-600 flex-shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </button>
 
@@ -88,14 +103,26 @@ export default function SortDropdown({
         >
           {/* Header with title and X close button */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-              <div className="text-xs font-semibold text-gray-800 uppercase">Sort by</div>
+            <div className="text-xs font-semibold text-gray-800 uppercase">
+              Sort by
+            </div>
             <button
               onClick={() => setIsOpen(false)}
               aria-label="Close sort menu"
               className="text-gray-500 hover:text-gray-800 focus:outline-none ml-2 cursor-pointer border rounded-full p-1"
             >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
@@ -114,8 +141,16 @@ export default function SortDropdown({
               >
                 <span>{option.label}</span>
                 {option.field === sortBy && option.order === sortOrder && (
-                    <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  <svg
+                    className="w-4 h-4 text-blue-600"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 )}
               </button>
@@ -125,5 +160,4 @@ export default function SortDropdown({
       </div>
     </div>
   );
-
 }
