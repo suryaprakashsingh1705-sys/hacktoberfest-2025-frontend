@@ -60,6 +60,7 @@ You can explore our creative Figma design and UI references here:
 - [Contributing](#contributing)
 - [Hacktoberfest Contribution Guide](#hacktoberfest-contribution-guide)
 - [Documentation](#documentation)
+- [Contributor Recognition](#-contributor-recognition)
 - [Contributors](#contributors)
 - [Security](#security)
 - [License](#license)
@@ -249,6 +250,34 @@ Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on how to 
 - [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)  
 - [Code Owners](.github/CODEOWNERS)  
 - [Issue Templates](.github/ISSUE_TEMPLATE/)  
+
+---
+
+## 🏅 Contributor Recognition
+
+We’re proud to recognize everyone who contributes to **Open Code Chicago × CoreX**!
+
+Contributors can earn **exclusive digital badges** via [Holopin](https://holopin.io) — our official badge partner for open source recognition.
+
+| Badge | Description |
+|-------|--------------|
+| 🧑‍💻 **CoreX Contributor 2025** | Awarded for a merged PR during Hacktoberfest 2025 |
+| ✨ **First PR Merged** | Celebrates your very first open-source contribution under Open Code Chicago |
+| 🎨 **UI Builder** | For impactful frontend or UI/UX work |
+| ⚙️ **Backend Engineer** | For backend, API, or database contributions |
+| 💬 **Community Supporter** | For exceptional engagement, documentation, or testing contributions |
+
+After your PR is merged, maintainers will comment with a **unique claim link** to receive your badge on [Holopin](https://holopin.io).
+
+You can display your earned badges on:
+- Your **Holopin board**
+- Your **GitHub profile** (via Holopin widget)
+- **LinkedIn** (as a verified digital credential)
+
+➡️ Check out the full badge set on our Holopin board:  
+[**Open Code Chicago × CoreX 2025 Badges**](https://www.holopin.io/@opencodechicago)
+
+Let’s build, learn, and grow together 🚀
 
 ---
 
