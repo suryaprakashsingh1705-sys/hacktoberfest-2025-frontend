@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 
-const SORT_OPTIONS = [
+const BASE_SORT_OPTIONS = [
   { label: 'Featured', field: 'featured', order: 'desc' },
+  { label: 'Best Selling', field: 'best-selling', order: 'desc' },
   { label: 'A - Z', field: 'title', order: 'asc' },
   { label: 'Z - A', field: 'title', order: 'desc' },
   { label: 'Price - Low to High', field: 'price', order: 'asc' },
@@ -10,15 +11,38 @@ const SORT_OPTIONS = [
   { label: 'Rating - High to Low', field: 'rating', order: 'desc' },
 ];
 
-export default function SortDropdown({ sortBy = 'featured', sortOrder = 'desc', onSortChange = () => {}, className = '' }) {
+export default function SortDropdown({
+  sortBy,
+  sortOrder,
+  defaultOption = 'featured',
+  onSortChange = () => {},
+  className = '',
+}) {
   const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState(defaultOption);
   const dropdownRef = useRef(null);
 
-  const currentSort = SORT_OPTIONS.find(
-    option => option.field === sortBy && option.order === sortOrder
-  ) || SORT_OPTIONS[0];
+  // Filter out the unused default option
+  const SORT_OPTIONS = useMemo(() => {
+    return BASE_SORT_OPTIONS.filter((opt) => {
+      if (defaultOption === 'best-selling' && opt.field === 'featured') return false;
+      if (defaultOption === 'featured' && opt.field === 'best-selling') return false;
+      return true;
+    });
+  }, [defaultOption]);
 
-  // Handle clicks outside to close the dropdown. Do NOT close on scroll — UX requires it remain open until user closes.
+  // Determine the current selected option
+  const currentSort =
+    SORT_OPTIONS.find(
+      (option) => option.field === sortBy && option.order === sortOrder
+    ) ||
+    SORT_OPTIONS.find((option) => option.field === defaultOption) ||
+    SORT_OPTIONS[0];
+
+  useEffect(() => {
+    setSelected(defaultOption);
+  }, [defaultOption]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -26,16 +50,12 @@ export default function SortDropdown({ sortBy = 'featured', sortOrder = 'desc', 
       }
     };
 
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    if (isOpen) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
   const handleSortSelect = (option) => {
+    setSelected(option.field);
     onSortChange(option.field, option.order);
     setIsOpen(false);
   };
@@ -66,42 +86,42 @@ export default function SortDropdown({ sortBy = 'featured', sortOrder = 'desc', 
           }`}
           aria-hidden={!isOpen}
         >
-            {/* Header with title and X close button */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+          {/* Header with title and X close button */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
               <div className="text-xs font-semibold text-gray-800 uppercase">Sort by</div>
-              <button
-                onClick={() => setIsOpen(false)}
-                aria-label="Close sort menu"
-                className="text-gray-500 hover:text-gray-800 focus:outline-none ml-2 cursor-pointer border rounded-full p-1"
-                >
+            <button
+              onClick={() => setIsOpen(false)}
+              aria-label="Close sort menu"
+              className="text-gray-500 hover:text-gray-800 focus:outline-none ml-2 cursor-pointer border rounded-full p-1"
+            >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
+              </svg>
+            </button>
+          </div>
 
-            <div className="py-2">
-              {SORT_OPTIONS.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleSortSelect(option)}
-                  className={`w-full px-4 py-2 text-left text-sm flex items-center justify-between hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors ${
-                    option.field === sortBy && option.order === sortOrder
-                      ? 'bg-blue-50 text-blue-700 font-semibold'
-                      : 'text-gray-700'
-                  } cursor-pointer`}
-                  role="menuitem"
-                >
-                  <span>{option.label}</span>
-                  {option.field === sortBy && option.order === sortOrder && (
+          <div className="py-2">
+            {SORT_OPTIONS.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleSortSelect(option)}
+                className={`w-full px-4 py-2 text-left text-sm flex items-center justify-between hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors ${
+                  option.field === sortBy && option.order === sortOrder
+                    ? 'bg-blue-50 text-blue-700 font-semibold'
+                    : 'text-gray-700'
+                } cursor-pointer`}
+                role="menuitem"
+              >
+                <span>{option.label}</span>
+                {option.field === sortBy && option.order === sortOrder && (
                     <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  )}
-                </button>
-              ))}
-            </div>
+                  </svg>
+                )}
+              </button>
+            ))}
           </div>
+        </div>
       </div>
     </div>
   );
