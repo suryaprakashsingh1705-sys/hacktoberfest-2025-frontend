@@ -283,6 +283,7 @@ Thanks goes to these wonderful people:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/codervipul775"><img src="https://avatars.githubusercontent.com/u/184411035?v=4?s=100" width="100px;" alt="Vipul"/><br /><sub><b>Vipul</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=codervipul775" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Turbash"><img src="https://avatars.githubusercontent.com/u/170945289?v=4?s=100" width="100px;" alt="Turbash Negi"/><br /><sub><b>Turbash Negi</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=Turbash" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/NirajDN"><img src="https://avatars.githubusercontent.com/u/149431848?v=4?s=100" width="100px;" alt="Niraj Nillawar"/><br /><sub><b>Niraj Nillawar</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=NirajDN" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Sushil010"><img src="https://avatars.githubusercontent.com/u/58940037?v=4?s=100" width="100px;" alt="Sushil"/><br /><sub><b>Sushil</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=Sushil010" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
