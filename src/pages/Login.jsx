@@ -1,56 +1,71 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Validation schema
+const loginSchema = yup.object({
+  email: yup
+    .string()
+    .email('Please enter a valid email address.')
+    .required('Email is required.'),
+  password: yup
+    .string()
+    .min(8, 'Password must be at least 8 characters.')
+    .required('Password is required.'),
+});
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState({ email: '', password: '' });
+  const [touchedFields, setTouchedFields] = useState({
+    email: false,
+    password: false,
+  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid, isDirty },
+    reset,
+    trigger
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+    mode: 'onTouched', // Initial validation on blur/touch
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Clear errors when user starts typing
-    setErrors((prev) => ({ ...prev, [name]: '' }));
+  // Custom handleBlur to track touched fields
+  const handleBlur = (fieldName) => {
+    setTouchedFields((prev) => ({ ...prev, [fieldName]: true }));
+    trigger(fieldName); // Trigger validation for this field
   };
 
-  const validateForm = () => {
-    let valid = true;
-    const newErrors = { email: '', password: '' };
-
-    if (!EMAIL_REGEX.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address.';
-      valid = false;
+  // Custom onChange to validate only if field was previously touched/had error
+  const handleChange = (fieldName) => {
+    // If field was previously touched/had error, validate on change
+    if (touchedFields[fieldName] || errors[fieldName]) {
+      trigger(fieldName);
     }
-    if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters.';
-      valid = false;
-    }
-
-    setErrors(newErrors);
-    return valid;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!validateForm()) return;
-
+  const onSubmit = (data) => {
     // Handle form submission here (e.g., API call)
+    console.log('Login data:', data);
 
-    setFormData({ email: '', password: '' });
+    // Reset form after submission
+    reset();
     setShowPassword(false);
+    setTouchedFields({ email: false, password: false });
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
-
-  const isFormFilled = formData.email && formData.password;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAFAFA] px-4">
@@ -94,11 +109,13 @@ const Login = () => {
             alt="Google Icon"
             className="w-5 h-5"
           />
-          Sign in with Google
         </button>
 
         {/* Divider */}
-        <div className="flex items-center justify-between mb-4" aria-hidden="true">
+        <div
+          className="flex items-center justify-between mb-4"
+          aria-hidden="true"
+        >
           <hr className="border-t bg-[#B4C2CF] w-full" />
           <span className="px-2 text-sm text-[#89949F] font-poppins">or</span>
           <hr className="border-t bg-[#B4C2CF] w-full" />
@@ -106,7 +123,7 @@ const Login = () => {
 
         {/* Form */}
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="space-y-4"
           style={{ fontFamily: 'var(--font-inter)' }}
           noValidate
@@ -114,7 +131,10 @@ const Login = () => {
           <div>
             <input
               type="email"
-              name="email"
+              {...register('email', {
+                onChange: (e) => handleChange('email', e.target.value),
+              })}
+              onBlur={() => handleBlur('email')}
               aria-label="Email address"
               placeholder="Email"
               className={`w-full px-4 py-2.5 border rounded-md text-base placeholder:text-[#767676] focus:outline-none focus:ring-2 ${
@@ -122,50 +142,53 @@ const Login = () => {
                   ? 'border-red-500 focus:ring-red-500'
                   : 'border-[#D7DDE9] focus:ring-[#CBD5E1]'
               }`}
-              onChange={handleChange}
-              value={formData.email}
-              required
             />
             {errors.email && (
-              <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+              <p className="text-red-500 text-xs mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
-          <div className="relative">
-            <input
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              aria-label="Password"
-              placeholder="Password"
-              className={`w-full px-4 py-2.5 pr-12 border rounded-md text-base placeholder:text-[#767676] focus:outline-none focus:ring-2 ${
-                errors.password
-                  ? 'border-red-500 focus:ring-red-500'
-                  : 'border-[#D7DDE9] focus:ring-[#CBD5E1]'
-              }`}
-              onChange={handleChange}
-              value={formData.password}
-              required
-              minLength={6}
-            />
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="absolute inset-y-0 right-3 flex items-center text-gray-500"
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-              tabIndex={-1}
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
+          {/* Password Field with fixed alignment */}
+          <div>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                {...register('password', {
+                  onChange: (e) => handleChange('password', e.target.value),
+                })}
+                onBlur={() => handleBlur('password')}
+                aria-label="Password"
+                placeholder="Password"
+                className={`w-full px-4 py-2.5 pr-12 border rounded-md text-base placeholder:text-[#767676] focus:outline-none focus:ring-2 ${
+                  errors.password
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-[#D7DDE9] focus:ring-[#CBD5E1]'
+                }`}
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
             {errors.password && (
-              <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+              <p className="text-red-500 text-xs mt-1">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
           <button
             type="submit"
-            disabled={!isFormFilled}
+            disabled={!isValid || !isDirty}
             className={`w-full px-4 py-2.5 text-base text-white rounded-md font-medium transition ${
-              isFormFilled
+              isValid && isDirty
                 ? 'bg-[#023e8a] hover:bg-[#1054ab] cursor-pointer'
                 : 'bg-gray-300 cursor-not-allowed'
             }`}
