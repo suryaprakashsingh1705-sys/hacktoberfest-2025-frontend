@@ -9,7 +9,6 @@ const initialState = {
   error: null,
 };
 
-// Auth slice (stub implementation)
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -19,7 +18,6 @@ const authSlice = createSlice({
       state.error = null;
     },
     loginSuccess: (state, action) => {
-      // TODO: Implement login success functionality
       state.loading = false;
       state.user = action.payload.user;
       state.token = action.payload.token;
@@ -32,7 +30,6 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
     },
     logout: (state) => {
-      // TODO: Implement logout functionality
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
@@ -44,7 +41,6 @@ const authSlice = createSlice({
       state.error = null;
     },
     registerSuccess: (state, action) => {
-      // TODO: Implement register success functionality
       state.loading = false;
       state.user = action.payload.user;
       state.token = action.payload.token;
@@ -62,6 +58,11 @@ const authSlice = createSlice({
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
+    // Set token in-memory (used after refresh)
+    setToken: (state, action) => {
+      state.token = action.payload || null;
+      state.isAuthenticated = !!action.payload;
+    },
   },
 });
 
@@ -75,6 +76,7 @@ export const {
   registerFailure,
   clearError,
   setLoading,
+  setToken,
 } = authSlice.actions;
 
 export default authSlice.reducer;

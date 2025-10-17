@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { authServices } from '../services/api';
+import { registerStart, registerSuccess, registerFailure } from '../store/authSlice';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,16 +12,41 @@ const Register = () => {
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loading = useSelector((state) => state.auth.loading);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission
+    if (!formData.name || !formData.email || !formData.password) return;
 
-    setFormData({ name: '', email: '', password: '' });
+    try {
+      dispatch(registerStart());
+      const response = await authServices.register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      const payload = response?.data ?? {};
+      const token = payload.token || payload?.data?.token;
+      const user = payload.user || payload?.data?.user || { email: formData.email, name: formData.name };
+
+      if (!token) {
+        throw new Error('No token returned from server');
+      }
+
+      dispatch(registerSuccess({ user, token }));
+      navigate('/');
+    } catch (err) {
+      const message = err?.response?.data?.message || err.message || 'Registration failed';
+      dispatch(registerFailure(message));
+      // For now we don't show inline errors, but could set local state
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -45,13 +73,11 @@ const Register = () => {
           className="text-left text-[#05254E] text-2xl mb-1"
           style={{ fontFamily: 'var(--font-inter)' }}
         >
-          LOGIN <span className="text-[#05254E]/50 font-bold"> / </span>
-          <span
-            className="text-[#05254E] font-bold"
-            style={{ fontFamily: 'var(--font-inter)' }}
-          >
-            REGISTER
-          </span>
+          <Link to="/login" style={{ color: 'inherit', textDecoration: 'none' }}>
+            <span className="text-[#05254E] font-medium">LOGIN</span>
+          </Link>{' '}
+          <span className="text-[#05254E]/50 font-bold"> / </span>
+          <span className="font-bold" aria-current="page">REGISTER</span>
         </h2>
 
         <p className="text-left text-xs text-[#6B7280] mb-5 font-poppins">
@@ -68,6 +94,7 @@ const Register = () => {
             alt="Google Icon"
             className="w-5 h-5"
           />
+          Sign in with Google
         </button>
 
         {/* Divider */}
@@ -123,13 +150,13 @@ const Register = () => {
           <button
             type="submit"
             className={`w-full px-4 py-2.5 text-base text-white rounded-md font-medium transition ${
-              isFormFilled
+              isFormFilled && !loading
                 ? 'bg-[#023e8a] hover:bg-[#1054ab] cursor-pointer'
                 : 'bg-gray-300 cursor-not-allowed'
             }`}
-            disabled={!isFormFilled}
+            disabled={!isFormFilled || loading}
           >
-            Continue
+            {loading ? 'Creating account...' : 'Continue'}
           </button>
         </form>
 

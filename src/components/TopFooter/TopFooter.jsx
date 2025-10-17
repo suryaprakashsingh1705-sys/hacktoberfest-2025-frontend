@@ -22,8 +22,9 @@ const information = [
 
 export default function TopFooter() {
   const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success'
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -33,15 +34,27 @@ export default function TopFooter() {
       return;
     }
 
-    // Simulate subscription success (e.g., API call here)
-    console.log('Subscribed:', email);
+    setStatus('loading');
 
-    // Show success toast notification
-    toast.success(
-      'Thank you for subscribing! Your email has been received. You’ll now get our latest deals and discounts.'
-    );
+    try {
+      // Simulate API call
+      await new Promise((res) => setTimeout(res, 2000));
 
-    setEmail('');
+      console.log('Subscribed:', email);
+      toast.success(
+        'Thank you for subscribing! Your email has been received. You’ll now get our latest deals and discounts.'
+      );
+
+      setStatus('success');
+      setEmail('');
+
+      // Reset back to normal button after 2 seconds
+      setTimeout(() => setStatus('idle'), 2000);
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong. Please try again.');
+      setStatus('idle');
+    }
   };
 
   return (
@@ -171,10 +184,51 @@ export default function TopFooter() {
             </div>
             <button
               type="submit"
-              className="p-2 m-2 rounded-full bg-white text-neutral-900 transition cursor-pointer flex items-center justify-center"
+              disabled={status === 'loading' || status === 'success'}
+              className={`p-2 m-2 rounded-full bg-white text-neutral-900 transition-all duration-300 ease-in-out cursor-pointer flex items-center justify-center
+                ${status !== 'idle' ? 'w-10 h-10 p-0' : ''}
+              `}
               aria-label="Subscribe"
             >
-              <ArrowRight className="w-5 h-5 text-neutral-900" />
+              {status === 'loading' ? (
+                <svg
+                  className="animate-spin h-5 w-5 text-neutral-900"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  ></path>
+                </svg>
+              ) : status === 'success' ? (
+                <svg
+                  className="h-5 w-5 text-neutral-900"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="3"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              ) : (
+                <ArrowRight className="w-5 h-5 text-neutral-900" />
+              )}
             </button>
           </div>
           <p className="mt-2 text-xs">

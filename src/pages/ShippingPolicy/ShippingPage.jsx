@@ -19,7 +19,7 @@ export default function ShippingPage() {
 
       <main
         id="main-content"
-        className="min-h-screen bg-white font-inter py-12 px-4 sm:px-6 lg:px-8"
+        className="min-h-screen bg-[#F7FAFF] font-inter py-12 px-4 sm:px-6 lg:px-8"
         role="main"
         aria-labelledby="shipping-policy-title"
       >
@@ -28,7 +28,7 @@ export default function ShippingPage() {
           <header className="mb-8">
             <h1
               id="shipping-policy-title"
-              className="text-5xl md:text-6xl text-gray-900 mb-4"
+              className="text-5xl text-gray-900 mb-4"
             >
               Shipping Policy
             </h1>

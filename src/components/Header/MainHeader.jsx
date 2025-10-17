@@ -1,5 +1,7 @@
 import { useState, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/authSlice';
 import SearchBox from '../Search/SearchBox';
 import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
@@ -18,10 +20,14 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
   const [search, setSearch] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
   const [wishListOpen, setWishListOpen] = useState(false);
 
   const wishListData = useSelector((state) => state.wishList);
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  
   // Handle shop button click
   const handleShopClick = () => {
     setShopOpen(!shopOpen);
@@ -120,13 +126,33 @@ export default function Header() {
                   )}
                 </button>
 
-                <Link
-                  to="/login"
-                  aria-label="User Account"
-                  className="transform transition-transform duration-200 hover:scale-110 hover:text-black"
-                >
-                  <User className="h-5 w-5" />
-                </Link>
+                {/** Show login link for guests, dropdown for authenticated users */}
+                {isAuthenticated ? (
+                  <div className="relative">
+                    <button
+                      aria-label="User menu"
+                      className="transform transition-transform duration-200 hover:scale-110 hover:text-black flex items-center gap-2"
+                      onClick={() => setUserMenuOpen((v) => !v)}
+                    >
+                      <User className="h-5 w-5" />
+                      <ChevronDown className="h-4 w-4" />
+                    </button>
+                    {userMenuOpen && (
+                      <div className="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow-lg z-50">
+                        <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</Link>
+                        <button onClick={() => {dispatch(logout()); setUserMenuOpen(false);}} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    to="/login"
+                    aria-label="User Account"
+                    className="transform transition-transform duration-200 hover:scale-110 hover:text-black"
+                  >
+                    <User className="h-5 w-5" />
+                  </Link>
+                )}
 
                 <a
                   href="#"
