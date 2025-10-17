@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
 
       <main
         id="main-content"
-        className="min-h-screen bg-white font-inter py-12 px-4 sm:px-6 lg:px-8"
+        className="min-h-screen bg-[#F7FAFF] font-inter py-12 px-4 sm:px-6 lg:px-8"
         role="main"
         aria-labelledby="privacy-policy-title"
       >
@@ -42,7 +42,7 @@ export default function PrivacyPolicyPage() {
             <section aria-labelledby="introduction-section">
               <h2
                 id="introduction-section"
-                className="text-2xl font-bold text-gray-900 my-8"
+                className="text-3xl font-bold text-gray-900 my-8"
               >
                 INTRODUCTION
               </h2>
@@ -60,7 +60,7 @@ export default function PrivacyPolicyPage() {
             <section aria-labelledby="information-collection-section">
               <h2
                 id="information-collection-section"
-                className="text-2xl font-semibold text-gray-900 mb-4"
+                className="text-3xl font-semibold text-gray-900 mb-4"
               >
                 WHAT INFORMATION DO WE COLLECT?
               </h2>
@@ -87,7 +87,7 @@ export default function PrivacyPolicyPage() {
             <section aria-labelledby="information-usage-section">
               <h2
                 id="information-usage-section"
-                className="text-2xl font-semibold mb-4"
+                className="text-3xl font-semibold mb-4"
               >
                 HOW DO WE USE THIS INFORMATION?
               </h2>
@@ -109,7 +109,7 @@ export default function PrivacyPolicyPage() {
             <section aria-labelledby="information-sharing-section">
               <h2
                 id="information-sharing-section"
-                className="text-2xl font-semibold mb-4"
+                className="text-3xl font-semibold mb-4"
               >
                 DO WE SHARE INFORMATION?
               </h2>
@@ -125,7 +125,7 @@ export default function PrivacyPolicyPage() {
             <section aria-labelledby="cookies-tracking-section">
               <h2
                 id="cookies-tracking-section"
-                className="text-2xl font-semibold mb-4"
+                className="text-3xl font-semibold mb-4"
               >
                 COOKIES & TRACKING
               </h2>
@@ -142,7 +142,7 @@ export default function PrivacyPolicyPage() {
             <section aria-labelledby="childrens-privacy-section">
               <h2
                 id="childrens-privacy-section"
-                className="text-2xl font-semibold mb-4"
+                className="text-3xl font-semibold mb-4"
               >
                 CHILDREN'S PRIVACY
               </h2>
@@ -155,7 +155,7 @@ export default function PrivacyPolicyPage() {
 
             {/* Security */}
             <section aria-labelledby="security-section">
-              <h2 id="security-section" className="text-2xl font-semibold mb-4">
+              <h2 id="security-section" className="text-3xl font-semibold mb-4">
                 SECURITY
               </h2>
               <p>
@@ -171,7 +171,7 @@ export default function PrivacyPolicyPage() {
             <section aria-labelledby="disclaimer-section">
               <h2
                 id="disclaimer-section"
-                className="text-2xl font-extrabold mb-2"
+                className="text-3xl font-extrabold mb-2"
               >
                 DISCLAIMER
               </h2>
