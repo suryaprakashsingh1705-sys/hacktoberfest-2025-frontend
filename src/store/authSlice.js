@@ -9,28 +9,6 @@ const initialState = {
   error: null,
 };
 
-// helper to persist
-const persistAuth = (state) => {
-  try {
-    const payload = {
-      user: state.user,
-      token: state.token,
-    };
-    localStorage.setItem('auth', JSON.stringify(payload));
-  } catch  {
-    // ignore storage errors
-  }
-};
-
-const clearPersist = () => {
-  try {
-    localStorage.removeItem('auth');
-  } catch {
-    // ignore
-  }
-};
-
-// Auth slice implementation with persistence helpers
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -45,7 +23,6 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.error = null;
-      persistAuth(state);
     },
     loginFailure: (state, action) => {
       state.loading = false;
@@ -58,7 +35,6 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.loading = false;
       state.error = null;
-      clearPersist();
     },
     registerStart: (state) => {
       state.loading = true;
@@ -70,7 +46,6 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.error = null;
-      persistAuth(state);
     },
     registerFailure: (state, action) => {
       state.loading = false;
@@ -83,14 +58,10 @@ const authSlice = createSlice({
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
-    // Rehydrate auth state from storage
-    setUserFromStorage: (state, action) => {
-      const payload = action.payload;
-      if (payload && payload.token) {
-        state.user = payload.user || null;
-        state.token = payload.token;
-        state.isAuthenticated = true;
-      }
+    // Set token in-memory (used after refresh)
+    setToken: (state, action) => {
+      state.token = action.payload || null;
+      state.isAuthenticated = !!action.payload;
     },
   },
 });
@@ -105,7 +76,7 @@ export const {
   registerFailure,
   clearError,
   setLoading,
-  setUserFromStorage,
+  setToken,
 } = authSlice.actions;
 
 export default authSlice.reducer;

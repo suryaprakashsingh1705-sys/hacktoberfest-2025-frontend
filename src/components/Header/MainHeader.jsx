@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/authSlice';
 import SearchBox from '../Search/SearchBox';
 import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
@@ -12,11 +14,6 @@ import {
   User,
   ShoppingCart,
 } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../store/authSlice';
-import SearchBox from '../Search/SearchBox';
-import TopHeader from '../TopHeader/TopHeader';
-import ShopMenu from '../ShopMenu';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -26,7 +23,7 @@ export default function Header() {
   const mobileMenuRef = useRef(null);
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
+  
   // Handle shop button click
   const handleShopClick = () => {
     setShopOpen(!shopOpen);
