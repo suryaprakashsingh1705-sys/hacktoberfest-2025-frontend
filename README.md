@@ -315,6 +315,7 @@ Thanks goes to these wonderful people:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Sushil010"><img src="https://avatars.githubusercontent.com/u/58940037?v=4?s=100" width="100px;" alt="Sushil"/><br /><sub><b>Sushil</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=Sushil010" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/techieadi4703"><img src="https://avatars.githubusercontent.com/u/154405757?v=4?s=100" width="100px;" alt="ADITYA SRIVASTAVA"/><br /><sub><b>ADITYA SRIVASTAVA</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=techieadi4703" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/fudailzafar"><img src="https://avatars.githubusercontent.com/u/142711828?v=4?s=100" width="100px;" alt="Fudail Mohammed Zafar"/><br /><sub><b>Fudail Mohammed Zafar</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=fudailzafar" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://sabarishvs.codes"><img src="https://avatars.githubusercontent.com/u/135982365?v=4?s=100" width="100px;" alt="Sabarish V S"/><br /><sub><b>Sabarish V S</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=Sabarish2317" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
