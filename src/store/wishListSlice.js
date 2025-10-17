@@ -11,10 +11,11 @@ const wishListSlice = createSlice({
   initialState,
   reducers: {
     addToWishList: (state, action) => {
-      state.items.push(action.payload);
+      if (!state.items.some((i) => i.id === action.payload.id))
+        state.items.push(action.payload);
     },
     RemoveFromWishList: (state, action) => {
-      state.items = state.items.filter((item) => item.id != action.payload.id);
+      state.items = state.items.filter((item) => item.id !== action.payload.id);
     },
   },
 });

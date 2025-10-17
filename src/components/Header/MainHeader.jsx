@@ -13,8 +13,7 @@ import {
   ShoppingCart,
 } from 'lucide-react';
 import { useSelector } from 'react-redux';
-import WishListProductCard from '../Products/WishListProduct';
-import { RemoveFromWishList } from '../../store/wishListSlice';
+import WishListScreen from '../Products/WishiListScreen';
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
@@ -23,73 +22,6 @@ export default function Header() {
   const [wishListOpen, setWishListOpen] = useState(false);
 
   const wishListData = useSelector((state) => state.wishList);
-  const wishListScreen = useMemo(() => {
-    return (
-      <div
-        className="fixed inset-0 bg-black/40 z-[999]"
-        onClick={() => setWishListOpen(false)}
-      >
-        {/* Drawer */}
-        <div
-          className="fixed top-0 right-0 h-screen w-full max-w-md bg-white shadow-lg z-[1000] flex flex-col transition-transform duration-300"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Header */}
-          <div className="flex justify-between items-center border-b p-4">
-            <h2 className="text-xl font-bold text-[#0b1a39] tracking-wide">
-              WISHLIST
-            </h2>
-            <button
-              aria-label="Close wishlist"
-              className="text-gray-600 hover:text-red-500 cursor-pointer"
-              onClick={() => setWishListOpen(false)}
-            >
-              <X size={24} /> {/* Using an icon is cleaner */}
-            </button>
-          </div>
-
-          {/* Wishlist Content */}
-          {wishListData.items.length === 0 ? (
-            // Empty State
-            <div className="flex flex-col flex-grow items-center justify-center text-center p-4">
-              <p className="text-gray-500 mb-2">Your wishlist is empty.</p>
-              <button
-                className="text-sm text-[#0b1a39] underline hover:text-black"
-                onClick={() => setWishListOpen(false)}
-              >
-                Start adding your favorite supplements!
-              </button>
-            </div>
-          ) : (
-            // Populated State
-            <>
-              <div className="flex-grow overflow-y-auto p-4">
-                {wishListData.items.map((prod) => (
-                  <WishListProductCard
-                    key={prod.id}
-                    product={prod}
-                    RemoveFromWishList={RemoveFromWishList}
-                  />
-                ))}
-              </div>
-
-              <div className="p-4 mt-auto border-t">
-                <button
-                  className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                  onClick={() => {
-                    //implement your add all to cart functionality here
-                    // by adding slice for add to cart and dispatching that action in future
-                  }}
-                >
-                  Add All To Cart
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    );
-  }, [wishListData]);
   // Handle shop button click
   const handleShopClick = () => {
     setShopOpen(!shopOpen);
@@ -410,7 +342,12 @@ export default function Header() {
       </div>
 
       {/* Search Drawer */}
-      {wishListOpen && wishListScreen}
+      {wishListOpen && (
+        <WishListScreen
+          setWishListOpen={setWishListOpen}
+          wishListData={wishListData}
+        />
+      )}
       {search && <SearchBox isOpen={search} onClose={() => setSearch(false)} />}
     </>
   );

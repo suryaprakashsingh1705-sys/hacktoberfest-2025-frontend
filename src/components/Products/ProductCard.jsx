@@ -1,7 +1,7 @@
 import { useState, forwardRef, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addRecentlyViewed } from '../../utils/recentlyViewed';
-
+//
 import { addToWishList, RemoveFromWishList } from '../../store/wishListSlice';
 import { useDispatch } from 'react-redux';
 const HeartIcon = ({
@@ -35,13 +35,7 @@ const CartIcon = ({ className = 'h-6 w-6' }) => (
 
 const ProductCard = forwardRef(
   (
-    {
-      product,
-      onAddToWishlist,
-      onAddToCart,
-      isWishlisted: initialWishlisted = false,
-      isInCart,
-    },
+    { product, onAddToCart, isWishlisted: initialWishlisted = false, isInCart },
     ref
   ) => {
     const navigate = useNavigate();
