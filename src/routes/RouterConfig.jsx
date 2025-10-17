@@ -1,7 +1,5 @@
 import { lazy } from 'react';
 import { createRoutesFromElements, Route } from 'react-router-dom';
-import PrivateRoute from '../components/Auth/PrivateRoute';
-import RestrictedRoute from '../components/Auth/RestrictedRoute';
 import RootLayout from '../layouts/RootLayout';
 
 // Lazy-loaded pages
@@ -33,20 +31,12 @@ const NotFound = lazy(() => import('../pages/PageNotFound/NotFound'));
 export const RouterConfig = () =>
   createRoutesFromElements(
     <>
-      <Route element={<RestrictedRoute />}>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-      </Route>
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="products/:id" element={<ProductPage />} />
-        {/* Protected routes */}
-        <Route element={<PrivateRoute />}>
-          <Route path="/cart" element={<div />} />
-          <Route path="/checkout" element={<div />} />
-          <Route path="/profile" element={<div />} />
-        </Route>
         <Route path="accessibility" element={<Accessibility />} />
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
         <Route path="return-policy" element={<ReturnPolicy />} />{' '}
