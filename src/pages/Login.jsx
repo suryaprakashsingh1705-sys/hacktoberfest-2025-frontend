@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { authServices } from '../services/api';
-import { loginStart, loginSuccess, loginFailure } from '../store/authSlice';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -11,9 +8,6 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ email: '', password: '' });
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const loading = useSelector((state) => state.auth.loading);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,38 +35,15 @@ const Login = () => {
     return valid;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    try {
-      dispatch(loginStart());
-      const response = await authServices.login({
-        email: formData.email,
-        password: formData.password,
-      });
+    // Handle form submission here (e.g., API call)
 
-      const payload = response?.data ?? {};
-      // Try common shapes: { token, user } or { data: { token, user } }
-      const token = payload.token || payload?.data?.token;
-      const user = payload.user || payload?.data?.user || { email: formData.email };
-
-      if (!token) {
-        throw new Error('No token returned from server');
-      }
-
-      dispatch(loginSuccess({ user, token }));
-      // Redirect to home or previous page
-      navigate('/');
-    } catch (err) {
-      const message = err?.response?.data?.message || err.message || 'Login failed';
-      dispatch(loginFailure(message));
-      // show a top-level form error
-      setErrors((prev) => ({ ...prev, password: message }));
-    } finally {
-      setShowPassword(false);
-    }
+    setFormData({ email: '', password: '' });
+    setShowPassword(false);
   };
 
   const togglePasswordVisibility = () => {
@@ -85,11 +56,13 @@ const Login = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAFAFA] px-4">
       {/* Logo */}
       <div className="flex justify-center mb-6">
-        <img
-          src="/images/coreX-logo.svg"
-          alt="CoreX Logo"
-          className="h-10 object-contain"
-        />
+        <Link to="/" aria-label="Go to homepage">
+          <img
+            src="/icons/coreX-logo-login.svg"
+            alt="CoreX Logo"
+            className="h-10 object-contain"
+          />
+        </Link>
       </div>
 
       {/* Card */}
@@ -100,14 +73,12 @@ const Login = () => {
           style={{ fontFamily: 'var(--font-inter)' }}
         >
           LOGIN <span className="text-[#05254E]/50 font-bold"> / </span>
-          <Link to="/register" style={{ color: 'inherit', textDecoration: 'none' }}>
-            <span
-              className="text-[#05254E] font-medium"
-              style={{ fontFamily: 'var(--font-inter)' }}
-            >
-              REGISTER
-            </span>
-          </Link>
+          <span
+            className="text-[#05254E] font-medium"
+            style={{ fontFamily: 'var(--font-inter)' }}
+          >
+            REGISTER
+          </span>
         </h2>
 
         <p className="text-left text-xs text-[#6B7280] mb-5 font-poppins">
@@ -129,7 +100,10 @@ const Login = () => {
         </button>
 
         {/* Divider */}
-        <div className="flex items-center justify-between mb-4" aria-hidden="true">
+        <div
+          className="flex items-center justify-between mb-4"
+          aria-hidden="true"
+        >
           <hr className="border-t bg-[#B4C2CF] w-full" />
           <span className="px-2 text-sm text-[#89949F] font-poppins">or</span>
           <hr className="border-t bg-[#B4C2CF] w-full" />
@@ -157,10 +131,10 @@ const Login = () => {
               value={formData.email}
               required
             />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+            )}
           </div>
-          {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-          )}
 
           <div className="relative">
             <input
@@ -187,21 +161,21 @@ const Login = () => {
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+            )}
           </div>
-          {errors.password && (
-            <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-          )}
 
           <button
             type="submit"
-            disabled={!isFormFilled || loading}
+            disabled={!isFormFilled}
             className={`w-full px-4 py-2.5 text-base text-white rounded-md font-medium transition ${
-              isFormFilled && !loading
+              isFormFilled
                 ? 'bg-[#023e8a] hover:bg-[#1054ab] cursor-pointer'
                 : 'bg-gray-300 cursor-not-allowed'
             }`}
           >
-            {loading ? 'Signing in...' : 'Continue'}
+            Continue
           </button>
         </form>
 

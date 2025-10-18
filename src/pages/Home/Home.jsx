@@ -7,6 +7,7 @@ import {
   WhyChoose,
   SupplementForGoalsSection,
 } from '../../components';
+import ReviewsSection from '../../components/ReviewsSection';
 
 export default function Home() {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
           alt="Featured Product - CoreX Whey Protein"
         />
         <CollectionSection />
+        <ReviewsSection />
       </main>
     </>
   );

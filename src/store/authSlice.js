@@ -58,11 +58,11 @@ const authSlice = createSlice({
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
-    // Set token in-memory (used after refresh)
-    setToken: (state, action) => {
-      state.token = action.payload || null;
-      state.isAuthenticated = !!action.payload;
-    },
+    // // Set token in-memory (used after refresh)
+    // setToken: (state, action) => {
+    //   state.token = action.payload || null;
+    //   state.isAuthenticated = !!action.payload;
+    // },
   },
 });
 
@@ -76,7 +76,7 @@ export const {
   registerFailure,
   clearError,
   setLoading,
-  setToken,
+  // setToken,
 } = authSlice.actions;
 
 export default authSlice.reducer;
