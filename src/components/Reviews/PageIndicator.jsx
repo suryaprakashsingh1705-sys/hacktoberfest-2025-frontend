@@ -13,8 +13,10 @@ const PageIndicator = ({ totalPages, currentPage, onSelect }) => {
           onClick={() => onSelect(idx)}
           aria-label={`Go to page ${idx + 1}`}
           aria-current={idx === currentPage ? 'page' : undefined}
-          className={`flex items-center min-w-4 min-h-4 md:min-w-5 md:min-h-5  cursor-pointer scale-3d hover:scale-[1.1] transition-all duration-150 ease-in-out aspect-square rounded-full ${
-            idx === currentPage ? 'bg-[#89949F]' : 'bg-[#B4C2CF]'
+          className={`flex items-center min-w-4 min-h-4 md:min-w-5 md:min-h-5   aspect-square rounded-full ${
+            idx === currentPage
+              ? 'bg-[#89949F]'
+              : 'bg-[#B4C2CF] cursor-pointer scale-3d hover:scale-[1.1] transition-all duration-150 ease-in-out'
           }`}
         />
       ))}
