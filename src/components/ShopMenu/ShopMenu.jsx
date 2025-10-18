@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
 const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [animationState, setAnimationState] = useState('closed'); // 'closed', 'opening', 'open', 'closing'
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
   const menuItemsRef = useRef([]);
   const shopButtonRef = useRef(null);
 
@@ -86,6 +87,24 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
       handleOpenMenu();
     }
   }, [shopOpen, animationState]);
+
+  // Handle scroll to top functionality
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setShowScrollToTop(scrollTop > 300); // Show arrow when scrolled down 300px
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   // Keyboard accessibility
   useEffect(() => {
@@ -244,7 +263,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
               <div className="flex items-center justify-between mb-4">
                 <button
                   onClick={() => handleCollectionClick('all-products')}
-                  className="group flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-2 py-1"
+                  className="group flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg cursor-pointer"
                 >
                   <h2
                     className="font-bold text-black uppercase group-hover:text-gray-600 transition-colors duration-300"
@@ -255,7 +274,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
                       fontWeight: '700',
                     }}
                   >
-                    SHOP ALL
+                    ALL PRODUCTS
                   </h2>
                   <ArrowRight className="h-5 w-5 text-black group-hover:translate-x-1 transition-transform duration-300" />
                 </button>
@@ -499,6 +518,17 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Scroll to Top Arrow */}
+      {showScrollToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 bg-[#0D1B2A] text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all duration-300 z-50 group"
+          aria-label="Scroll to top"
+        >
+          <ChevronUp className="h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
+        </button>
       )}
     </>
   );
