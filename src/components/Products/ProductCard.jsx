@@ -1,7 +1,6 @@
 import { useState, forwardRef, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addRecentlyViewed } from '../../utils/recentlyViewed';
-//
 import { addToWishList, RemoveFromWishList } from '../../store/wishListSlice';
 import { useDispatch } from 'react-redux';
 const HeartIcon = ({
