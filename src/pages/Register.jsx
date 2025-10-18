@@ -31,11 +31,13 @@ const Register = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAFAFA] px-4">
       {/* Logo */}
       <div className="flex justify-center mb-6">
-        <img
-          src="/images/coreX-logo.svg"
-          alt="CoreX Logo"
-          className="h-10 object-contain"
-        />
+        <Link to="/" aria-label="Go to homepage">
+          <img
+            src="/icons/coreX-logo-login.svg"
+            alt="CoreX Logo"
+            className="h-10 object-contain"
+          />
+        </Link>
       </div>
 
       {/* Card */}
