@@ -7,13 +7,11 @@ import {
   WhyChoose,
   SupplementForGoalsSection,
 } from '../../components';
-import BestOfCoreX from '../../components/BestOfCorex';
-
+import ReviewsSection from '../../components/ReviewsSection';
 
 export default function Home() {
   return (
     <>
-      {/* Skip link for keyboard users */}
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 p-2 bg-blue-600 text-white z-50"
@@ -37,10 +35,9 @@ export default function Home() {
           productId="68e7dc29bdf0349b226db12a"
           alt="Featured Product - CoreX Whey Protein"
         />
-        {/* Shop Collection Component */}
         <CollectionSection />
-        <BestOfCoreX/>
-      </main >
+        <ReviewsSection />
+      </main>
     </>
   );
 }

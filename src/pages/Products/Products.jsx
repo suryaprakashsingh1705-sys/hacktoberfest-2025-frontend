@@ -18,11 +18,13 @@ export default function Products() {
   const observer = useRef();
 
   const [displayedCount, setDisplayedCount] = useState(12);
-  
+
   // Get max price from products
   const maxProductPrice = useMemo(() => {
     if (!allProducts || allProducts.length === 0) return 100;
-    const prices = allProducts.map(p => Number(p.price || 0)).filter(p => !isNaN(p) && p > 0);
+    const prices = allProducts
+      .map((p) => Number(p.price || 0))
+      .filter((p) => !isNaN(p) && p > 0);
     return Math.ceil(Math.max(...prices)) || 100;
   }, [allProducts]);
 
@@ -45,9 +47,8 @@ export default function Products() {
     return allProducts.filter((p) => {
       const price = Number(p.price || 0);
       if (Number.isNaN(price)) return false;
-      
-      if (price < minPrice || price > maxPrice) return false;
 
+      if (price < minPrice || price > maxPrice) return false;
 
       if (filters.garageSaleOnly) {
         // consider sale fields: sale > 0 or onSale flag
@@ -102,10 +103,12 @@ export default function Products() {
         keywords="sports nutrition, supplements, protein powder, pre-workout, fitness products, CoreX Nutrition"
       />
 
-      <main className={`min-h-screen bg-[#F7FAFF] ${isFilterOpen ? 'relative' : ''}`}>
+      <main
+        className={`min-h-screen bg-[#F7FAFF] ${isFilterOpen ? 'relative' : ''}`}
+      >
         {/* Filter Panel Backdrop - covers entire viewport including header */}
         {isFilterOpen && (
-          <div 
+          <div
             className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
             style={{ zIndex: 9998 }}
             onClick={() => setIsFilterOpen(false)}
@@ -130,7 +133,10 @@ export default function Products() {
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             {/* Left: All Filters button (full width on mobile) */}
-            <button onClick={() => setIsFilterOpen(true)} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-transparent text-gray-700 px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-medium border border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 cursor-pointer">
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-transparent text-gray-700 px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-medium border border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 cursor-pointer"
+            >
               <span className="hidden sm:inline">All Filters</span>
               <span className="sm:hidden">Filters</span>
               <svg
@@ -162,15 +168,22 @@ export default function Products() {
                   // Supported backend keys: feature (default), a-z, z-a, price_asc, price_desc, rating_asc, rating_desc
                   let sortKey = 'feature';
                   if (field === 'title' && order === 'asc') sortKey = 'a-z';
-                  else if (field === 'title' && order === 'desc') sortKey = 'z-a';
-                  else if (field === 'price' && order === 'asc') sortKey = 'price_asc';
-                  else if (field === 'price' && order === 'desc') sortKey = 'price_desc';
-                  else if (field === 'rating' && order === 'asc') sortKey = 'rating_asc';
-                  else if (field === 'rating' && order === 'desc') sortKey = 'rating_desc';
+                  else if (field === 'title' && order === 'desc')
+                    sortKey = 'z-a';
+                  else if (field === 'price' && order === 'asc')
+                    sortKey = 'price_asc';
+                  else if (field === 'price' && order === 'desc')
+                    sortKey = 'price_desc';
+                  else if (field === 'rating' && order === 'asc')
+                    sortKey = 'rating_asc';
+                  else if (field === 'rating' && order === 'desc')
+                    sortKey = 'rating_desc';
                   else sortKey = 'feature';
 
                   // Fetch products from backend with sort
-                  dispatch(fetchProducts({ page: 1, limit: 1000, sort: sortKey }));
+                  dispatch(
+                    fetchProducts({ page: 1, limit: 1000, sort: sortKey })
+                  );
                 }}
               />
             </div>
@@ -223,9 +236,7 @@ export default function Products() {
                   />
                   {hasMoreProducts && (
                     <div className="flex justify-center mt-8">
-                      <div className="text-gray-500">
-                        Loading more...
-                      </div>
+                      <div className="text-gray-500">Loading more...</div>
                     </div>
                   )}
                 </>

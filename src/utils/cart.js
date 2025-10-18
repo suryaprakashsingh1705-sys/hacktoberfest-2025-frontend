@@ -24,7 +24,7 @@ export function getCartItemCount() {
 }
 
 export function addToCart(product, selectedFlavor = null, quantity = 1) {
-  if (!product) return false;
+  if (!product || quantity <= 0) return false; // Validate quantity
   try {
     const current = getCart();
     const productId = product.id || product._id;
@@ -43,16 +43,16 @@ export function addToCart(product, selectedFlavor = null, quantity = 1) {
       // Update quantity of existing item
       current[existingItemIndex].quantity += quantity;
     } else {
-      // Add new item
+      // Add new item with sanitized data
       const cartItem = {
         cartItemKey,
         id: productId,
-        name: product.name,
+        name: product.name, // Ensure only non-sensitive data is stored
         price: product.price,
         imageUrl: product.imageUrl || product.image,
         selectedFlavor: selectedFlavor,
         quantity: quantity,
-        salePercentage: product.sale,
+        salePercentage: product.sale || 0, // Default to 0 if not available
         addedAt: Date.now(),
       };
       current.push(cartItem);

@@ -1,22 +1,49 @@
 import { useState } from 'react';
 import ProductCard from './Products/ProductCard';
-import { getRecentlyViewed, getRecentlyViewedOnSale } from '../utils/recentlyViewed';
+import {
+  getRecentlyViewed,
+  getRecentlyViewedOnSale,
+} from '../utils/recentlyViewed';
 
 // SVG component for the navigation arrows
 const ChevronLeftIcon = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    {...props}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15.75 19.5L8.25 12l7.5-7.5"
+    />
   </svg>
 );
 
 const ChevronRightIcon = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    {...props}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M8.25 4.5l7.5 7.5-7.5 7.5"
+    />
   </svg>
 );
 
 export default function RecentlyViewed({ saleOnly = false }) {
-  const [items] = useState(() => (saleOnly ? getRecentlyViewedOnSale() : getRecentlyViewed()));
+  const [items] = useState(() =>
+    saleOnly ? getRecentlyViewedOnSale() : getRecentlyViewed()
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
 
@@ -75,7 +102,7 @@ export default function RecentlyViewed({ saleOnly = false }) {
       <div className="transition-all duration-500 ease-in-out">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {visibleItems.map((product) => (
-            <div key={product.id} className="opacity-100">
+            <div key={product?.id ?? product?._id} className="opacity-100">
               <ProductCard product={product} />
             </div>
           ))}

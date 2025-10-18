@@ -56,11 +56,13 @@ const Login = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAFAFA] px-4">
       {/* Logo */}
       <div className="flex justify-center mb-6">
-        <img
-          src="/images/coreX-logo.svg"
-          alt="CoreX Logo"
-          className="h-10 object-contain"
-        />
+        <Link to="/" aria-label="Go to homepage">
+          <img
+            src="/icons/coreX-logo-login.svg"
+            alt="CoreX Logo"
+            className="h-10 object-contain"
+          />
+        </Link>
       </div>
 
       {/* Card */}
@@ -98,7 +100,10 @@ const Login = () => {
         </button>
 
         {/* Divider */}
-        <div className="flex items-center justify-between mb-4" aria-hidden="true">
+        <div
+          className="flex items-center justify-between mb-4"
+          aria-hidden="true"
+        >
           <hr className="border-t bg-[#B4C2CF] w-full" />
           <span className="px-2 text-sm text-[#89949F] font-poppins">or</span>
           <hr className="border-t bg-[#B4C2CF] w-full" />

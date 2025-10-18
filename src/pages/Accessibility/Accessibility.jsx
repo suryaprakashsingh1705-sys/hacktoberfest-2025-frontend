@@ -19,7 +19,7 @@ export default function AccessibilityPage() {
 
       <main
         id="main-content"
-        className="min-h-screen bg-white font-inter py-12 px-4 sm:px-6 lg:px-8"
+        className="min-h-screen bg-[#F7FAFF] font-inter py-12 px-4 sm:px-6 lg:px-8"
         role="main"
         aria-labelledby="accessibility-title"
       >

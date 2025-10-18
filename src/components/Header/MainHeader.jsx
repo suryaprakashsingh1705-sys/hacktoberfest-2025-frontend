@@ -1,5 +1,8 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import SearchBox from '../Search/SearchBox';
+import TopHeader from '../TopHeader/TopHeader';
+import ShopMenu from '../ShopMenu';
 import {
   Menu,
   X,
@@ -46,37 +49,52 @@ export default function Header() {
             <div className="flex-shrink-0">
               <Link to="/">
                 <img
-                  src="/images/official-logo-core-x.svg"
+                  src="/icons/official-logo-core-x.svg"
                   alt="CoreX Logo"
-                  className="h-8 w-auto"
+                  className="h-10 w-auto"
                 />
               </Link>
             </div>
 
             {/* Center: Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8 items-center">
+            <nav className="hidden md:flex items-center">
               <div className="relative">
-                <ShopMenu 
+                <ShopMenu
                   shopOpen={shopOpen}
                   setShopOpen={setShopOpen}
                   onShopClick={handleShopClick}
                   onShopKeyDown={handleShopButtonKeyDown}
                 />
               </div>
-              
-              <Link to="/garage-sale" className="text-gray-700 hover:text-black font-medium">
+              {/* Garage Sale */}
+              <Link
+                to="/garage-sale"
+                className="px-5 py-2 rounded-full font-medium text-gray-700 transition-all duration-300 hover:bg-[#0D1B2A] hover:text-white"
+              >
                 GARAGE SALE
               </Link>
-              <Link to="/products" className="text-gray-700 hover:text-black font-medium">
+
+              {/* All Products */}
+              <Link
+                to="/products"
+                className="px-5 py-2 rounded-full font-medium text-gray-700 transition-all duration-300 hover:bg-[#0D1B2A] hover:text-white"
+              >
                 ALL PRODUCTS
               </Link>
-              <Link to="/about-corex" className="text-gray-700 hover:text-black font-medium">
-                ABOUT COREX
+              {/* About CoreX */}
+              <Link
+                to="/about-corex"
+                className="group px-5 py-2 rounded-full font-medium text-gray-700 transition-all duration-300 hover:bg-[#0D1B2A] hover:text-white"
+              >
+                ABOUT CORE
+                <span className="text-red-600 group-hover:text-red-600 transition-colors duration-300">
+                  X
+                </span>
               </Link>
             </nav>
 
             {/* Right: Icons (desktop) + Mobile Hamburger */}
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center ">
               {/* Desktop Icons */}
               <div className="hidden md:flex items-center space-x-6 text-gray-700">
                 <button
@@ -94,7 +112,7 @@ export default function Header() {
                 >
                   <Heart className="h-5 w-5" />
                 </a>
-                
+
                 <Link
                   to="/login"
                   aria-label="User Account"
@@ -118,7 +136,7 @@ export default function Header() {
                 <button
                   onClick={() => setMobileOpen(!mobileOpen)}
                   className="text-gray-700 hover:text-black"
-                  aria-label={mobileOpen ? "Close menu" : "Open menu"}
+                  aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                 >
                   {mobileOpen ? (
                     <X className="h-6 w-6" />
@@ -167,14 +185,14 @@ export default function Header() {
               >
                 Garage Sale
               </Link>
-              
+
               <Link
                 to="/products"
                 className="text-gray-700 hover:text-black transition"
               >
                 All Products
               </Link>
-              
+
               <Link
                 to="/about-corex"
                 className="text-gray-700 hover:text-black transition"
@@ -189,7 +207,9 @@ export default function Header() {
       {/* Overlay for Mobile Menu */}
       <div
         className={`fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ${
-          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          mobileOpen
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none'
         } z-[998]`}
       />
 
@@ -197,12 +217,14 @@ export default function Header() {
       <div
         ref={mobileMenuRef}
         className={`fixed top-0 right-0 w-full sm:w-[280px] h-full bg-white shadow-2xl border-l border-gray-200 z-[999] transform transition-all duration-300 ease-in-out ${
-          mobileOpen ? "translate-x-0 scale-100" : "translate-x-full scale-95"
+          mobileOpen ? 'translate-x-0 scale-100' : 'translate-x-full scale-95'
         } flex flex-col`}
       >
         {/* Mobile Menu Header */}
         <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200">
-          <h2 className="font-bold text-lg text-[#023E8A] tracking-wide">MENU</h2>
+          <h2 className="font-bold text-lg text-[#023E8A] tracking-wide">
+            MENU
+          </h2>
           <button
             onClick={() => setMobileOpen(false)}
             className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
@@ -222,7 +244,7 @@ export default function Header() {
               Shop
               <ChevronDown
                 className={`h-4 w-4 transition-transform duration-200 ${
-                  shopOpen ? "rotate-180" : ""
+                  shopOpen ? 'rotate-180' : ''
                 }`}
               />
             </button>
