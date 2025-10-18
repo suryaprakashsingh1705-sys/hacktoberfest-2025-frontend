@@ -1,3 +1,5 @@
+// garageSale
+
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { getProducts } from '../../api/productService';
 import GarageSaleBanner from '../../components/GarageSaleBanner';
@@ -10,38 +12,17 @@ import {
   isInWishlist,
 } from '../../utils/wishlist';
 import { toggleCart, isInCart } from '../../utils/cart';
+import SortDropdown from '../../components/Products/SortDropdown';
 
 export default function GarageSale() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [displayedCount, setDisplayedCount] = useState(12);
+  const [sortBy, setSortBy] = useState('best-selling');
+  const [sortOrder, setSortOrder] = useState('desc');
   const observer = useRef();
 
-  // Filter only sale products
-  const saleProducts = useMemo(() => {
-    return products.filter((p) => p.onSale);
-  }, [products]);
-
-  const displayedProducts = saleProducts.slice(0, displayedCount);
-  const hasMoreProducts = displayedCount < saleProducts.length;
-
-  // Infinite scroll callback
-  const lastProductElementRef = useCallback(
-    (node) => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMoreProducts) {
-          setDisplayedCount((prevCount) =>
-            Math.min(prevCount + 5, saleProducts.length)
-          );
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMoreProducts, saleProducts.length]
-  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +43,79 @@ export default function GarageSale() {
     fetchData();
   }, []);
 
+  // Extract sale products
+  const saleProducts = useMemo(() => {
+    return products.filter((p) => p.onSale || (p.sale && Number(p.sale) > 0));
+  }, [products]);
+
+  // Apply sorting logic (client-side)
+  const sortedProducts = useMemo(() => {
+  let sorted = [...saleProducts];
+
+  // Defensive helper to safely get title string
+  const getTitle = (p) => {
+    // try common field names in order of likelihood
+    const val = p?.title ?? p?.name ?? p?.productName ?? '';
+    return String(val ?? '').toLowerCase();
+  };
+
+  switch (sortBy) {
+    case 'title':
+      sorted.sort((a, b) => {
+        const titleA = getTitle(a);
+        const titleB = getTitle(b);
+        return sortOrder === 'asc'
+          ? titleA.localeCompare(titleB)
+          : titleB.localeCompare(titleA);
+      });
+      break;
+
+    case 'price':
+      sorted.sort((a, b) =>
+        sortOrder === 'asc'
+          ? (Number(a?.price) || 0) - (Number(b?.price) || 0)
+          : (Number(b?.price) || 0) - (Number(a?.price) || 0)
+      );
+      break;
+
+    case 'rating':
+      sorted.sort((a, b) =>
+        sortOrder === 'asc'
+          ? (Number(a?.rating) || 0) - (Number(b?.rating) || 0)
+          : (Number(b?.rating) || 0) - (Number(a?.rating) || 0)
+      );
+      break;
+
+    default:
+      // best-selling / featured: keep original order (as fetched)
+      sorted = saleProducts;
+      break;
+  }
+
+  return sorted;
+}, [saleProducts, sortBy, sortOrder]);
+
+
+  const displayedProducts = sortedProducts.slice(0, displayedCount);
+  const hasMoreProducts = displayedCount < sortedProducts.length;
+
+  // Infinite scroll logic
+  const lastProductElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMoreProducts) {
+          setDisplayedCount((prevCount) =>
+            Math.min(prevCount + 5, sortedProducts.length)
+          );
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMoreProducts, sortedProducts.length]
+  );
+
   return (
     <>
       <SEO
@@ -75,8 +129,7 @@ export default function GarageSale() {
 
         {/* Toolbar Section */}
         <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex justify-between items-center">
-            {/* Left: All Filters button */}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <button className="flex items-center gap-2 bg-transparent text-gray-700 px-6 py-3 rounded-lg font-medium border border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300">
               <svg
                 width="19"
@@ -94,14 +147,17 @@ export default function GarageSale() {
               All Filters
             </button>
 
-            <div className="flex items-center gap-4">
-              <span className="font-semibold text-lg text-gray-800">
-                Sort by:
-              </span>
-              <button className="bg-transparent text-gray-700 px-6 py-3 rounded-lg font-semibold border-2 border-gray-300 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300">
-                Best Selling
-              </button>
-            </div>
+            {/* Sort Dropdown */}
+            <SortDropdown
+              defaultOption="best-selling"
+              sortBy={sortBy}
+              sortOrder={sortOrder}
+              onSortChange={(field, order) => {
+                setSortBy(field);
+                setSortOrder(order);
+                setDisplayedCount(12);
+              }}
+            />
           </div>
         </section>
 
@@ -111,21 +167,6 @@ export default function GarageSale() {
             <div className="w-full">
               {error && (
                 <div className="bg-red-50 border border-red-200 rounded-2xl p-8 text-center">
-                  <div className="text-red-600 mb-4">
-                    <svg
-                      className="w-16 h-16 mx-auto mb-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.728-.833-2.498 0L4.316 15.5c-.77.833.192 2.5 1.732 2.5z"
-                      />
-                    </svg>
-                  </div>
                   <h3 className="text-xl font-bold text-red-800 mb-3">
                     Unable to Load Sale Products
                   </h3>
@@ -170,23 +211,8 @@ export default function GarageSale() {
                 </>
               )}
 
-              {!loading && !error && saleProducts.length === 0 && (
+              {!loading && !error && sortedProducts.length === 0 && (
                 <div className="bg-white rounded-2xl shadow-sm p-16 text-center border border-gray-100">
-                  <div className="text-gray-400 mb-6">
-                    <svg
-                      className="w-20 h-20 mx-auto"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-                      />
-                    </svg>
-                  </div>
                   <h3 className="text-2xl font-bold text-gray-800 mb-3">
                     No Sale Products Available
                   </h3>
@@ -200,7 +226,7 @@ export default function GarageSale() {
           </div>
         </section>
 
-  {!loading && !error && <RecentlyViewed saleOnly={true} />}
+        {!loading && !error && <RecentlyViewed saleOnly={true} />}
       </main>
     </>
   );
