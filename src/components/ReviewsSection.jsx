@@ -116,7 +116,7 @@ const ReviewsSection = () => {
 
   return (
     <section
-      className="reviews-section p-[16px] md:p-[85px] lg:p-[80px] "
+      className="reviews-section p-[16px] place-self-center md:p-[85px] lg:p-[80px] "
       aria-labelledby="reviews"
     >
       <h2
@@ -160,7 +160,7 @@ const ReviewsSection = () => {
           <AnimatePresence mode="wait" initial={false}>
             <Motion.ul
               key={currentPage}
-              className="reviews-carousel grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4 justify-center"
+              className="reviews-carousel grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-[80%]  gap-4 justify-center"
               role="list"
               aria-live="polite"
               aria-label={`Showing reviews ${startIdx + 1}-${Math.min(
