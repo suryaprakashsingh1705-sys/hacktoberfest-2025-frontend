@@ -103,9 +103,11 @@ export function toggleCart(product, selectedFlavor = null) {
 
   if (isCurrentlyInCart) {
     removeFromCart(cartItemKey);
+    window.dispatchEvent(new Event('cartUpdated'));
     return false; // Removed from cart
   } else {
     addToCart(product, selectedFlavor, 1);
+    window.dispatchEvent(new Event('cartUpdated'));
     return true; // Added to cart
   }
 }
