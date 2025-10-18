@@ -1,8 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { authServices } from '../services/api';
+import { loginStart, loginSuccess, loginFailure } from '../store/authSlice';
 import { useState } from 'react';
 
 // Validation schema
@@ -24,15 +27,19 @@ const Login = () => {
     password: false,
   });
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loading = useSelector((state) => state.auth.loading);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
-    reset,
-    trigger
+    trigger,
+    setError,
   } = useForm({
     resolver: yupResolver(loginSchema),
-    mode: 'onTouched', // Initial validation on blur/touch
+    mode: 'onTouched',
     defaultValues: {
       email: '',
       password: '',
@@ -42,40 +49,67 @@ const Login = () => {
   // Custom handleBlur to track touched fields
   const handleBlur = (fieldName) => {
     setTouchedFields((prev) => ({ ...prev, [fieldName]: true }));
-    trigger(fieldName); // Trigger validation for this field
+    trigger(fieldName);
   };
 
   // Custom onChange to validate only if field was previously touched/had error
   const handleChange = (fieldName) => {
-    // If field was previously touched/had error, validate on change
     if (touchedFields[fieldName] || errors[fieldName]) {
       trigger(fieldName);
     }
   };
 
-  const onSubmit = (data) => {
-    // Handle form submission here (e.g., API call)
-    console.log('Login data:', data);
+  const onSubmit = async (data) => {
+    try {
+      dispatch(loginStart());
+      const response = await authServices.login({
+        email: data.email,
+        password: data.password,
+      });
 
-    // Reset form after submission
-    reset();
-    setShowPassword(false);
-    setTouchedFields({ email: false, password: false });
+      const payload = response?.data ?? {};
+      const token = payload.token || payload?.data?.token;
+      const user = payload.user || payload?.data?.user || { email: data.email };
+
+      if (!token) {
+        throw new Error('No token returned from server');
+      }
+
+      dispatch(loginSuccess({ user, token }));
+      navigate('/');
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || err.message || 'Login failed';
+      dispatch(loginFailure(message));
+      setError('password', { type: 'server', message });
+    } finally {
+      setShowPassword(false);
+    }
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAFAFA] px-4">
-      {/* Logo */}
+      {/* Logo with navigation */}
       <div className="flex justify-center mb-6">
-        <img
-          src="/images/coreX-logo.svg"
-          alt="CoreX Logo"
-          className="h-10 object-contain"
-        />
+        <button
+          onClick={handleLogoClick}
+          className="focus:outline-none focus:ring-2 focus:ring-[#CBD5E1] rounded"
+          aria-label="Go to home page"
+        >
+          <img
+            src="/icons/coreX-logo-login.svg"
+            alt="CoreX Logo"
+            className="h-10 object-contain"
+          />
+        </button>
       </div>
 
       {/* Card */}
@@ -86,12 +120,17 @@ const Login = () => {
           style={{ fontFamily: 'var(--font-inter)' }}
         >
           LOGIN <span className="text-[#05254E]/50 font-bold"> / </span>
-          <span
-            className="text-[#05254E] font-medium"
-            style={{ fontFamily: 'var(--font-inter)' }}
+          <Link
+            to="/register"
+            style={{ color: 'inherit', textDecoration: 'none' }}
           >
-            REGISTER
-          </span>
+            <span
+              className="text-[#05254E] font-medium"
+              style={{ fontFamily: 'var(--font-inter)' }}
+            >
+              REGISTER
+            </span>
+          </Link>
         </h2>
 
         <p className="text-left text-xs text-[#6B7280] mb-5 font-poppins">
@@ -132,11 +171,12 @@ const Login = () => {
             <input
               type="email"
               {...register('email', {
-                onChange: (e) => handleChange('email', e.target.value),
+                onChange: () => handleChange('email'),
               })}
               onBlur={() => handleBlur('email')}
               aria-label="Email address"
               placeholder="Email"
+              autoComplete="email"
               className={`w-full px-4 py-2.5 border rounded-md text-base placeholder:text-[#767676] focus:outline-none focus:ring-2 ${
                 errors.email
                   ? 'border-red-500 focus:ring-red-500'
@@ -156,11 +196,12 @@ const Login = () => {
               <input
                 type={showPassword ? 'text' : 'password'}
                 {...register('password', {
-                  onChange: (e) => handleChange('password', e.target.value),
+                  onChange: () => handleChange('password'),
                 })}
                 onBlur={() => handleBlur('password')}
                 aria-label="Password"
                 placeholder="Password"
+                autoComplete="current-password"
                 className={`w-full px-4 py-2.5 pr-12 border rounded-md text-base placeholder:text-[#767676] focus:outline-none focus:ring-2 ${
                   errors.password
                     ? 'border-red-500 focus:ring-red-500'
@@ -170,9 +211,8 @@ const Login = () => {
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                className="absolute inset-y-0 right-3 flex items-center text-gray-500 cursor-pointer"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
-                tabIndex={-1}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -186,20 +226,20 @@ const Login = () => {
 
           <button
             type="submit"
-            disabled={!isValid || !isDirty}
+            disabled={!isValid || !isDirty || loading}
             className={`w-full px-4 py-2.5 text-base text-white rounded-md font-medium transition ${
-              isValid && isDirty
+              isValid && isDirty && !loading
                 ? 'bg-[#023e8a] hover:bg-[#1054ab] cursor-pointer'
                 : 'bg-gray-300 cursor-not-allowed'
             }`}
           >
-            Continue
+            {loading ? 'Signing in...' : 'Continue'}
           </button>
         </form>
 
         {/* Redirect */}
         <div className="mt-6 text-center text-sm text-[#6B7280]">
-          Don’t have an account?{' '}
+          Don't have an account?{' '}
           <Link
             to="/register"
             className="text-[#0B1A2C] font-medium hover:underline"
