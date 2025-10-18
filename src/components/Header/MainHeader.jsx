@@ -7,16 +7,18 @@ import {
   Search,
   Heart,
   User,
-  ShoppingCart,
 } from 'lucide-react';
 import SearchBox from '../Search/SearchBox';
 import TopHeader from "../TopHeader/TopHeader";
 import ShopMenu from '../ShopMenu';
+import CartIcon from '../cart/CartIcon';
+import CartDrawer from '../cart/CartDrawer';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
   const [search, setSearch] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const mobileMenuRef = useRef(null);
 
   // Handle shop button click
@@ -101,13 +103,7 @@ export default function Header() {
                   <User className="h-5 w-5" />
                 </Link>
                 
-                <a
-                  href="#"
-                  aria-label="Shopping Cart"
-                  className="transform transition-transform duration-200 hover:scale-110 hover:text-black"
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                </a>
+                <CartIcon onOpen={() => setCartOpen(true)} />
               </div>
 
               {/* Mobile Icons */}
@@ -303,7 +299,7 @@ export default function Header() {
               className="flex items-center space-x-2 text-gray-700 hover:text-black"
               onClick={() => setMobileOpen(false)}
             >
-              <ShoppingCart className="h-5 w-5" />
+              <CartIcon onOpen={() => setCartOpen(true)} />
               <span>Cart</span>
             </a>
           </div>
@@ -317,6 +313,9 @@ export default function Header() {
           onClose={() => setSearch(false)}
         />
       )}
+
+      {/* Cart Drawer */}
+      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );
 }
