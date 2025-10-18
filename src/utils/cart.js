@@ -43,16 +43,20 @@ export function addToCart(product, selectedFlavor = null, quantity = 1) {
       // Update quantity of existing item
       current[existingItemIndex].quantity += quantity;
     } else {
+      // Normalize sale value: accept product.sale OR product.salePercentage
+      const salePercent =
+        product.sale ?? product.salePercentage ?? 0;
+
       // Add new item with sanitized data
       const cartItem = {
         cartItemKey,
         id: productId,
-        name: product.name, // Ensure only non-sensitive data is stored
+        name: product.name,
         price: product.price,
         imageUrl: product.imageUrl || product.image,
         selectedFlavor: selectedFlavor,
         quantity: quantity,
-        salePercentage: product.sale || 0, // Default to 0 if not available
+        salePercentage: salePercent,
         addedAt: Date.now(),
       };
       current.push(cartItem);

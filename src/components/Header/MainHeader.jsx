@@ -3,19 +3,9 @@ import { Link } from 'react-router-dom';
 import SearchBox from '../Search/SearchBox';
 import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
-import {
-  Menu,
-  X,
-  ChevronDown,
-  Search,
-  Heart,
-  User,
-} from 'lucide-react';
-import SearchBox from '../Search/SearchBox';
-import TopHeader from "../TopHeader/TopHeader";
-import ShopMenu from '../ShopMenu';
-import CartIcon from '../cart/CartIcon';
-import CartDrawer from '../cart/CartDrawer';
+import CartIcon from '../CartComponent/CartIcon';
+import CartDrawer from '../CartComponent/CartDrawer';
+import { Menu, X, ChevronDown, Search, Heart, User } from 'lucide-react';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -120,7 +110,7 @@ export default function Header() {
                 >
                   <User className="h-5 w-5" />
                 </Link>
-                
+
                 <CartIcon onOpen={() => setCartOpen(true)} />
               </div>
 
@@ -329,12 +319,7 @@ export default function Header() {
       </div>
 
       {/* Search Drawer */}
-      {search && (
-        <SearchBox
-          isOpen={search}
-          onClose={() => setSearch(false)}
-        />
-      )}
+      {search && <SearchBox isOpen={search} onClose={() => setSearch(false)} />}
 
       {/* Cart Drawer */}
       <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />

@@ -17,10 +17,10 @@ export default function CartDrawer({ isOpen, onClose }) {
     loadCart();
     const handleStorageChange = () => loadCart();
     const handleCartUpdate = () => loadCart();
-    
+
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('cartUpdated', handleCartUpdate);
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('cartUpdated', handleCartUpdate);
@@ -29,7 +29,15 @@ export default function CartDrawer({ isOpen, onClose }) {
 
   // Load random products for "You may also like" - ONLY when drawer opens
   useEffect(() => {
-    if (!isOpen) return;
+    let active = true;
+
+    if (!isOpen) {
+      // Clear suggestions when drawer is closed to avoid stale items
+      setSuggestions([]);
+      return () => {
+        active = false;
+      };
+    }
 
     // Refresh cart items when drawer opens
     const cart = getCart();
@@ -38,34 +46,36 @@ export default function CartDrawer({ isOpen, onClose }) {
     const loadSuggestions = async () => {
       try {
         const response = await getProducts();
-        
+        if (!active) return;
+
         // Extract products from the nested response structure
         const all = response?.data?.products || [];
-        
         if (!all || all.length === 0) {
           setSuggestions([]);
           return;
         }
-        
-        // Extract just the product IDs from current cart items
+
+        // Filter out products already in cart
         const cartProductIds = cart.map((ci) => ci.id);
-        
         const filtered = all.filter((p) => {
           const prodId = p.id || p._id;
           return !cartProductIds.includes(prodId);
         });
-        
+
         const shuffled = filtered.sort(() => Math.random() - 0.5);
         const selected = shuffled.slice(0, 4);
-        
         setSuggestions(selected);
-      } catch (err) {
-        setSuggestions([]);
+      } catch {
+        if (active) setSuggestions([]);
       }
     };
 
     loadSuggestions();
-  }, [isOpen]); // Only depend on isOpen, not on items
+
+    return () => {
+      active = false;
+    };
+  }, [isOpen]); // fetch only when drawer opens
 
   const isEmpty = items.length === 0;
 
@@ -73,7 +83,8 @@ export default function CartDrawer({ isOpen, onClose }) {
   const subtotal = items.reduce((sum, item) => {
     const basePrice = item.price || 0;
     const salePercent = item.salePercentage || 0;
-    const finalPrice = salePercent > 0 ? basePrice * (1 - salePercent / 100) : basePrice;
+    const finalPrice =
+      salePercent > 0 ? basePrice * (1 - salePercent / 100) : basePrice;
     return sum + finalPrice * (item.quantity || 1);
   }, 0);
 
@@ -182,8 +193,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                   <div className="grid grid-cols-2 gap-3">
                     {suggestions.map((prod) => {
                       const prodId = prod.id || prod._id;
-                      const img =
-                        prod.imageUrl || prod.image || prod.img || '';
+                      const img = prod.imageUrl || prod.image || prod.img || '';
                       return (
                         <a
                           key={prodId}
@@ -252,7 +262,10 @@ export default function CartDrawer({ isOpen, onClose }) {
                 {items.map((item) => {
                   const basePrice = item.price || 0;
                   const salePercent = item.salePercentage || 0;
-                  const finalPrice = salePercent > 0 ? basePrice * (1 - salePercent / 100) : basePrice;
+                  const finalPrice =
+                    salePercent > 0
+                      ? basePrice * (1 - salePercent / 100)
+                      : basePrice;
                   const itemTotal = finalPrice * (item.quantity || 1);
 
                   return (
@@ -334,8 +347,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                   <div className="grid grid-cols-2 gap-3">
                     {suggestions.map((prod) => {
                       const prodId = prod.id || prod._id;
-                      const img =
-                        prod.imageUrl || prod.image || prod.img || '';
+                      const img = prod.imageUrl || prod.image || prod.img || '';
                       return (
                         <a
                           key={prodId}
