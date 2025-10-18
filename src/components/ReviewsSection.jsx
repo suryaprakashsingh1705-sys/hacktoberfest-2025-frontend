@@ -115,7 +115,10 @@ const ReviewsSection = () => {
   };
 
   return (
-    <section className="reviews-section p-[80px] " aria-labelledby="reviews">
+    <section
+      className="reviews-section p-[16px] md:p-[85px] lg:p-[80px] "
+      aria-labelledby="reviews"
+    >
       <h2
         id="reviews"
         className="text-4xl lg:text-heading-xxl uppercase py-16 section-title"
@@ -138,7 +141,7 @@ const ReviewsSection = () => {
             onClick={handlePrev}
             disabled={currentPage === 0}
             aria-label="Previous reviews page"
-            className={`p-2 rounded disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#89949F]`}
+            className={`p-2 cursor-pointer rounded disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.1] active:scale-100 transition-all duration-150 ease-in-out`}
           >
             <ArrowLeft aria-hidden="true" />
           </button>
@@ -147,7 +150,7 @@ const ReviewsSection = () => {
             onClick={handleNext}
             disabled={currentPage === totalPages - 1}
             aria-label="Next reviews page"
-            className={`p-2 rounded disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#89949F]`}
+            className={`p-2 cursor-pointer rounded disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.1] active:scale-100 transition-all duration-150 ease-in-out`}
           >
             <ArrowRight aria-hidden="true" />
           </button>
@@ -157,7 +160,7 @@ const ReviewsSection = () => {
           <AnimatePresence mode="wait" initial={false}>
             <Motion.ul
               key={currentPage}
-              className="reviews-carousel flex flex-row max-w-full gap-4 justify-center"
+              className="reviews-carousel grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4 justify-center"
               role="list"
               aria-live="polite"
               aria-label={`Showing reviews ${startIdx + 1}-${Math.min(

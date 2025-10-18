@@ -2,7 +2,7 @@ import { renderStars } from '../common/ReviewStars';
 
 const ReviewCard = ({ product, comment, name, rating }) => {
   return (
-    <li className="review-card min-w-[250px] relative max-w-[250px] h-max gap-6 flex flex-col p-6 bg-white border border-[#DDDDDD] items-center justify-center rounded-lg shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300">
+    <li className="review-card min-w-[200px] relative w-full max-w-full h-max gap-6 flex flex-col p-6 bg-white border border-[#DDDDDD] items-center justify-center rounded-lg shadow-md cursor-default hover:shadow-xl scale-3d hover:scale-105 transition-all ease-in-out duration-300 ">
       <img
         src={`/icons/material-icon-theme_verified.svg`}
         alt={'verified'}
