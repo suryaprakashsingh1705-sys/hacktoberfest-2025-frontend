@@ -165,7 +165,8 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
 
   // Handle navigation to collection
   const handleCollectionClick = (collectionName) => {
-    const url = `https://corexshoptest.onrender.com/api/collections/${collectionName.toLowerCase()}`;
+    const encodedName = encodeURIComponent(collectionName.toLowerCase());
+    const url = `https://corexshoptest.onrender.com/api/collections/${encodedName}`;
     window.open(url, '_blank');
     handleCloseMenu();
   };
