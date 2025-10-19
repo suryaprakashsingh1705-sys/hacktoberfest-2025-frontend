@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, Navigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchProductById,
@@ -20,6 +20,7 @@ export default function ProductPage() {
 
   const [recommendedProducts, setRecommendedProducts] = useState([])
 
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -63,11 +64,7 @@ export default function ProductPage() {
   }
 
   if (!product) {
-    return (
-      <main className="max-w-6xl mx-auto p-6">
-        <div className="text-center py-12">Product not found.</div>
-      </main>
-    );
+    return <Navigate to="/not-found" replace />;
   }
 
   return (
