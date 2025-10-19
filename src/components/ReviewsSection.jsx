@@ -131,9 +131,9 @@ const ReviewsSection = () => {
         <span className="text-[#000]"> Nutrition</span>
       </h2>
 
-      <div className="carousel-container flex flex-col gap-4">
+      <div className="carousel-container items-center flex flex-col gap-6">
         <nav
-          className="min-w-full flex flex-row gap-2 items-center justify-end"
+          className="flex flex-row gap-2 w-[80%] items-center justify-end mr-[-6px]"
           aria-label="Reviews carousel controls"
         >
           <button
@@ -141,7 +141,7 @@ const ReviewsSection = () => {
             onClick={handlePrev}
             disabled={currentPage === 0}
             aria-label="Previous reviews page"
-            className={`p-2 cursor-pointer rounded disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.1] active:scale-100 transition-all duration-150 ease-in-out`}
+            className={`cursor-pointer rounded disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.1] active:scale-100 transition-all duration-150 ease-in-out`}
           >
             <ArrowLeft aria-hidden="true" />
           </button>
@@ -150,17 +150,17 @@ const ReviewsSection = () => {
             onClick={handleNext}
             disabled={currentPage === totalPages - 1}
             aria-label="Next reviews page"
-            className={`p-2 cursor-pointer rounded disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.1] active:scale-100 transition-all duration-150 ease-in-out`}
+            className={`cursor-pointer rounded disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.1] active:scale-100 transition-all duration-150 ease-in-out`}
           >
             <ArrowRight aria-hidden="true" />
           </button>
         </nav>
 
-        <div className="w-full flex justify-center">
+        <div className="w-[80%] place-self-center flex justify-center">
           <AnimatePresence mode="wait" initial={false}>
             <Motion.ul
               key={currentPage}
-              className="reviews-carousel grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-[80%]  gap-4 justify-center"
+              className="reviews-carousel grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4   gap-4 justify-center"
               role="list"
               aria-live="polite"
               aria-label={`Showing reviews ${startIdx + 1}-${Math.min(
