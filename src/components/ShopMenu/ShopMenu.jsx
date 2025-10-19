@@ -29,10 +29,15 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
 
   // Prevent background scrolling when menu is open
   useEffect(() => {
-    if (shopOpen || animationState === 'opening' || animationState === 'open' || animationState === 'closing') {
+    if (
+      shopOpen ||
+      animationState === 'opening' ||
+      animationState === 'open' ||
+      animationState === 'closing'
+    ) {
       // Add overflow-hidden to body
       document.body.style.overflow = 'hidden';
-      
+
       // Make main content inert for screen readers
       const mainContent = document.querySelector('main');
       if (mainContent) {
@@ -42,7 +47,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
     } else {
       // Restore scrolling
       document.body.style.overflow = '';
-      
+
       // Restore main content accessibility
       const mainContent = document.querySelector('main');
       if (mainContent) {
@@ -91,7 +96,8 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
   // Handle scroll to top functionality
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
       setShowScrollToTop(scrollTop > 300); // Show arrow when scrolled down 300px
     };
 
@@ -102,7 +108,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
@@ -195,7 +201,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
     <button
       ref={(el) => (menuItemsRef.current[index] = el)}
       onClick={() => handleCollectionClick(collectionName)}
-      className="text-black hover:text-gray-600 transition-all duration-300 ease-in-out relative group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-0 py-1 cursor-pointer"
+      className="text-black hover:text-gray-600 transition-all duration-300 ease-in-out relative group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg px-0 py-1 cursor-pointer link-underline"
       style={{
         fontSize: '22px',
         lineHeight: '26px',
@@ -206,7 +212,6 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
       tabIndex={focusedIndex === index ? 0 : -1}
     >
       {displayName}
-      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 ease-in-out group-hover:w-full"></span>
     </button>
   );
 
@@ -218,7 +223,11 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          if (shopOpen || animationState === 'opening' || animationState === 'open') {
+          if (
+            shopOpen ||
+            animationState === 'opening' ||
+            animationState === 'open'
+          ) {
             handleCloseMenu();
           } else {
             onShopClick();
@@ -242,10 +251,15 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
       </button>
 
       {/* Mega Menu */}
-      {(shopOpen || animationState === 'opening' || animationState === 'open' || animationState === 'closing') && (
+      {(shopOpen ||
+        animationState === 'opening' ||
+        animationState === 'open' ||
+        animationState === 'closing') && (
         <div
           className={`fixed left-0 w-screen shadow-lg transform origin-top z-40 overflow-y-auto ${
-            animationState === 'closing' ? 'animate-slide-up' : 'animate-slide-down'
+            animationState === 'closing'
+              ? 'animate-slide-up'
+              : 'animate-slide-down'
           }`}
           style={{
             top: '104px',
