@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
 
 const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
@@ -17,7 +17,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
   };
 
   // Handle closing animation
-  const handleCloseMenu = () => {
+  const handleCloseMenu = useCallback(() => {
     if (animationState === 'closing') return; // Prevent multiple close calls
     setAnimationState('closing');
     setTimeout(() => {
@@ -25,7 +25,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
       setAnimationState('closed');
       setFocusedIndex(-1);
     }, 500); // Match animation duration
-  };
+  }, [animationState, setShopOpen]);
 
   // Prevent background scrolling when menu is open
   useEffect(() => {
@@ -79,7 +79,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [setShopOpen, shopOpen, animationState]);
+  }, [setShopOpen, shopOpen, animationState, handleCloseMenu]);
 
   // Handle opening animation when shopOpen changes
   useEffect(() => {
@@ -173,7 +173,7 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [shopOpen, focusedIndex, setShopOpen, shopButtonRef]);
+  }, [shopOpen, focusedIndex, setShopOpen, shopButtonRef, handleCloseMenu]);
 
   // Focus management
   useEffect(() => {
