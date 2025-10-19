@@ -1,7 +1,6 @@
 
 <h1 align="center">🌆 Open Code Chicago – Contribution Guidelines</h1>
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="90%" height="150px">
+
 </p>
 
 <h4 align="center">
@@ -10,7 +9,7 @@
 </h4>
 
 <p align="center">
-  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWpvZjRiZnR2NXVwYWRmcDJpejgzczY2ZmxkdjlvZHdvMnN2NDY0YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6MboVtJAyDHitKQo/giphy.gif" width="100%">
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWpvZjRiZnR2NXVwYWRmcDJpejgzczY2ZmxkdjlvZHdvMnN2NDY0YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6MboVtJAyDHitKQo/giphy.gif" width="60%">
 </p>
 
 <p align="center">
@@ -168,6 +167,6 @@ Every contribution matters — big or small. ❤️
 Thank you for helping make Open Code Chicago better!
 
 <p align="center">
-  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXl1MTJ1aGNxOXl3NzQxdjl4dzRyZW5tcWN6Z3B2djR4cGM5NHhpcyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/fWfowxJtHySJ0SGCgN/giphy.gif" width="70%" height="250px">
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXl1MTJ1aGNxOXl3NzQxdjl4dzRyZW5tcWN6Z3B2djR4cGM5NHhpcyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/fWfowxJtHySJ0SGCgN/giphy.gif" width="48%" >
 </p>
 
