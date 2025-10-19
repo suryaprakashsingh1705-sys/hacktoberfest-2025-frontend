@@ -8,6 +8,8 @@ import {
 import ProductDetails from '../../components/ProductDetails';
 import { getRecommendedProducts } from '../../api';
 import ProductCard from '../../components/Products/ProductCard';
+import { toggleWishlist, isInWishlist } from '../../utils/wishlist';
+import { toggleCart, isInCart } from '../../utils/cart';
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -71,7 +73,13 @@ export default function ProductPage() {
   return (
     <main className="max-w-6xl mx-auto p-6">
       <article>
-        <ProductDetails product={product} />
+        <ProductCard
+          product={product}
+          onAddToWishlist={(prod) => toggleWishlist(prod)}
+          onAddToCart={(prod, flavor) => toggleCart(prod, flavor)}
+          isWishlisted={isInWishlist(product.id || product._id)}
+          isInCart={(flavor) => isInCart(product, flavor)}
+        />
       </article>
       {recommendedProducts?.length > 0 && (
         <section className="my-12">
@@ -79,9 +87,13 @@ export default function ProductPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
             {recommendedProducts?.map((recProduct) => (
               <ProductCard
-                key={recProduct.id}
+                key={recProduct.id || recProduct._id}
                 product={recProduct}
                 ref={null}
+                onAddToWishlist={(prod) => toggleWishlist(prod)}
+                onAddToCart={(prod, flavor) => toggleCart(prod, flavor)}
+                isWishlisted={isInWishlist(recProduct.id || recProduct._id)}
+                isInCart={(flavor) => isInCart(recProduct, flavor)}
               />
             ))}
           </div>
