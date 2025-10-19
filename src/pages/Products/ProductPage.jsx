@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Navigate, useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchProductById,
@@ -18,10 +18,7 @@ export default function ProductPage() {
     (s) => s.products || {}
   );
 
-  const [recommendedProducts, setRecommendedProducts] = useState([])
-
-  const navigate = useNavigate();
-
+  const [recommendedProducts, setRecommendedProducts] = useState([]);
 
   useEffect(() => {
     if (!id) return;
@@ -29,14 +26,14 @@ export default function ProductPage() {
 
     const fetchRecommendedProducts = async (id) => {
       try {
-        const products = await getRecommendedProducts(id)
-        setRecommendedProducts(products.data)
+        const products = await getRecommendedProducts(id);
+        setRecommendedProducts(products.data);
       } catch (error) {
         console.error('Error fetching recommended products:', error);
       }
-    }
+    };
 
-    fetchRecommendedProducts(id)
+    fetchRecommendedProducts(id);
     return () => {
       dispatch(clearCurrentProduct());
     };
@@ -80,7 +77,9 @@ export default function ProductPage() {
       </article>
       {recommendedProducts?.length > 0 && (
         <section className="my-12">
-          <h2 className="text-2xl font-semibold mb-4">Highly Recommended Products</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            Highly Recommended Products
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
             {recommendedProducts?.map((recProduct) => (
               <ProductCard
