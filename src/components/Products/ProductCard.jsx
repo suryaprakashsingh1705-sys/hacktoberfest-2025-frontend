@@ -1,6 +1,7 @@
 import { useState, forwardRef, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addRecentlyViewed } from '../../utils/recentlyViewed';
+import { slugify } from '../../utils/slugify';
 
 const HeartIcon = ({
   isWishlisted = false,
@@ -66,7 +67,7 @@ const ProductCard = forwardRef(
       } catch {
         // ignore errors (localStorage not available)
       }
-      navigate(`/products/${product.id}`);
+      navigate(`/products/${slugify(product.name)}`);
     };
 
     const formatPrice = (price) => {
