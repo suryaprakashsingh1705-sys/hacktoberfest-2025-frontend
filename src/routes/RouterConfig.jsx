@@ -17,6 +17,9 @@ const ShippingPolicy = lazy(
 );
 const Products = lazy(() => import('../pages/Products/Products'));
 const ProductPage = lazy(() => import('../pages/Products/ProductPage'));
+const CollectionPage = lazy(
+  () => import('../pages/Collections/CollectionPage')
+);
 const TermsOfService = lazy(
   () => import('../pages/TermsOfService/TermsOfService')
 );
@@ -41,9 +44,7 @@ export const RouterConfig = () =>
         <Route index element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="products/:id" element={<ProductPage />} />
-        <Route path="garage-sale" element={<GarageSale />} />
-        <Route path="collections/:name" element={<CollectionsPage />} />
-        <Route path="about-corex" element={<About />} />
+        <Route path="collections/:id" element={<CollectionPage />} />
         <Route path="accessibility" element={<Accessibility />} />
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
         <Route path="return-policy" element={<ReturnPolicy />} />
