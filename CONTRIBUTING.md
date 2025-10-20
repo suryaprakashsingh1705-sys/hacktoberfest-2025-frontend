@@ -31,139 +31,156 @@
 </a>
 </p>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/ashghazali/neon-lines/main/line1.gif" width="100%">
-</p>
-
 ---
 
-## 🧭 Before You Start
+## Before You Start
 
-- 📜 Read our [**Code of Conduct**](./CODE_OF_CONDUCT.md)  
-- ⚙️ Review the [**Usage Guide**](./docs/usage.md) to run the project locally  
-- 🧩 Explore [**Open Issues**](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/issues)  
-- 📋 Check the [**Project Board**](https://github.com/orgs/OpenCodeChicago/projects/2)  
-> 💡 Comment on a task to get assigned — avoids duplicate work and keeps contributions coordinated  
+- Please read our [Code of Conduct](./CODE_OF_CONDUCT.md) 
+- Check out the [Usage Guide](./docs/usage.md) to run the project locally 
+- Look at [open issues](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/issues) to see where you can help
+- Review our [Project Board](https://github.com/orgs/OpenCodeChicago/projects/2) to see **available tasks**  
+  - Comment on the task you’d like to work on so a maintainer can assign it to you  
+  - This helps avoid duplicate work and keeps efforts coordinated
+ 
+---
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/ashghazali/neon-lines/main/line2.gif" width="100%">
-</p>
+## How to Contribute
 
-## 🚀 How to Contribute
-
-Follow these **7 steps**:
-
-### 1️⃣ Fork the Repository
+#### 1️⃣ Fork the Repository
 Click **Fork** at the top-right of the repo.
 
-### 2️⃣ Clone Your Fork
+#### 2️⃣ Pick a task
+[Project Board](https://github.com/orgs/OpenCodeChicago/projects/2), comment to claim it before starting work
+
+#### 3️⃣ Clone Your Fork
 ```bash
 git clone https://github.com/<your-username>/hacktoberfest-2025-frontend.git
 cd hacktoberfest-2025-frontend
 ```
-### 3️⃣ Create a Branch
+#### 4️⃣ Create a Branch
 ```bash
 git checkout -b feature/amazing-feature
 ```
-  >🔖 Use clear, descriptive branch names.
-### 4️⃣ Make Changes
+  > Use clear, descriptive branch names.
 
--Follow project structure & coding style
+#### 5️⃣ Make Changes
 
--Keep changes focused
+- Follow project structure & coding style
+- Keep changes focused
+- Run `npm run lint` & `npm run prettier` before committing
 
--Run npm run lint & npm run prettier before committing
-
-#### 5️⃣ Commit Your Work
+#### 6️⃣ Commit Your Work
 ```bash
 git add .
 git commit -m "Fix: navbar transparency on mobile"
 ```
-### 6️⃣ Push to Your Fork
+#### 6️⃣ Push to Your Fork
 ```bash
 git push origin feature/amazing-feature
 ```
-### 7️⃣ Open a Pull Request
+#### 7️⃣ Open a Pull Request (PR)
 
--Base branch: main
+- Base branch: main
+- Describe changes clearly
+- Reference related issues (Closes #123)
+- Keep PRs concise for easy review ✅
 
--Describe changes clearly
+---
 
--Reference related issues (Closes #123)
+## Backend & Environment Variables
 
--Keep PRs concise for easy review ✅
+- The backend API is available at:  
+  `https://corexshoptest.onrender.com/api`
+- The frontend uses the environment variable `VITE_API_URL` to connect to the backend.
+- Before running the project, copy `.env.example` to `.env`:
+  ```bash
+  cp .env.example .env
+  ```
+- You can then use `import.meta.env.VITE_API_URL` in your code to access the API URL.
 
-<p align="center"> <img src="https://raw.githubusercontent.com/ashghazali/neon-lines/main/line3.gif" width="100%"> </p>
+---
 
-###   ⚙️ Backend & Environment Setup
- **API Base URL:**  
-[https://corexshoptest.onrender.com/api](https://corexshoptest.onrender.com/api)
-Steps:
-1. Copy .env.example → .env:
-   ```bash
-   cp .env.example .env
-   ```
-2. Set API URL in .env:
-     ```bash
-     
-   VITE_API_URL=https://corexshoptest.onrender.com/api
-   ```
-3. Access it in code:
-    ```bash
+## Tips & Best Practices
 
-    import.meta.env.VITE_API_URL
-   ```
-4  Verify setup:
-   ```bash
-
-npm run dev
- ```
-<p align="center"> <img src="https://raw.githubusercontent.com/ashghazali/neon-lines/main/line4.gif" width="100%"> </p>
-
-### ⚡ Tips & Best Practices
-
-- ✅ Check your environment setup before running the project
-
-- 🧹 Keep the repo clean; do not commit node_modules
-
-- 🧩 Follow project structure; organize components, pages, and assets properly
-
-- 📝 Document your code clearly
-
-- 🔄 Sync with main repo frequently to avoid merge conflicts:
+- Check your environment setup before running the project
+- Please **do not install or commit new packages** without first discussing in an issue or PR.
+- If you believe a new dependency is required:
+  1. Open or comment on an issue explaining why it’s needed.  
+  2. Wait for maintainer approval before adding it. 
+- Keep the repo clean. Do not commit:
+    - `node_modules`
+    - `package.json`
+    - `package-lock.json`
+- Follow project structure. Organize components, pages, and assets properly
+- Document your code clearly
+- Sync with main repo frequently to avoid merge conflicts:
 ```bash
 git fetch upstream
 git merge upstream/main
 ```
+- Test your changes locally before submitting a PR
+- Verify API endpoints if data isn’t loading
+- Ask questions early in Discussions or Discord
 
-- 🧪 Test your changes locally before submitting a PR
+---
 
-- 🌐 Verify API endpoints if data isn’t loading
+## Get Recognized with the All-Contributors Bot
+We use the [All Contributors Bot](https://allcontributors.org/docs/en/bot/usage) to recognize and celebrate all types of contributions. 
 
-- 💬 Ask questions early in Discussions or Discord
-  
-### 💖 Contributor Appreciation
+**How to add yourself:**
+1. After your Pull Request is merged, comment on the PR or in a new issue with:
+   ```
+   @all-contributors please add @your-github-username for code, doc, ideas
+   ```
+   - Replace `@your-github-username` with your GitHub handle.
+   - List your contribution types (e.g., `code`, `doc`, `ideas`, `bug`, `review`).
+   - [See all contribution types here.](https://allcontributors.org/docs/en/emoji-key)
+
+2. The bot will create a Pull Request to add you to the contributors table in the README.
+3. A maintainer will review and merge the bot’s PR.
+
+**Example:**
+```
+@all-contributors please add @Alexandrbig1 for code, doc, maintenance, projectManagement
+``` 
+
+If you have questions, ask in your PR or open an issue!
+
+---
+
+## 💖 Contributor Appreciation
 
 A big thank you to all contributors! 🚀
 
-<p align="center"> <a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/graphs/contributors"> <img src="https://contrib.rocks/image?repo=OpenCodeChicago/hacktoberfest-2025-frontend" /> </a> </p>
+<a href="https://github.com/opencodechicago/hacktoberfest-2025-frontend/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=opencodechicago/hacktoberfest-2025-frontend" />
+</a>
 
-### 💬 Getting Help
+---
 
-- If you’re stuck or unsure:
+## Issues
+- Use issues to report bugs, request features, or ask questions  
+- Before opening a new issue, check if it already exists  
+- Apply labels when possible (`bug`, `enhancement`, `good first issue`)  
 
-  -Ask in our GitHub Discussions
+---
 
-  -Join our Discord
+## Getting Help
+If you’re stuck or unsure:
+- Ask in our [GitHub Discussions](https://github.com/orgs/OpenCodeChicago/discussions/2)  
+- Join our [Discord](https://discord.gg/t6MGsCqdFX)  
+- Or email us at [info@opencodechicago.org](mailto:info@opencodechicago.org)  
 
-  -Or email us at info@opencodechicago.org
+---
 
-### ⭐ Support the Project
+## ⭐ Support the Project
 
-If you find this project helpful or enjoy contributing, please consider giving us a ⭐ on GitHub!
-Starring the repo helps increase visibility, attracts contributors, and makes your contributions more valuable for your portfolio or employer.
+If you find this project helpful or enjoy contributing, please consider giving us a ⭐ on GitHub!  
+Starring the repo helps increase its visibility, attracts more contributors, and makes your contributions more visible and valuable for your portfolio or employer.
 
-Every contribution matters — big or small. ❤️
+---
+
+Every contribution matters — big or small. ❤️  
 Thank you for helping make Open Code Chicago better!
 
 <p align="center">
