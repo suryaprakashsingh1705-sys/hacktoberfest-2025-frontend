@@ -23,6 +23,7 @@ export default function CartItem({ item, onQuantityChange, onRemove, onClose }) 
             alt={item.name}
             className="h-20 w-20 object-cover rounded"
             onError={() => setImageError(true)}
+            aria-hidden="true"
           />
         ) : (
           <div className="absolute inset-0 bg-gray-100 flex items-center justify-center rounded">
@@ -31,6 +32,7 @@ export default function CartItem({ item, onQuantityChange, onRemove, onClose }) 
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 stroke-linecap="round"
@@ -62,6 +64,7 @@ export default function CartItem({ item, onQuantityChange, onRemove, onClose }) 
         {/* Quantity Controls */}
         <div className="flex items-center gap-2 mt-2">
           <button
+            aria-label="Decrease quantity"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -75,6 +78,7 @@ export default function CartItem({ item, onQuantityChange, onRemove, onClose }) 
             {item.quantity || 1}
           </span>
           <button
+            aria-label="Increase quantity"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -88,6 +92,7 @@ export default function CartItem({ item, onQuantityChange, onRemove, onClose }) 
 
         {/* Remove Link */}
         <button
+          aria-label="Remove from cart"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();

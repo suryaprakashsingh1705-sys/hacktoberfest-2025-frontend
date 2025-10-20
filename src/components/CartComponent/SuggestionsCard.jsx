@@ -8,7 +8,7 @@ export default function SuggestionCard({ prod, onClose }) {
     if (onClose) onClose();
   };
   return (
-    <div className="border border-gray-200 rounded p-2 hover:shadow-md transition group">
+    <div className="border border-gray-200 rounded min-w-[140px] max-w-[160px] p-2 hover:shadow-md transition group flex-shrink-0" role="listitem">
       <div className="relative w-full h-24 mb-2">
         {!imageError && (prod.imageUrl || prod.image) ? (
           <img
@@ -24,6 +24,7 @@ export default function SuggestionCard({ prod, onClose }) {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 stroke-linecap="round"
