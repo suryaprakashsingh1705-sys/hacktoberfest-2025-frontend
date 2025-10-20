@@ -3,15 +3,9 @@ import { Link } from 'react-router-dom';
 import SearchBox from '../Search/SearchBox';
 import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
-import {
-  Menu,
-  X,
-  ChevronDown,
-  Search,
-  Heart,
-  User,
-} from 'lucide-react';
-import WishListDrawerScreen from '../WishList/WishiListDrawerScreen';
+import { Menu, X, ChevronDown, Search, Heart, User } from 'lucide-react';
+
+import WishListDrawerScreen from '../WishList/WishiListScreen';
 import CartIcon from '../cart/CartIcon';
 import CartDrawer from '../cart/CartDrawer';
 
@@ -132,7 +126,7 @@ export default function Header() {
                 >
                   <User className="h-5 w-5" />
                 </Link>
-                
+
                 <CartIcon onOpen={() => setCartOpen(true)} />
               </div>
 

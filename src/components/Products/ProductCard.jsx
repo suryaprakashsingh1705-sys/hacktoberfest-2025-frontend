@@ -1,7 +1,7 @@
 import { useState, forwardRef, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addRecentlyViewed } from '../../utils/recentlyViewed';
-import { addToWishList, RemoveFromWishList } from '../../store/wishListSlice';
+import { addToWishList, removeFromWishList } from '../../store/wishListSlice';
 import { useDispatch } from 'react-redux';
 const HeartIcon = ({
   isWishlisted = false,
@@ -104,7 +104,7 @@ const ProductCard = forwardRef(
       likeTimeoutRef.current = setTimeout(() => setAnimateLike(false), 520);
       // Call the toggle wishlist function
       if (isWishlisted) {
-        dispatch(RemoveFromWishList(product));
+        dispatch(removeFromWishList(product));
       } else {
         dispatch(addToWishList(product));
       }
