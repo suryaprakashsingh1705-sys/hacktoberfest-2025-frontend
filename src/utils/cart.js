@@ -40,8 +40,8 @@ export function addToCart(product, selectedFlavor = null, quantity = 1) {
     );
 
     if (existingItemIndex >= 0) {
-      // Update quantity of existing item
-      current[existingItemIndex].quantity += quantity;
+      // Update quantity of existing item in place (do not remove/re-add)
+      current[existingItemIndex].quantity = quantity;
     } else {
       // Normalize sale value: accept product.sale OR product.salePercentage
       const salePercent =
