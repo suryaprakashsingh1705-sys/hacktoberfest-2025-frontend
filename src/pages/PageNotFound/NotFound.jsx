@@ -1,12 +1,13 @@
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function NotFound() {
   useEffect(() => {
     // Dynamically add Google Font
-    const link = document.createElement("link");
-    link.href = "https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap";
-    link.rel = "stylesheet";
+    const link = document.createElement('link');
+    link.href =
+      'https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap';
+    link.rel = 'stylesheet';
     document.head.appendChild(link);
   }, []);
   const isMobile = window.innerWidth < 768;
@@ -20,12 +21,9 @@ export default function NotFound() {
           : "url('/images/notFoundLandscape.png')", // desktop image
       }}
     >
-
       <div className="md:w-1/2 max-w-2xl px-12 pt-30 md:pt-0">
         {/* 404 text */}
-        <h1
-          className="text-9xl md:text-9xl font-extrabold tracking-widest"
-        >
+        <h1 className="text-9xl md:text-9xl font-extrabold tracking-widest">
           404
         </h1>
 
@@ -43,8 +41,9 @@ export default function NotFound() {
         </p>
 
         <p className="mt-3 text-gray-400 leading-relaxed">
-          Looks like the page you're looking for doesn't exist. But don't worry —
-          your fitness journey doesn't stop here. Fuel your goals with CoreX supplements.
+          Looks like the page you're looking for doesn't exist. But don't worry
+          — your fitness journey doesn't stop here. Fuel your goals with CoreX
+          supplements.
         </p>
 
         {/* Buttons */}
@@ -64,7 +63,7 @@ export default function NotFound() {
           </Link>
         </div>
       </div>
-      <div class="w-1/2 bg-blue-500"></div>
+      <div className="w-1/2 bg-blue-500"></div>
     </div>
   );
 }
