@@ -192,15 +192,21 @@ const ProductCard = forwardRef(
                 aria-hidden="true"
               >
                 <rect width="64" height="64" rx="8" fill="#F3F4F6" />
-                <path d="M10 44L26 28l12 12 18-22" stroke="#CBD5E1" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M10 44L26 28l12 12 18-22"
+                  stroke="#CBD5E1"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </div>
           )}
 
           {/* State 3: Image successfully loaded or attempt to load */}
-          {!imageError && (
+          {!imageError && (product.imageUrl || product.image) && (
             <img
-              src={product.imageUrl || product.image || ''}
+              src={product.imageUrl || product.image || null}
               alt={product.name}
               className={`w-full h-full object-contain transition-opacity duration-500 ${imageLoaded && !imageError ? 'opacity-100' : 'opacity-0'}`}
               onLoad={() => setImageLoaded(true)}
@@ -330,11 +336,7 @@ const ProductCard = forwardRef(
           -ml-px flex-grow flex items-center justify-center gap-2 font-medium 
           py-3 px-4 rounded-r-xl transition-colors duration-150 hover:shadow-lg cursor-pointer
           focus:outline-none focus:z-10
-          ${
-            itemIsInCart
-              ? 'bg-green-600 text-white hover:bg-green-700'
-              : 'bg-[#023e8a] text-white hover:bg-[#1054ab]'
-          }
+          bg-[#023e8a] text-white hover:bg-[#1054ab]
         `}
               aria-live="polite"
             >
@@ -367,7 +369,7 @@ const ProductCard = forwardRef(
               ) : cartAdded ? (
                 <span className="ml-2 flex items-center gap-2 font-semibold">
                   <svg
-                    className="w-5 h-5"
+                    className="w-5 h-5 text-white"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -383,9 +385,9 @@ const ProductCard = forwardRef(
                   <span>ADDED</span>
                 </span>
               ) : itemIsInCart ? (
-                <>
+                <span className="ml-2 flex items-center gap-2 font-semibold">
                   <svg
-                    className="w-5 h-5"
+                    className="w-5 h-5 text-white"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -398,8 +400,8 @@ const ProductCard = forwardRef(
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <span className="ml-2">IN CART</span>
-                </>
+                  <span>ADDED</span>
+                </span>
               ) : (
                 <>
                   <CartIcon />
