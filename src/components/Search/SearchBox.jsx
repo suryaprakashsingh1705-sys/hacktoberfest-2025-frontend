@@ -12,6 +12,22 @@ export default function SearchBox({ onClose, isOpen }) {
   const [error, setError] = useState('');
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   const boxRef = useRef(null);
+  const inputRef = useRef(null);
+  const mountedRef = useRef(true);
+  const debounceRef = useRef(null);
+  const minVisibleRef = useRef(null);
+
+  // Close drawer and reset search state
+  const closeAndReset = () => {
+    onClose?.();
+    setSearchQuery('');
+    setProducts([]);
+    setSearchDone(false);
+    setError('');
+    setLoading(false);
+    // optionally blur input to remove focus
+    inputRef.current?.blur?.();
+  };
 
   // Close on Escape or outside click
   useEffect(() => {
@@ -27,6 +43,22 @@ export default function SearchBox({ onClose, isOpen }) {
     };
   }, [onClose]);
 
+  // track mounted state for safe setState
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  // focus input when drawer opens
+  useEffect(() => {
+    if (isOpen) {
+      // small delay to allow animation to finish
+      setTimeout(() => inputRef.current?.focus?.(), 500);
+    }
+  }, [isOpen]);
+
   // Fetch search results with debounce
   useEffect(() => {
     const controller = new AbortController();
@@ -34,33 +66,38 @@ export default function SearchBox({ onClose, isOpen }) {
 
     const fetchProducts = async () => {
       if (searchQuery.trim().length < 3) {
-        setProducts([]);
-        setSearchDone(false);
+        if (mountedRef.current) {
+          setProducts([]);
+          setSearchDone(false);
+        }
         return;
       }
-      setLoading(true);
-      setSearchDone(false);
-      setError('');
+      if (mountedRef.current) {
+        setLoading(true);
+        setSearchDone(false);
+        setError('');
+      }
 
       const start = Date.now();
       try {
-        // build query safely
         const params = new URLSearchParams({ search: searchQuery }).toString();
         const response = await fetch(`${API_URL}/products?${params}`, {
           signal,
         });
         if (!response.ok) throw new Error('Failed to fetch products');
         const data = await response.json();
-        setProducts(data.products || data);
+        if (mountedRef.current) setProducts(data.products || data || []);
       } catch (err) {
-        if (err.name !== 'AbortError') {
+        if (err?.name !== 'AbortError' && mountedRef.current) {
           setError('Something went wrong while fetching products.');
         }
       } finally {
         const elapsed = Date.now() - start;
         const minVisible = 1200;
-        setTimeout(
+        // ensure loader visible for at least minVisible ms
+        minVisibleRef.current = setTimeout(
           () => {
+            if (!mountedRef.current) return;
             setLoading(false);
             setSearchDone(true);
           },
@@ -69,9 +106,11 @@ export default function SearchBox({ onClose, isOpen }) {
       }
     };
 
-    const debounce = setTimeout(fetchProducts, 400);
+    debounceRef.current = setTimeout(fetchProducts, 400);
     return () => {
-      clearTimeout(debounce);
+      clearTimeout(debounceRef.current);
+      debounceRef.current = null;
+      clearTimeout(minVisibleRef.current);
       controller.abort();
     };
   }, [searchQuery, API_URL]);
@@ -118,10 +157,12 @@ export default function SearchBox({ onClose, isOpen }) {
           <div className="px-6 py-4">
             <div className="relative w-full">
               <input
+                ref={inputRef}
                 type="text"
                 id="search"
                 className="w-full px-4 py-3 pr-16 bg-gray-100 border border-gray-200 rounded-md
                            text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600 peer hover:shadow-sm"
+                aria-label="Search products"
                 placeholder=" "
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -167,40 +208,47 @@ export default function SearchBox({ onClose, isOpen }) {
                   Products
                 </h3>
                 <hr className="border-gray-300 mb-4" />
-                <div className="space-y-3">
+                <ul className="space-y-3" role="list" aria-live="polite">
                   {products.map((product) => (
-                    <Link
-                      key={product._id}
-                      onClick={() => onClose()}
-                      to={`/products/${product._id}`}
-                      className="group flex items-center space-x-4 bg-white border border-gray-100 rounded-lg p-3 shadow-sm 
-                                 hover:bg-gray-50 transition-all duration-300 cursor-pointer"
-                    >
-                      <div className="w-16 h-16 flex justify-center items-center overflow-hidden">
-                        <img
-                          src={product.image || missingimg}
-                          alt={product.name}
-                          className="w-16 h-16 object-contain transition-transform duration-300"
-                          onError={(e) => (e.target.src = missingimg)}
-                        />
-                      </div>
-                      <div>
-                        <p className="text-xs text-gray-500">{product.brand}</p>
-                        <h4
-                          className="text-sm font-medium text-[#023E8A] relative inline-block
-                                   after:content-[''] after:absolute after:left-0 after:bottom-0 
-                                   after:h-[2px] after:bg-[#023E8A] after:w-0 
-                                   group-hover:after:w-full after:transition-[width] after:duration-300 after:ease-out"
-                        >
-                          {product.name}
-                        </h4>
-                        <p className="text-sm text-[#023E8A] mt-0.5">
-                          ${product.price}
-                        </p>
-                      </div>
-                    </Link>
+                    <li key={product._id}>
+                      <Link
+                        onClick={closeAndReset}
+                        to={`/products/${product._id}`}
+                        className="group flex items-center space-x-4 bg-white border border-gray-100 rounded-lg p-3 shadow-sm 
+                                   hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+                      >
+                        <div className="w-16 h-16 flex justify-center items-center overflow-hidden">
+                          <img
+                            src={product.image || missingimg}
+                            alt={product.name || 'Product image'}
+                            loading="lazy"
+                            decoding="async"
+                            width="64"
+                            height="64"
+                            className="w-16 h-16 object-contain transition-transform duration-300"
+                            onError={(e) => (e.currentTarget.src = missingimg)}
+                          />
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500">
+                            {product.brand}
+                          </p>
+                          <h4
+                            className="text-sm font-medium text-[#023E8A] relative inline-block
+                                     after:content-[''] after:absolute after:left-0 after:bottom-0 
+                                     after:h-[2px] after:bg-[#023E8A] after:w-0 
+                                     group-hover:after:w-full after:transition-[width] after:duration-300 after:ease-out"
+                          >
+                            {product.name}
+                          </h4>
+                          <p className="text-sm text-[#023E8A] mt-0.5">
+                            ${product.price}
+                          </p>
+                        </div>
+                      </Link>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             )}
 
@@ -225,7 +273,7 @@ export default function SearchBox({ onClose, isOpen }) {
             <div className="absolute bottom-[30px] left-0 w-full px-6">
               <Link to="/products">
                 <button
-                  onClick={onClose}
+                  onClick={closeAndReset}
                   className="group w-full py-3 bg-[#023E8A] text-white rounded-md font-semibold 
                              hover:bg-blue-800 transition-all duration-300 cursor-pointer shadow-lg flex items-center justify-center"
                 >

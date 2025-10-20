@@ -63,7 +63,6 @@ export default function NotFound() {
           </Link>
         </div>
       </div>
-      <div className="w-1/2 bg-blue-500"></div>
     </div>
   );
 }
