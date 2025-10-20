@@ -3,6 +3,11 @@ export { default as heroCorex } from './hero/hero-2.png';
 export { default as heroUnlock } from './hero/hero-unlock.png';
 export { default as heroSales } from './hero/hero-sales.png';
 
+export { default as heroJoinMob } from './hero/hero-join-mob.png';
+export { default as heroCorexMob } from './hero/hero-2-mob.png';
+export { default as heroUnlockMob } from './hero/hero-unlock-mob.png';
+export { default as heroSalesMob } from './hero/hero-sales-mob.png';
+
 export { default as aminoAcids } from './every-goal/amino-acids.png';
 export { default as intraWorkout } from './every-goal/intra-workout.png';
 export { default as preWorkout } from './every-goal/pre-workout.png';
