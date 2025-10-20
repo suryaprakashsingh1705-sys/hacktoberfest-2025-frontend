@@ -5,3 +5,4 @@ export { default as SortDropdown } from './SortDropdown';
 export { default as PaginationControls } from './PaginationControls';
 export { default as LoadingSpinner } from './LoadingSpinner';
 export { default as ProductSkeleton } from './ProductSkeleton';
+export { default as ProductList } from './ProductList';

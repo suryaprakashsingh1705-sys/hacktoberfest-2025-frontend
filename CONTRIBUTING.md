@@ -1,33 +1,93 @@
-# Contributing Guidelines
 
-Thank you for considering contributing to **Open Code Chicago**!  
-We welcome contributions of all skill levels.
+<h1 align="center">🌆 Open Code Chicago – Contribution Guidelines</h1>
+
+</p>
+
+<h4 align="center">
+  <em>“Open Source is a city built by everyone.”</em><br>
+  Welcome to the Open Code Chicago community — where collaboration meets creativity 💫
+</h4>
+
+<p align="center">
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWpvZjRiZnR2NXVwYWRmcDJpejgzczY2ZmxkdjlvZHdvMnN2NDY0YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6MboVtJAyDHitKQo/giphy.gif" width="60%">
+</p>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/issues">
+    <img src="https://img.shields.io/badge/Contributions-Welcome-blue?style=for-the-badge&logo=github" />
+  </a>
+  <a href="https://discord.gg/t6MGsCqdFX">
+    <img src="https://img.shields.io/badge/Join%20Us-Discord-purple?style=for-the-badge&logo=discord" />
+  </a>
+  <a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/stargazers">
+    <img src="https://img.shields.io/github/stars/OpenCodeChicago/hacktoberfest-2025-frontend?style=for-the-badge&color=yellow" />
+  </a>
+ <a href="#contributors">
+  <img src="https://img.shields.io/github/all-contributors/OpenCodeChicago/hacktoberfest-2025-frontend?color=023e8a&style=for-the-badge" alt="All Contributors"/>
+</a>
+</p>
 
 ---
 
 ## Before You Start
-- Please read our [Code of Conduct](./CODE_OF_CONDUCT.md)
-- Check out the [Usage Guide](./docs/usage.md) to run the project locally
+
+- Please read our [Code of Conduct](./CODE_OF_CONDUCT.md) 
+- Check out the [Usage Guide](./docs/usage.md) to run the project locally 
 - Look at [open issues](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/issues) to see where you can help
 - Review our [Project Board](https://github.com/orgs/OpenCodeChicago/projects/2) to see **available tasks**  
   - Comment on the task you’d like to work on so a maintainer can assign it to you  
-  - This helps avoid duplicate work and keeps efforts coordinated 
-
+  - This helps avoid duplicate work and keeps efforts coordinated
+ 
 ---
 
 ## How to Contribute
-1. **Fork** the repository
-2. **Pick a task** from the [Project Board](https://github.com/orgs/OpenCodeChicago/projects/2) or from [open issues](https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/issues)  
-   - Comment to claim it before starting work 
-3. **Create a branch** for your work (e.g. `feature/awesome-feature` or `fix/typo`)  
-4. **Make your changes** and commit with clear, descriptive messages  
-5. **Open a Pull Request (PR)** to the `main` branch  
-   - Reference any related issues (e.g. `Closes #123`)  
-   - Keep PRs small and focused — easier to review and merge  
+
+#### 1️⃣ Fork the Repository
+Click **Fork** at the top-right of the repo.
+
+#### 2️⃣ Pick a task
+[Project Board](https://github.com/orgs/OpenCodeChicago/projects/2), comment to claim it before starting work
+
+#### 3️⃣ Clone Your Fork
+```bash
+git clone https://github.com/<your-username>/hacktoberfest-2025-frontend.git
+cd hacktoberfest-2025-frontend
+```
+#### 4️⃣ Create a Branch
+```bash
+git checkout -b feature/amazing-feature
+```
+  > Use clear, descriptive branch names.
+
+#### 5️⃣ Make Changes
+
+- Follow project structure & coding style
+- Keep changes focused
+- Run `npm run lint` & `npm run prettier` before committing
+
+#### 6️⃣ Commit Your Work
+```bash
+git add .
+git commit -m "Fix: navbar transparency on mobile"
+```
+#### 6️⃣ Push to Your Fork
+```bash
+git push origin feature/amazing-feature
+```
+#### 7️⃣ Open a Pull Request (PR)
+
+- Base branch: main
+- Describe changes clearly
+- Reference related issues (Closes #123)
+- Keep PRs concise for easy review ✅
 
 ---
 
-## Backend API & Environment Variables
+## Backend & Environment Variables
 
 - The backend API is available at:  
   `https://corexshoptest.onrender.com/api`
@@ -40,24 +100,27 @@ We welcome contributions of all skill levels.
 
 ---
 
-## Guidelines
-- Use clear, descriptive commit messages  
-- Keep your PR focused on a single change  
-- Follow code style (Prettier config is included in the project)
-- Run `npm run lint` before pushing 
-- Write clean, well-documented code  
-- Add/update tests if relevant  
+## Tips & Best Practices
 
----
-
-## Dependencies & Packages
-- All dependencies are tracked in `package.json`.  
-- Please **do not install or commit new packages** without first discussing in an issue or PR.  
+- Check your environment setup before running the project
+- Please **do not install or commit new packages** without first discussing in an issue or PR.
 - If you believe a new dependency is required:
   1. Open or comment on an issue explaining why it’s needed.  
-  2. Wait for maintainer approval before adding it.  
-- The `node_modules` folder should **not** be committed — it is auto-generated by `npm install`.  
-- Always run `npm install` after cloning the repo to get the correct dependencies.  
+  2. Wait for maintainer approval before adding it. 
+- Keep the repo clean. Do not commit:
+    - `node_modules`
+    - `package.json`
+    - `package-lock.json`
+- Follow project structure. Organize components, pages, and assets properly
+- Document your code clearly
+- Sync with main repo frequently to avoid merge conflicts:
+```bash
+git fetch upstream
+git merge upstream/main
+```
+- Test your changes locally before submitting a PR
+- Verify API endpoints if data isn’t loading
+- Ask questions early in Discussions or Discord
 
 ---
 
@@ -85,6 +148,16 @@ If you have questions, ask in your PR or open an issue!
 
 ---
 
+## 💖 Contributor Appreciation
+
+A big thank you to all contributors! 🚀
+
+<a href="https://github.com/opencodechicago/hacktoberfest-2025-frontend/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=opencodechicago/hacktoberfest-2025-frontend" />
+</a>
+
+---
+
 ## Issues
 - Use issues to report bugs, request features, or ask questions  
 - Before opening a new issue, check if it already exists  
@@ -103,9 +176,14 @@ If you’re stuck or unsure:
 ## ⭐ Support the Project
 
 If you find this project helpful or enjoy contributing, please consider giving us a ⭐ on GitHub!  
-Starring the repo helps increase its visibility, attracts more contributors, and makes your contributions more visible and valuable for your portfolio or employer. Thank you for supporting open source!
+Starring the repo helps increase its visibility, attracts more contributors, and makes your contributions more visible and valuable for your portfolio or employer.
 
 ---
 
 Every contribution matters — big or small. ❤️  
 Thank you for helping make Open Code Chicago better!
+
+<p align="center">
+  <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXl1MTJ1aGNxOXl3NzQxdjl4dzRyZW5tcWN6Z3B2djR4cGM5NHhpcyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/fWfowxJtHySJ0SGCgN/giphy.gif" width="48%" >
+</p>
+

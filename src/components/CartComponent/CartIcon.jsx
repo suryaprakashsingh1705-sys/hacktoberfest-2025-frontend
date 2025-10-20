@@ -2,20 +2,6 @@ import { ShoppingCart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { getCartItemCount } from '../../utils/cart';
 
-/**
- * CartIcon component - displays a shopping cart icon with item count badge
- * 
- * Features:
- * - Shows the total number of items in the cart as a badge
- * - Updates count from localStorage changes (cross-tab sync)
- * - Listens for custom 'cartUpdated' events (same-tab updates)
- * - Refreshes count when drawer is opened
- * - Displays "99+" for counts over 99
- * 
- * @component
- * @param {Function} onOpen - Callback function to open the cart drawer
- * @returns {JSX.Element} Cart icon button with count badge
- */
 export default function CartIcon({ onOpen }) {
   const [count, setCount] = useState(0);
 
