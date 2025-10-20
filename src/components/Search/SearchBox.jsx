@@ -161,6 +161,7 @@ export default function SearchBox({ onClose, isOpen }) {
                   {products.map((product) => (
                     <Link
                       key={product._id}
+                       onClick={() => onClose()}
                       to={`/products/${product._id}`}
                       className="group flex items-center space-x-4 bg-white border border-gray-100 rounded-lg p-3 shadow-sm 
                                  hover:bg-gray-50 transition-all duration-300 cursor-pointer"
