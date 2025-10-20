@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { X, Loader2 } from "lucide-react";
 import notfound from "../../assets/Not-found.svg";
 import { Link } from "react-router-dom";
-import missingimg from "../../assets/missing-picture-product.jpg"
+import missingimg from "../../assets/missing-picture-product.jpg";
+
 export default function SearchBox({ onClose, isOpen }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchDone, setSearchDone] = useState(false);
   const [error, setError] = useState("");
-
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
   const boxRef = useRef(null);
 
@@ -17,9 +17,7 @@ export default function SearchBox({ onClose, isOpen }) {
   useEffect(() => {
     const handleEscape = (e) => e.key === "Escape" && onClose?.();
     const handleClickOutside = (e) => {
-      if (boxRef.current && !boxRef.current.contains(e.target)) {
-        onClose?.();
-      }
+      if (boxRef.current && !boxRef.current.contains(e.target)) onClose?.();
     };
     document.addEventListener("keydown", handleEscape);
     document.addEventListener("mousedown", handleClickOutside);
@@ -40,7 +38,6 @@ export default function SearchBox({ onClose, isOpen }) {
         setSearchDone(false);
         return;
       }
-
       setLoading(true);
       setSearchDone(false);
       setError("");
@@ -77,29 +74,27 @@ export default function SearchBox({ onClose, isOpen }) {
 
   return (
     <>
-      {/* Overlay with smooth fade */}
+      {/* Overlay */}
       <div
         className={`fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           } z-[998]`}
       />
 
-      {/* Drawer with smooth slide and content fade */}
+      {/* Drawer */}
       <div
         ref={boxRef}
-        className={`fixed top-0 right-0 w-full sm:w-[480px] h-full bg-white shadow-2xl border-l border-gray-200 z-[999]
-              transform transition-all duration-300 ease-in-out
-              ${isOpen ? "translate-x-0 scale-100" : "translate-x-full scale-95"} flex flex-col`}
+        className={`fixed top-0 right-0 w-full sm:w-[40%] h-full bg-white shadow-2xl border-l border-gray-200 z-[999]
+          transform transition-transform duration-300 ease-in-out
+          ${isOpen ? "translate-x-0" : "translate-x-full"} flex flex-col`}
       >
-        {/* Drawer Content with Fade */}
+        {/* Drawer Content */}
         <div
           className={`flex flex-col h-full transition-opacity duration-300 ease-in-out ${isOpen ? "opacity-100 delay-100" : "opacity-0"
             }`}
         >
           {/* HEADER */}
           <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200">
-            <h2 className="font-bold text-lg text-[#023E8A] tracking-wide">
-              SEARCH
-            </h2>
+            <h2 className="font-bold text-lg text-[#023E8A] tracking-wide">SEARCH</h2>
             <button
               onClick={onClose}
               className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
@@ -115,26 +110,25 @@ export default function SearchBox({ onClose, isOpen }) {
               <input
                 type="text"
                 id="search"
-                class="w-full px-4 py-3 pr-16 bg-gray-100 border border-gray-200 rounded-md
-                         text-gray-700 appearance-none focus:outline-none focus:ring-2
-                         focus:ring-blue-600 peer hover:shadow-sm focus:shadow-md"
+                className="w-full px-4 py-3 pr-16 bg-gray-100 border border-gray-200 rounded-md
+                           text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600 peer hover:shadow-sm"
                 placeholder=" "
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               <label
-                for="search"
-                class="absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 left-3 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:text-gray-400 peer-focus:top-3 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                htmlFor="search"
+                className="absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 left-3 z-10 origin-[0] px-2
+                          peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2
+                          peer-focus:text-gray-400 peer-focus:top-3 peer-focus:scale-75 peer-focus:-translate-y-3"
               >
                 Search for...
               </label>
 
-              {/* Clear button */}
               {searchQuery && !loading && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 
-                           text-sm text-gray-500 hover:text-gray-800 font-medium transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500 hover:text-gray-800 font-medium transition-colors"
                 >
                   clear
                 </button>
@@ -165,10 +159,11 @@ export default function SearchBox({ onClose, isOpen }) {
                 <hr className="border-gray-300 mb-4" />
                 <div className="space-y-3">
                   {products.map((product) => (
-                    <div
+                    <Link
                       key={product._id}
+                      to={`/products/${product._id}`}
                       className="group flex items-center space-x-4 bg-white border border-gray-100 rounded-lg p-3 shadow-sm 
-                      hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+                                 hover:bg-gray-50 transition-all duration-300 cursor-pointer"
                     >
                       <div className="w-16 h-16 flex justify-center items-center overflow-hidden">
                         <img
@@ -181,49 +176,41 @@ export default function SearchBox({ onClose, isOpen }) {
                       <div>
                         <p className="text-xs text-gray-500">{product.brand}</p>
                         <h4 className="text-sm font-medium text-[#023E8A] relative inline-block
-                             after:content-[''] after:absolute after:left-0 after:bottom-0 
-                             after:h-[2px] after:bg-[#023E8A] after:w-0 
-                             group-hover:after:w-full after:transition-[width] after:duration-300 after:ease-out">
+                                   after:content-[''] after:absolute after:left-0 after:bottom-0 
+                                   after:h-[2px] after:bg-[#023E8A] after:w-0 
+                                   group-hover:after:w-full after:transition-[width] after:duration-300 after:ease-out">
                           {product.name}
                         </h4>
                         <p className="text-sm text-[#023E8A] mt-0.5">${product.price}</p>
                       </div>
-                    </div>
+                    </Link>
+
                   ))}
                 </div>
               </div>
             )}
 
             {/* Empty state */}
-            {!loading &&
-              searchDone &&
-              !error &&
-              products.length === 0 &&
-              searchQuery.length >= 3 && (
-                <div className="flex flex-col items-center justify-center text-center mt-10 text-[#023E8A]">
-                  <img src={notfound} className="mb-4" alt="Not Found" />
-                  <p className="font-semibold text-lg">NO RESULTS</p>
-                  <p className="font-semibold text-lg">FOUND FOR{" "}</p>
-                  <span className="font-semibold text-lg">"{searchQuery}"</span>
-                  <p className="text-sm">Try a different keyword or check the spelling.</p>
-                </div>
-              )}
+            {!loading && searchDone && !error && products.length === 0 && searchQuery.length >= 3 && (
+              <div className="flex flex-col items-center justify-center text-center mt-10 text-[#023E8A]">
+                <img src={notfound} className="mb-4" alt="Not Found" />
+                <p className="font-semibold text-lg">NO RESULTS</p>
+                <p className="text-sm">Try a different keyword or check the spelling.</p>
+              </div>
+            )}
           </div>
 
-          {/* SEE ALL PRODUCTS BUTTON FIXED ABOVE BOTTOM */}
+          {/* SEE ALL PRODUCTS BUTTON */}
           {!loading && !error && products.length > 0 && (
             <div className="absolute bottom-[30px] left-0 w-full px-6">
               <Link to="/products">
                 <button
                   onClick={onClose}
                   className="group w-full py-3 bg-[#023E8A] text-white rounded-md font-semibold 
-                 hover:bg-blue-800 transition-all duration-300 cursor-pointer shadow-lg flex items-center justify-center"
+                             hover:bg-blue-800 transition-all duration-300 cursor-pointer shadow-lg flex items-center justify-center"
                 >
-                  <span>   SEE ALL PRODUCTS</span>
-
-                  <span className="ml-2 text-2xl transition-transform duration-300 group-hover:translate-x-2">
-                    →
-                  </span>
+                  <span>SEE ALL PRODUCTS</span>
+                  <span className="ml-2 text-2xl transition-transform duration-300 group-hover:translate-x-2">→</span>
                 </button>
               </Link>
             </div>
