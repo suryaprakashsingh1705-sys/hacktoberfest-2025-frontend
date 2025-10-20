@@ -319,7 +319,7 @@ export default function Header() {
       </div>
 
       {/* Search Drawer */}
-      {search && <SearchBox isOpen={search} onClose={() => setSearch(false)} />}
+       <SearchBox isOpen={search} onClose={() => setSearch(false)} />
 
       {/* Cart Drawer */}
       <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
