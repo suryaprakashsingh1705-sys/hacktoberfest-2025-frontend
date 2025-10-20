@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getProducts } from '../../api/productService';
+import { Link } from 'react-router-dom';
 import { getCart, removeFromCart, addToCart } from '../../utils/cart';
 import CartItem from './CartItem';
 import CartProgressBar from './CartProgressBar';
@@ -146,7 +147,9 @@ export default function CartDrawer({ isOpen, onClose }) {
   };
 
   // Ensure cart items are always rendered in the order they were added (by addedAt, oldest first)
-  const orderedItems = items.slice().sort((a, b) => (a.addedAt || 0) - (b.addedAt || 0));
+  const orderedItems = items
+    .slice()
+    .sort((a, b) => (a.addedAt || 0) - (b.addedAt || 0));
 
   return (
     <>
@@ -182,22 +185,20 @@ export default function CartDrawer({ isOpen, onClose }) {
           {isEmpty ? (
             // Empty State
             <>
+              {/* Greyed Progress Bar */}
+              <CartProgressBar
+                subtotal={0}
+                milestones={milestones}
+                progressPercent={0}
+                currentMilestone={milestones[0]}
+              />
               <div className="text-center py-12">
-                <p className="text-gray-600 text-lg font-medium mb-6">
+                <p className="text-gray-600 text-sm font-medium mb-6">
                   Your cart is empty
                 </p>
-              </div>
-
-              {/* Greyed Progress Bar */}
-              <div className="space-y-2">
-                <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-                  <div className="h-full bg-gray-400" style={{ width: '0%' }} />
-                </div>
-                <div className="flex justify-between text-xs text-gray-500">
-                  {milestones.map((m) => (
-                    <span key={m.amount}>${m.amount}</span>
-                  ))}
-                </div>
+                <Link to="/products" className="text-gray-800 underline">
+                  Explore our products.
+                </Link>
               </div>
 
               {/* Suggestions for Empty Cart */}
@@ -215,13 +216,21 @@ export default function CartDrawer({ isOpen, onClose }) {
               />
 
               {/* Cart Items */}
-              <div className="space-y-4 max-h-96 overflow-y-auto">
+              {/* Cart items list */}
+              <div
+                className="space-y-4 max-h-96 overflow-y-auto"
+                aria-label="Cart items list"
+              >
                 {orderedItems.map((item) => (
                   <CartItem
                     key={item.cartItemKey}
                     item={{
                       ...item,
-                      imageUrl: item.imageUrl || item.image || item.img || '/assets/missing-picture-product.jpg',
+                      imageUrl:
+                        item.imageUrl ||
+                        item.image ||
+                        item.img ||
+                        '/assets/missing-picture-product.jpg',
                     }}
                     onQuantityChange={handleQuantityChange}
                     onRemove={handleRemove}
