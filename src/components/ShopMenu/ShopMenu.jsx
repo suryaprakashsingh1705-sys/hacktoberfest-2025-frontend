@@ -533,17 +533,6 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
           </div>
         </div>
       )}
-
-      {/* Scroll to Top Arrow */}
-      {showScrollToTop && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-[#0D1B2A] text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all duration-300 z-50 group"
-          aria-label="Scroll to top"
-        >
-          <ChevronUp className="h-6 w-6 group-hover:scale-110 transition-transform duration-300" />
-        </button>
-      )}
     </>
   );
 };
