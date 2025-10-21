@@ -182,4 +182,24 @@
     animation: none !important;
     transition: none !important;
   }
+<<<<<<< HEAD
+=======
+}
+
+.close-icon {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #374151;
+  transition-property: transform, color;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  transform: rotate(0deg) scale(1);
+}
+
+.close-icon:hover,
+.close-icon:focus {
+  transform: rotate(90deg) scale(1.1);
+  color: #ef4444;
+>>>>>>> 1a5d95aaf541335a5e1e7ccdb657fa902b2e3882
 }
