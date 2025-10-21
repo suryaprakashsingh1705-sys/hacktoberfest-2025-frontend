@@ -39,7 +39,7 @@ function HeroSection() {
 
   return (
     <section
-      className="hero-section pt-5"
+      className="hero-section"
       aria-label="Hero carousel"
       id="hero-section"
     >
@@ -56,18 +56,18 @@ function HeroSection() {
         {slides.map((slide, index) => (
           <div key={index}>
             <picture>
-              <source media="(width < 64rem)" srcset={slide.mobileImage} />
+              <source media="(width < 40rem)" srcset={slide.mobileImage} />
               <img
                 src={slide.desktopImage}
                 alt={slide.alt}
-                className="w-full h-auto block"
+                className="w-full h-auto block object-cover object-center"
                 tabIndex={-1}
               />
             </picture>
 
             <LinkButton
               href={slide.href}
-              className="absolute bottom-21 right-8 hero:bottom-22 hero:right-21 "
+              className="absolute bottom-22 right-8 sm:bottom-30 sm:right-21"
             >
               {slide.buttonLabel}
             </LinkButton>
