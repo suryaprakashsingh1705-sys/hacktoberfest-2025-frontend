@@ -103,7 +103,7 @@ function HeroSection() {
 
             <LinkButton
               href={slide.href}
-              className="absolute bottom-22 right-8 sm:right-14 sm:bottom-20 md:bottom-30 md:right-21"
+              className="absolute bottom-22 right-8 sm:right-14 sm:bottom-20 md:bottom-30 md:right-21 animate-fade-slide-up"
               tabIndex={index === activeSlide ? 0 : -1}
               aria-hidden={index !== activeSlide}
             >
