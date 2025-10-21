@@ -19,10 +19,12 @@ export default function ProductPage() {
   );
 
   const [recommendedProducts, setRecommendedProducts] = useState([]);
+  const [fetchAttempted, setFetchAttempted] = useState(false);
 
   useEffect(() => {
     if (!id) return;
     dispatch(fetchProductById(id));
+    setFetchAttempted(true);
 
     const fetchRecommendedProducts = async (id) => {
       try {
@@ -61,20 +63,18 @@ export default function ProductPage() {
   }
 
   if (!product) {
-    return <Navigate to="/not-found" replace />;
+    if (fetchAttempted && !loading) {
+      return <Navigate to="/not-found" replace />;
+    }
   }
 
   return (
     <main className="max-w-6xl mx-auto p-6">
+      {/* Additional Product Information */}
       <article>
-        <ProductCard
-          product={product}
-          onAddToWishlist={(prod) => toggleWishlist(prod)}
-          onAddToCart={(prod, flavor) => toggleCart(prod, flavor)}
-          isWishlisted={isInWishlist(product.id || product._id)}
-          isInCart={(flavor) => isInCart(product, flavor)}
-        />
+        <ProductDetails product={product} />
       </article>
+      {/* Recommended Products Section */}
       {recommendedProducts?.length > 0 && (
         <section className="my-12">
           <h2 className="text-2xl font-semibold mb-4">
