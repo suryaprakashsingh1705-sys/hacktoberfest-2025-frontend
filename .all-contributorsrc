@@ -212,6 +212,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "yashseth391",
+      "name": "Yash Seth",
+      "avatar_url": "https://avatars.githubusercontent.com/u/115554024?v=4",
+      "profile": "https://github.com/yashseth391",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "commitType": "docs",
