@@ -17,6 +17,7 @@ const ShippingPolicy = lazy(
 );
 const Products = lazy(() => import('../pages/Products/Products'));
 const ProductPage = lazy(() => import('../pages/Products/ProductPage'));
+
 const TermsOfService = lazy(
   () => import('../pages/TermsOfService/TermsOfService')
 );

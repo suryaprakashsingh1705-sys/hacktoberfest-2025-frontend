@@ -9,21 +9,34 @@ import {
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import './SupplementForGoalsSection.css';
 
-const goalCards = [
+export const goalCards = [
   {
     label: 'protein powder',
+    id: 'protein-powder',
     image: proteinPowder,
     href: '/collections/protein-powder',
   },
-  { label: 'pre-workout', image: preWorkout, href: '/collections/pre-workout' },
+  {
+    label: 'pre-workout',
+    id: 'pre-workout',
+    image: preWorkout,
+    href: '/collections/pre-workout',
+  },
   {
     label: 'intra-workout',
+    id: 'intra-workout',
     image: intraWorkout,
     href: '/collections/intra-workout',
   },
-  { label: 'amino acids', image: aminoAcids, href: '/collections/amino-acids' },
+  {
+    label: 'amino acids',
+    id: 'amino-acids',
+    image: aminoAcids,
+    href: '/collections/amino-acids',
+  },
   {
     label: 'weight management',
+    id: 'weight-management',
     image: weightManagement,
     href: '/collections/weight-management',
   },
