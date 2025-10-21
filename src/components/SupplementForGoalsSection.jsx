@@ -113,7 +113,6 @@ function GoalCard({ item, delayIndex = 0, size }) {
       className="block card-reveal card-elevate"
       style={{ animationDelay: `${delayIndex * 120}ms` }}
       aria-labelledby={labelId}
-      role="group"
     >
       <div className="relative overflow-hidden rounded card-inner">
         <GoalCardImage item={item} dimensions={dimensions} />
@@ -132,7 +131,7 @@ function GoalCardImage({ item, dimensions }) {
   return (
     <img
       src={item.image}
-      alt={item.label}
+      alt=""
       loading="lazy"
       decoding="async"
       width={dimensions.width}
