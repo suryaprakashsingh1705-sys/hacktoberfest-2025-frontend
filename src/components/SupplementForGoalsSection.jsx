@@ -97,15 +97,15 @@ function GoalCard({ item, delayIndex = 0, size }) {
   const dimensions =
     size === 'large'
       ? {
-          width: 600,
-          height: 342,
-          minClass: 'min-h-[200px] md:min-h-[224px] lg:min-h-[280px]',
-        }
+        width: 600,
+        height: 342,
+        minClass: 'min-h-[200px] md:min-h-[224px] lg:min-h-[280px]',
+      }
       : {
-          width: 436,
-          height: 220,
-          minClass: 'min-h-[140px] md:min-h-[160px] lg:min-h-[200px]',
-        };
+        width: 436,
+        height: 220,
+        minClass: 'min-h-[140px] md:min-h-[160px] lg:min-h-[200px]',
+      };
 
   return (
     <a
@@ -113,7 +113,6 @@ function GoalCard({ item, delayIndex = 0, size }) {
       className="block card-reveal card-elevate"
       style={{ animationDelay: `${delayIndex * 120}ms` }}
       aria-labelledby={labelId}
-      role="group"
     >
       <div className="relative overflow-hidden rounded card-inner">
         <GoalCardImage item={item} dimensions={dimensions} />
@@ -132,7 +131,7 @@ function GoalCardImage({ item, dimensions }) {
   return (
     <img
       src={item.image}
-      alt={item.label}
+      alt=""
       loading="lazy"
       decoding="async"
       width={dimensions.width}
