@@ -47,14 +47,14 @@ export default function TopHeader() {
 
           {/* Right Side Icons - Aligned with main header icons */}
           <div className="ml-auto flex items-center space-x-6 relative z-10 pointer-events-auto">
-            <a
+            <a target="_blank" rel="noopener noreferrer"
               href="https://www.youtube.com/@AlexSmaginDev"
               aria-label="YouTube"
               className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
             >
               <FaYoutube size={18} />
             </a>
-            <a
+            <a target="_blank" rel="noopener noreferrer"
               href="https://www.linkedin.com/company/104436074"
               aria-label="LinkedIn"
               className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
@@ -65,7 +65,7 @@ export default function TopHeader() {
                 stroke="none"
               />
             </a>
-            <a
+            <a target="_blank" rel="noopener noreferrer"
               href="https://x.com/alexsmagin29"
               aria-label="Twitter"
               className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
@@ -76,7 +76,7 @@ export default function TopHeader() {
                 stroke="none"
               />
             </a>
-            <a
+            <a target="_blank" rel="noopener noreferrer"
               href="https://www.facebook.com/profile.php?id=61580367112591"
               aria-label="Facebook"
               className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
