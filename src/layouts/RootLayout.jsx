@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SEO from '../components/SEO';
-import ScrollToTop from '../components/ScrollToTop';
+import ScrollToTop from '../components/ui/ScrollToTop/ScrollToTop';
 import TopFooter from '../components/TopFooter';
 import MainHeader from '../components/Header';
 import Loader from '../components/Loader';
