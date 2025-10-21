@@ -5,9 +5,9 @@ import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
 import { Menu, X, ChevronDown, Search, Heart, User } from 'lucide-react';
 import { useSelector } from 'react-redux';
-import WishListScreen from '../WishList/WishiListScreen';
-import CartIcon from '../cart/CartIcon';
-import CartDrawer from '../cart/CartDrawer';
+import WishListScreen from '../WishList/WishListScreen';
+import CartIcon from '../CartComponent/CartIcon';
+import CartDrawer from '../CartComponent/CartDrawer';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
