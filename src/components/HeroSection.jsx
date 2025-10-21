@@ -1,29 +1,33 @@
 import { LinkButton, Slider } from './ui';
 import { useSliderAutoplay } from '../hooks/useSliderAutoplay';
 
-import { heroJoin, heroCorex, heroUnlock, heroSales } from '../assets/hero';
+import { heroJoin, heroCorex, heroUnlock, heroSales, heroCorexMob, heroSalesMob, heroUnlockMob, heroJoinMob } from '../assets';
 
 const slides = [
   {
-    image: heroCorex,
+    desktopImage: heroCorex,
+    mobileImage: heroCorexMob,
     buttonLabel: 'Shop Now',
     href: '/products',
     alt: 'CoreX Nutrition - Science-backed supplements for peak performance',
   },
   {
-    image: heroSales,
+    desktopImage: heroSales,
+    mobileImage: heroSalesMob,
     buttonLabel: 'Shop Now',
     href: '/products',
     alt: 'Special offer - CoreX supplements on 40% off sale now',
   },
   {
-    image: heroUnlock,
+    desktopImage: heroUnlock,
+    mobileImage: heroUnlockMob,
     buttonLabel: 'Shop Now',
     href: '/products',
     alt: 'Unlock your potential with CoreX performance supplements',
   },
   {
-    image: heroJoin,
+    desktopImage: heroJoin,
+    mobileImage: heroJoinMob,
     buttonLabel: 'Join Us',
     href: '/about-corex',
     alt: 'Join the CoreX community - Premium supplements for serious athletes',
@@ -35,7 +39,7 @@ function HeroSection() {
 
   return (
     <section
-      className="hero-section"
+      className="hero-section pt-5"
       aria-label="Hero carousel"
       id="hero-section"
     >
@@ -51,16 +55,19 @@ function HeroSection() {
       >
         {slides.map((slide, index) => (
           <div key={index}>
-            <img
-              src={slide.image}
-              alt={slide.alt}
-              className="w-full h-auto block"
-              tabIndex={-1}
-            />
+            <picture>
+              <source media="(width < 64rem)" srcset={slide.mobileImage} />
+              <img
+                src={slide.desktopImage}
+                alt={slide.alt}
+                className="w-full h-auto block"
+                tabIndex={-1}
+              />
+            </picture>
 
             <LinkButton
               href={slide.href}
-              className="absolute bottom-10 right-8 md:bottom-21 md:right-21"
+              className="absolute bottom-21 right-8 hero:bottom-22 hero:right-21 "
             >
               {slide.buttonLabel}
             </LinkButton>

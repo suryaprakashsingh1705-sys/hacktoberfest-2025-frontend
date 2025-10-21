@@ -15,6 +15,9 @@
   --color-main: #023e8a;
   --color-white-back: #f7faff;
   --color-black: #010409;
+
+  --breakpoint-hero: 64rem;
+
 }
 
 /* ==========================
