@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import SearchBox from '../Search/SearchBox';
 import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
-import CartIcon from '../CartComponent/CartIcon';
-import CartDrawer from '../CartComponent/CartDrawer';
 import { Menu, X, ChevronDown, Search, Heart, User } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import WishListScreen from '../WishList/WishiListScreen';
+import CartIcon from '../cart/CartIcon';
+import CartDrawer from '../cart/CartDrawer';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -13,6 +15,9 @@ export default function Header() {
   const [search, setSearch] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const mobileMenuRef = useRef(null);
+  const [wishListOpen, setWishListOpen] = useState(false);
+
+  const wishListData = useSelector((state) => state.wishList);
 
   // Handle shop button click
   const handleShopClick = () => {
@@ -95,13 +100,22 @@ export default function Header() {
                   <Search className="h-5 w-5" />
                 </button>
 
-                <a
-                  href="#"
+                <button
                   aria-label="Wishlist"
-                  className="transform transition-transform duration-200 hover:scale-110 hover:text-black"
+                  onClick={() => setWishListOpen(true)}
+                  className="relative transform transition-transform duration-200 hover:scale-110 hover:text-black cursor-pointer"
                 >
                   <Heart className="h-5 w-5" />
-                </a>
+
+                  {wishListData.items.length > 0 && (
+                    <span
+                      className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold
+                     rounded-full h-4 w-4 flex items-center justify-center"
+                    >
+                      {wishListData.items.length}
+                    </span>
+                  )}
+                </button>
 
                 <Link
                   to="/login"
@@ -319,7 +333,13 @@ export default function Header() {
       </div>
 
       {/* Search Drawer */}
-       <SearchBox isOpen={search} onClose={() => setSearch(false)} />
+      {wishListOpen && (
+        <WishListScreen
+          setWishListOpen={setWishListOpen}
+          wishListData={wishListData}
+        />
+      )}
+      {search && <SearchBox isOpen={search} onClose={() => setSearch(false)} />}
 
       {/* Cart Drawer */}
       <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
