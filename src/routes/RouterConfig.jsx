@@ -42,7 +42,7 @@ export const RouterConfig = () =>
         <Route path="/products" element={<Products />} />
         <Route path="products/:id" element={<ProductPage />} />
         <Route path="garage-sale" element={<GarageSale />} />
-        <Route path="collections" element={<CollectionsPage />} />
+        <Route path="collections/:name" element={<CollectionsPage />} />
         <Route path="about-corex" element={<About />} />
         <Route path="accessibility" element={<Accessibility />} />
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
