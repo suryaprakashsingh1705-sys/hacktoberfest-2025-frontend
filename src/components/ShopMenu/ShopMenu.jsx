@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
 
 const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [animationState, setAnimationState] = useState('closed'); // 'closed', 'opening', 'open', 'closing'
-  const [showScrollToTop, setShowScrollToTop] = useState(false);
   const menuItemsRef = useRef([]);
   const shopButtonRef = useRef(null);
 
@@ -92,25 +91,6 @@ const ShopMenu = ({ shopOpen, setShopOpen, onShopClick, onShopKeyDown }) => {
       handleOpenMenu();
     }
   }, [shopOpen, animationState]);
-
-  // Handle scroll to top functionality
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-      setShowScrollToTop(scrollTop > 300); // Show arrow when scrolled down 300px
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
 
   // Keyboard accessibility
   useEffect(() => {
