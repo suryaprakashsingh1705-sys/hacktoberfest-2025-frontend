@@ -50,7 +50,7 @@ const WishListProductCard = ({ product, removeFromWishList }) => {
     </div>
   );
 };
-const WishListDrawerScreen = ({ wishListData, setWishListOpen }) => {
+const WishListScreen = ({ wishListData, setWishListOpen }) => {
   const dispatch = useDispatch();
   const drawerRef = useRef(null);
 
@@ -170,4 +170,4 @@ const WishListDrawerScreen = ({ wishListData, setWishListOpen }) => {
   return wishListScreen;
 };
 
-export default WishListDrawerScreen;
+export default WishListScreen;

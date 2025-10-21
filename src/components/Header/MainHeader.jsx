@@ -4,8 +4,8 @@ import SearchBox from '../Search/SearchBox';
 import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
 import { Menu, X, ChevronDown, Search, Heart, User } from 'lucide-react';
-
-import WishListDrawerScreen from '../WishList/WishiListScreen';
+import { useSelector, useDispatch } from 'react-redux';
+import WishListScreen from '../WishList/WishiListScreen';
 import CartIcon from '../cart/CartIcon';
 import CartDrawer from '../cart/CartDrawer';
 
@@ -336,7 +336,7 @@ export default function Header() {
 
       {/* Search Drawer */}
       {wishListOpen && (
-        <WishListDrawerScreen
+        <WishListScreen
           setWishListOpen={setWishListOpen}
           wishListData={wishListData}
         />

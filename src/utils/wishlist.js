@@ -24,7 +24,7 @@ export function isInWishlist(productId) {
 }
 
 export function addToWishlist(product) {
-  if (!product || !product.id && !product._id) return false; // Ensure product has an ID
+  if (!product || (!product.id && !product._id)) return false; // Ensure product has an ID
   try {
     const current = getWishlist();
     const productId = product.id || product._id;
@@ -50,7 +50,7 @@ export function addToWishlist(product) {
   }
 }
 
-export function RemoveFromWishlist(productId) {
+export function removeFromWishlist(productId) {
   if (!productId) return false;
   try {
     const current = getWishlist();
@@ -63,13 +63,13 @@ export function RemoveFromWishlist(productId) {
 }
 
 export function toggleWishlist(product) {
-  if (!product || !product.id && !product._id) return false; // Ensure product has an ID
+  if (!product || (!product.id && !product._id)) return false; // Ensure product has an ID
 
   const productId = product.id || product._id;
   const isCurrentlyInWishlist = isInWishlist(productId);
 
   if (isCurrentlyInWishlist) {
-    RemoveFromWishlist(productId);
+    removeFromWishlist(productId);
     return false; // Removed from wishlist
   } else {
     addToWishlist(product);
@@ -81,6 +81,6 @@ export default {
   getWishlist,
   isInWishlist,
   addToWishlist,
-  RemoveFromWishlist,
+  removeFromWishlist,
   toggleWishlist,
 };
