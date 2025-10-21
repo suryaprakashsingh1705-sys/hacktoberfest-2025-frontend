@@ -3,6 +3,7 @@ import productSlice from './productSlice';
 import cartSlice from './cartSlice';
 import authSlice from './authSlice';
 import wishListSlice from './wishListSlice';
+import collectionSlice from './CollectionSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     cart: cartSlice,
     auth: authSlice,
     wishList: wishListSlice,
+    collections: collectionSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

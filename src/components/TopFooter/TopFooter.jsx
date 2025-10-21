@@ -75,7 +75,9 @@ export default function TopFooter() {
           </Link>
           <ul className="flex items-center space-x-6 mb-4">
             <li className="transform transition-transform duration-200 hover:scale-110">
-              <a
+              <a 
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.youtube.com/@AlexSmaginDev"
                 aria-label="YouTube"
                 className="hover:text-gray-300 transition-colors"
@@ -84,7 +86,9 @@ export default function TopFooter() {
               </a>
             </li>
             <li className="transform transition-transform duration-200 hover:scale-110">
-              <a
+              <a 
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.linkedin.com/company/104436074"
                 aria-label="LinkedIn"
                 className="hover:text-gray-300 transition-colors"
@@ -97,7 +101,9 @@ export default function TopFooter() {
               </a>
             </li>
             <li className="transform transition-transform duration-200 hover:scale-110">
-              <a
+              <a 
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://x.com/alexsmagin29"
                 aria-label="Twitter"
                 className="hover:text-gray-300 transition-colors"
@@ -110,7 +116,9 @@ export default function TopFooter() {
               </a>
             </li>
             <li className="transform transition-transform duration-200 hover:scale-110">
-              <a
+              <a 
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://www.facebook.com/profile.php?id=61580367112591"
                 aria-label="Facebook"
                 className="hover:text-gray-300 transition-colors"
