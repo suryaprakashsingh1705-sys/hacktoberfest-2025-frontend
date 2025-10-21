@@ -4,7 +4,7 @@ import SearchBox from '../Search/SearchBox';
 import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
 import { Menu, X, ChevronDown, Search, Heart, User } from 'lucide-react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import WishListScreen from '../WishList/WishiListScreen';
 import CartIcon from '../cart/CartIcon';
 import CartDrawer from '../cart/CartDrawer';
@@ -18,8 +18,6 @@ export default function Header() {
   const [wishListOpen, setWishListOpen] = useState(false);
 
   const wishListData = useSelector((state) => state.wishList);
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   // Handle shop button click
   const handleShopClick = () => {
