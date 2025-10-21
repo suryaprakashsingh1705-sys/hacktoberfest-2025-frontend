@@ -1,5 +1,6 @@
 import { LinkButton, Slider } from './ui';
 import { useSliderAutoplay } from '../hooks/useSliderAutoplay';
+import { useState } from 'react';
 
 import {
   heroJoin,
@@ -57,6 +58,7 @@ const slides = [
 
 function HeroSection() {
   const sliderRef = useSliderAutoplay(8000);
+  const [activeSlide, setActiveSlide] = useState(0);
 
   return (
     <section
@@ -73,6 +75,7 @@ function HeroSection() {
         dots
         arrows={false}
         infinite
+        beforeChange={(current, next) => setActiveSlide(next)}
       >
         {slides.map((slide, index) => (
           <div key={index} className="relative w-full h-full">
@@ -101,6 +104,8 @@ function HeroSection() {
             <LinkButton
               href={slide.href}
               className="absolute bottom-22 right-8 sm:right-14 sm:bottom-20 md:bottom-30 md:right-21"
+              tabIndex={index === activeSlide ? 0 : -1}
+              aria-hidden={index !== activeSlide}
             >
               {slide.buttonLabel}
             </LinkButton>
