@@ -9,8 +9,11 @@ export const fetchCollectionById = createAsyncThunk(
       const data = await getCollectionById(collectionId);
       return data;
     } catch (error) {
+      // Log detailed error for debugging
+      console.error('Collection fetch error:', error);
+      // Return generic user-friendly message
       return rejectWithValue(
-        error.response?.data?.message || 'Failed to fetch collection'
+        'Unable to load collection. Please try again later.'
       );
     }
   }

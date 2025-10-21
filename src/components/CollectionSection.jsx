@@ -56,7 +56,9 @@ const CollectionSection = () => {
   }, []);
 
   const handleCardClick = (collection) => {
-    navigate(`/collections/${collection.id}`);
+    navigate(`/collections/${encodeURIComponent(collection.id)}`, {
+      state: { imageUrl: collection.image },
+    });
   };
 
   return (

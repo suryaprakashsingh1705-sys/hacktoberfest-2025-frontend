@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { motion } from 'framer-motion';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 
 import {
   fetchCollectionById,
@@ -149,11 +150,25 @@ export default function CollectionPage() {
     [loading, hasMoreProducts, sortedProducts.length]
   );
 
-  // Format collection name for display
-  const collectionTitle =
-    currentCollection?.replace(/-/g, ' ') || name.replace(/-/g, ' ');
+  const collectionSlug = currentCollection || name;
+  const collectionTitle = collectionSlug?.replace(/-/g, ' ') || 'Collection';
   const collectionTitleCapitalized =
     collectionTitle.charAt(0).toUpperCase() + collectionTitle.slice(1);
+
+  const getValidatedImageUrl = () => {
+    const stateImage = window.history.state?.usr?.imageUrl;
+    if (stateImage && typeof stateImage === 'string') {
+      if (stateImage.startsWith('/') || stateImage.startsWith('./')) {
+        return stateImage;
+      }
+    }
+
+    // Fallback to collection lookup from allowlisted collections
+    const collection = collections.find((col) => col.id === name);
+    return collection?.image || null;
+  };
+
+  const imageUrl = getValidatedImageUrl();
 
   if (error) {
     return (
@@ -196,9 +211,6 @@ export default function CollectionPage() {
     );
   }
 
-  const imageUrl = collections.find((col) => col.id === name)?.image || null;
-
-  console.log(imageUrl);
   return (
     <>
       <SEO
@@ -221,7 +233,7 @@ export default function CollectionPage() {
 
         {/* Collection Banner */}
         <section
-          className={`text-white py-20 ${imageUrl ? '/images/pre-workout.png' : 'bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900'}`}
+          className={`text-white py-20 ${imageUrl ? '' : 'bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900'}`}
           style={
             imageUrl
               ? {
