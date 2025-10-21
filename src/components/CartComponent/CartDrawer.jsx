@@ -176,7 +176,7 @@ export default function CartDrawer({ isOpen, onClose }) {
             className="p-2 hover:bg-gray-100 rounded-full transition"
             aria-label="Close cart"
           >
-            <X className="h-5 w-5 text-gray-700" />
+            <X className="close-icon h-5 w-5 text-gray-700" />
           </button>
         </div>
 
@@ -196,7 +196,11 @@ export default function CartDrawer({ isOpen, onClose }) {
                 <p className="text-gray-600 text-sm font-medium mb-6">
                   Your cart is empty
                 </p>
-                <Link to="/products" onClick={onClose} className="text-gray-800 underline">
+                <Link
+                  to="/products"
+                  onClick={onClose}
+                  className="text-gray-800 underline"
+                >
                   Explore our products.
                 </Link>
               </div>

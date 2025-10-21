@@ -120,7 +120,7 @@ const WishListScreen = ({ wishListData, setWishListOpen }) => {
               className="text-gray-600 hover:text-red-500 cursor-pointer"
               onClick={() => setWishListOpen(false)}
             >
-              <X size={24} />
+              <X className="close-icon" />
             </button>
           </div>
 
