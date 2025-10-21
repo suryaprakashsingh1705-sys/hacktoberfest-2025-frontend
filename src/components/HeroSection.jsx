@@ -1,33 +1,54 @@
 import { LinkButton, Slider } from './ui';
 import { useSliderAutoplay } from '../hooks/useSliderAutoplay';
 
-import { heroJoin, heroCorex, heroUnlock, heroSales, heroCorexMob, heroSalesMob, heroUnlockMob, heroJoinMob } from '../assets';
+import {
+  heroJoin,
+  heroCorex,
+  heroUnlock,
+  heroSales,
+  heroCorexMob640,
+  heroCorex1080,
+  heroCorex1920,
+  heroSalesMob640,
+  heroSales1080,
+  heroSales1920,
+  heroUnlockMob640,
+  heroUnlock1080,
+  heroUnlock1920,
+  heroJoinMob640,
+  heroJoin1080,
+  heroJoin1920,
+} from '../assets';
 
 const slides = [
   {
-    desktopImage: heroCorex,
-    mobileImage: heroCorexMob,
+    mobile: heroCorexMob640,
+    srcSet: `${heroCorex1080} 1080w, ${heroCorex1920} 1920w`,
+    fallback: heroCorex,
     buttonLabel: 'Shop Now',
     href: '/products',
     alt: 'CoreX Nutrition - Science-backed supplements for peak performance',
   },
   {
-    desktopImage: heroSales,
-    mobileImage: heroSalesMob,
+    mobile: heroSalesMob640,
+    srcSet: `${heroSales1080} 1080w, ${heroSales1920} 1920w`,
+    fallback: heroSales,
     buttonLabel: 'Shop Now',
     href: '/products',
     alt: 'Special offer - CoreX supplements on 40% off sale now',
   },
   {
-    desktopImage: heroUnlock,
-    mobileImage: heroUnlockMob,
+    mobile: heroUnlockMob640,
+    srcSet: `${heroUnlock1080} 1080w, ${heroUnlock1920} 1920w`,
+    fallback: heroUnlock,
     buttonLabel: 'Shop Now',
     href: '/products',
     alt: 'Unlock your potential with CoreX performance supplements',
   },
   {
-    desktopImage: heroJoin,
-    mobileImage: heroJoinMob,
+    mobile: heroJoinMob640,
+    srcSet: `${heroJoin1080} 1080w, ${heroJoin1920} 1920w`,
+    fallback: heroJoin,
     buttonLabel: 'Join Us',
     href: '/about-corex',
     alt: 'Join the CoreX community - Premium supplements for serious athletes',
@@ -56,12 +77,24 @@ function HeroSection() {
         {slides.map((slide, index) => (
           <div key={index} className="relative w-full h-full">
             <picture className="block w-full h-full">
-              <source media="(max-width: 40rem)" srcSet={slide.mobileImage} />
+              <source
+                media="(max-width: 40rem)"
+                type="image/webp"
+                srcSet={slide.mobile}
+              />
+              <source
+                type="image/webp"
+                srcSet={slide.srcSet}
+                sizes="100vw"
+              />
               <img
-                src={slide.desktopImage}
+                src={slide.fallback}
                 alt={slide.alt}
                 tabIndex={-1}
-                className="w-full h-full object-cover object-top sm:object-contain sm:object-center xl:object-cover xl:object-center"
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                fetchPriority={index === 0 ? 'high' : 'low'}
+                className="w-full h-full object-cover object-top md:object-contain md:object-center xl:object-cover xl:object-center"
               />
             </picture>
 
