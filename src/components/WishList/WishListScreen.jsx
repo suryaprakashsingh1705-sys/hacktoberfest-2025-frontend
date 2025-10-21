@@ -116,11 +116,11 @@ const WishListScreen = ({ wishListData, setWishListOpen }) => {
               WISHLIST
             </h2>
             <button
-              aria-label="Close wishlist"
-              className="text-gray-600 hover:text-red-500 cursor-pointer"
+              className="p-2 hover:bg-gray-100 rounded-full cursor-pointer transition group"
+              aria-label="Close cart"
               onClick={() => setWishListOpen(false)}
             >
-              <X className="close-icon" />
+              <X className="h-5 w-5 text-gray-700 transform transition-transform duration-200 ease-in-out group-hover:scale-110 group-hover:rotate-90" />
             </button>
           </div>
 

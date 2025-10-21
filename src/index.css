@@ -182,8 +182,6 @@
     animation: none !important;
     transition: none !important;
   }
-<<<<<<< HEAD
-=======
 }
 
 .close-icon {
@@ -200,6 +198,5 @@
 .close-icon:hover,
 .close-icon:focus {
   transform: rotate(90deg) scale(1.1);
-  color: #ef4444;
->>>>>>> 1a5d95aaf541335a5e1e7ccdb657fa902b2e3882
+  /* color: #ef4444; */
 }

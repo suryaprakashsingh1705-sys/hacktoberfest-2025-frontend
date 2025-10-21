@@ -173,10 +173,10 @@ export default function CartDrawer({ isOpen, onClose }) {
           <h2 className="text-xl font-bold text-gray-900">Your Cart</h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition"
+            className="p-2 hover:bg-gray-100 rounded-full cursor-pointer transition group"
             aria-label="Close cart"
           >
-            <X className="close-icon h-5 w-5 text-gray-700" />
+            <X className="h-5 w-5 text-gray-700 transform transition-transform duration-200 ease-in-out group-hover:scale-110 group-hover:rotate-90" />
           </button>
         </div>
 
