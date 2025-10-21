@@ -196,7 +196,11 @@ export default function CartDrawer({ isOpen, onClose }) {
                 <p className="text-gray-600 text-sm font-medium mb-6">
                   Your cart is empty
                 </p>
-                <Link to="/products" onClick={onClose} className="text-gray-800 underline">
+                <Link
+                  to="/products"
+                  onClick={onClose}
+                  className="text-gray-800 underline"
+                >
                   Explore our products.
                 </Link>
               </div>

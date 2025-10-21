@@ -8,7 +8,8 @@
   --font-inter: 'Inter', sans-serif;
 
   /* Font Sizes */
-  --text-heading-xxl: 4rem; /* 64px */
+  --text-heading-xxl: 4rem;
+  /* 64px */
 
   /* Colors */
   --color-white-light: #fafaf9;
@@ -23,6 +24,7 @@
       opacity: 0;
       transform: translateY(30px);
     }
+
     100% {
       opacity: 1;
       transform: translateY(0);
@@ -34,6 +36,7 @@
    COMPONENTS
 ========================== */
 @layer components {
+
   /* Section Title */
   .section-title {
     @apply text-4xl lg:text-heading-xxl font-montserrat font-bold leading-none uppercase text-center tracking-tight;
@@ -50,11 +53,25 @@
    BUTTON ANIMATIONS
 ========================== */
 @keyframes double-pop {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.18); }
-  55% { transform: scale(0.96); }
-  80% { transform: scale(1.06); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(1.18);
+  }
+
+  55% {
+    transform: scale(0.96);
+  }
+
+  80% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .animate-double-pop {
@@ -66,22 +83,24 @@
    SHOP MENU ANIMATIONS
 ========================== */
 @keyframes slide-down {
-  0% { 
+  0% {
     opacity: 0;
     transform: translateY(-20px) scaleY(0.95);
   }
-  100% { 
+
+  100% {
     opacity: 1;
     transform: translateY(0) scaleY(1);
   }
 }
 
 @keyframes slide-up {
-  0% { 
+  0% {
     opacity: 1;
     transform: translateY(0) scaleY(1);
   }
-  100% { 
+
+  100% {
     opacity: 0;
     transform: translateY(-20px) scaleY(0.95);
   }
@@ -154,6 +173,7 @@
    ACCESSIBILITY
 ========================== */
 @media (prefers-reduced-motion: reduce) {
+
   .link-underline::after,
   .link-underline-inverse::after,
   .animate-double-pop,
