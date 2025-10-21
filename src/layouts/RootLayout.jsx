@@ -7,6 +7,7 @@ import TopFooter from '../components/TopFooter';
 import MainHeader from '../components/Header';
 import Loader from '../components/Loader';
 import BottomFooter from '../components/BottomFooter';
+import BackToTop from '../components/BackToTop/BackToTop';
 
 function RootLayout() {
   return (
@@ -37,6 +38,7 @@ function RootLayout() {
         draggable
         pauseOnHover
       />
+      <BackToTop showAfter={250} />
     </>
   );
 }
