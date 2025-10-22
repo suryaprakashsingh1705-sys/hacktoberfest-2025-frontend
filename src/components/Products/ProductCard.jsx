@@ -205,26 +205,34 @@ const ProductCard = forwardRef(
           )}
 
           {/* State 3: Image successfully loaded or attempt to load */}
-          {!imageError && (product.imageUrl || product.image) && (
+          {!imageError && (product.imageUrl || product.image || true) && (
             <img
-              src={product.imageUrl || product.image || null}
-              alt={product.name}
+              src={
+                product.imageUrl ||
+                product.image ||
+                '/images/product-default-image.jpg'
+              }
+              alt={product.name || 'Product image'}
+              width="512"
+              height="512"
+              loading="lazy"
+              decoding="async"
               className={`w-full h-full object-contain transition-opacity duration-500 ${imageLoaded && !imageError ? 'opacity-100' : 'opacity-0'}`}
               onLoad={() => setImageLoaded(true)}
-              onError={() => {
+              onError={(e) => {
+                // fallback to default in public folder on load error
+                e.currentTarget.src = '/images/product-default-image.jpg';
                 setImageLoaded(true);
                 setImageError(true);
               }}
-              loading="lazy"
-              decoding="async"
             />
           )}
 
           {/* "VIEW PRODUCT" Overlay */}
-          <div className="absolute inset-0 bg-transparent group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
+          <div className="absolute inset-0 bg-transparent transition-all duration-300 flex items-center justify-center">
             <button
               onClick={(e) => handleActionClick(e, handleProductClick)}
-              className="opacity-0 group-hover:opacity-80 bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 text-md shadow-lg cursor-pointer group-hover:pointer-events-auto"
+              className="opacity-0 group-hover:opacity-80 group-focus-within:opacity-80 bg-blue-800 text-white px-6 py-3 rounded-lg font-semibold transform translate-y-4 group-hover:translate-y-0 group-focus-within:translate-y-0 transition-all duration-300 text-md shadow-lg cursor-pointer pointer-events-none group-hover:pointer-events-auto"
             >
               VIEW PRODUCT
             </button>

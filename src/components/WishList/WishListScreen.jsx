@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
 import { X } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { removeFromWishList } from '../../store/wishListSlice';
@@ -14,15 +14,19 @@ const WishListProductCard = ({ product, removeFromWishList }) => {
       <div className="flex ">
         {/* Product Image */}
         <img
-          src={
-            imageUrl ||
-            'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDMwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMjUgMTI1SDEzNVYxMzVIMTI1VjEyNVpNMTM1IDEyNUgxNDVWMTM1SDEzNVYxMjVaTTE0NSAxMjVIMTU1VjEzNUgxNDVWMTI1Wk0xNTUgMTI1SDE2NVYxMzVIMTU1VjEyNVpNMTY1IDEyNUgxNzVWMTM1SDE2NVYxMjVaIiBmaWxsPSIjOUI5QkEzIi8+CjxwYXRoIGQ9Ik0xMzUgMTQ1SDE0NVYxNTVIMTM1VjE0NVpNMTQ1IDE0NUgxNTVWMTU1SDE0NVYxNDVaTTE1NSAxNDVIMTY1VjE1NUgxNTVWMTQ1WiIgZmlsbD0iIzlCOUJBMyIvPgo8L3N2Zz4K'
-          }
-          alt={name}
-          className={`w-24 h-24 object-contain mr-6 `}
-          onLoad={() => {}}
-          onError={() => {}}
+          src={imageUrl || '/images/product-default-image.jpg'}
+          alt={name || 'Product image'}
+          className="w-24 h-24 object-contain mr-6"
           loading="lazy"
+          decoding="async"
+          width="96"
+          height="96"
+          onError={(e) => {
+            const tgt = e.currentTarget;
+            if (!tgt.src.includes('/images/product-default-image.jpg')) {
+              tgt.src = '/images/product-default-image.jpg';
+            }
+          }}
         />
 
         {/* Product Info */}
