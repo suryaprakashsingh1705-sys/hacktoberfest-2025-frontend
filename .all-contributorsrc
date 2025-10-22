@@ -221,6 +221,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "PranavTamada",
+      "name": "Pranav Tamada",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68816381?v=4",
+      "profile": "https://github.com/PranavTamada",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
     }
   ],
   "commitType": "docs",
