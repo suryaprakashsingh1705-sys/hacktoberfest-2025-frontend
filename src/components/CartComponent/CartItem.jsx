@@ -8,6 +8,7 @@ export default function CartItem({ item, onQuantityChange, onRemove, onClose }) 
     salePercent > 0 ? basePrice * (1 - salePercent / 100) : basePrice;
   const itemTotal = finalPrice * (item.quantity || 1);
   const [imageError, setImageError] = useState(false);
+  const [inFlight, setInFlight] = useState(false);
 
   const handleTitleClick = () => {
     if (onClose) onClose();
@@ -65,12 +66,19 @@ export default function CartItem({ item, onQuantityChange, onRemove, onClose }) 
         <div className="flex items-center gap-2 mt-2">
           <button
             aria-label="Decrease quantity"
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
               e.stopPropagation();
-              onQuantityChange(item, (item.quantity || 1) - 1);
+              if (inFlight) return;
+              setInFlight(true);
+              try {
+                await onQuantityChange(item, (item.quantity || 1) - 1);
+              } finally {
+                setTimeout(() => setInFlight(false), 180);
+              }
             }}
             className="px-2 py-1 border border-gray-300 rounded hover:bg-gray-100 transition text-sm"
+            disabled={inFlight}
           >
             –
           </button>
@@ -79,12 +87,19 @@ export default function CartItem({ item, onQuantityChange, onRemove, onClose }) 
           </span>
           <button
             aria-label="Increase quantity"
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
               e.stopPropagation();
-              onQuantityChange(item, (item.quantity || 1) + 1);
+              if (inFlight) return;
+              setInFlight(true);
+              try {
+                await onQuantityChange(item, (item.quantity || 1) + 1);
+              } finally {
+                setTimeout(() => setInFlight(false), 180);
+              }
             }}
             className="px-2 py-1 border border-gray-300 rounded hover:bg-gray-100 transition text-sm"
+            disabled={inFlight}
           >
             +
           </button>
