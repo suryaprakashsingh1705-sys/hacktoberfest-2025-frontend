@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { addRecentlyViewed } from '../../utils/recentlyViewed';
 import { addToWishList, removeFromWishList } from '../../store/wishListSlice';
 import { useDispatch } from 'react-redux';
+import AddToCartButton from './AddToCartButton';
 const HeartIcon = ({
   isWishlisted = false,
   animate = false,
@@ -28,13 +29,9 @@ const HeartIcon = ({
   </svg>
 );
 
-const CartIcon = ({ className = 'h-6 w-6' }) => (
-  <img src="/images/cart-icon.svg" alt="Add to cart" className={className} />
-);
-
 const ProductCard = forwardRef(
   (
-    { product, onAddToCart, isWishlisted: initialWishlisted = false, isInCart },
+    { product, isWishlisted: initialWishlisted = false },
     ref
   ) => {
     const navigate = useNavigate();
@@ -46,13 +43,7 @@ const ProductCard = forwardRef(
     const [isWishlisted, setIsWishlisted] = useState(initialWishlisted);
     const [animateLike, setAnimateLike] = useState(false);
     const likeTimeoutRef = useRef(null);
-    const [cartLoading, setCartLoading] = useState(false);
-    const [cartAdded, setCartAdded] = useState(false);
-    const cartLoadingTimeoutRef = useRef(null);
-    const cartAddedTimeoutRef = useRef(null);
     const dispatch = useDispatch();
-    // Check if current product+flavor is in cart
-    const itemIsInCart = isInCart ? isInCart(selectedFlavor) : false;
 
     const handleProductClick = () => {
       // add to recently viewed list (stored in localStorage) before navigating
@@ -75,28 +66,6 @@ const ProductCard = forwardRef(
     const handleActionClick = (e, action) => {
       e.stopPropagation();
       action();
-    };
-
-    const handleAddToCart = () => {
-      // visual feedback: show a small loading indicator, then show ADDED for a short time
-      setCartLoading(true);
-      if (cartLoadingTimeoutRef.current)
-        clearTimeout(cartLoadingTimeoutRef.current);
-      cartLoadingTimeoutRef.current = setTimeout(() => {
-        setCartLoading(false);
-        setCartAdded(true);
-        // Call the toggle cart function
-        if (onAddToCart) {
-          onAddToCart(product, selectedFlavor);
-        }
-        // keep the ADDED state visible for ~1.5s
-        if (cartAddedTimeoutRef.current)
-          clearTimeout(cartAddedTimeoutRef.current);
-        cartAddedTimeoutRef.current = setTimeout(
-          () => setCartAdded(false),
-          1500
-        );
-      }, 700);
     };
 
     const handleWishlistToggle = () => {
@@ -122,10 +91,6 @@ const ProductCard = forwardRef(
     useEffect(() => {
       return () => {
         if (likeTimeoutRef.current) clearTimeout(likeTimeoutRef.current);
-        if (cartLoadingTimeoutRef.current)
-          clearTimeout(cartLoadingTimeoutRef.current);
-        if (cartAddedTimeoutRef.current)
-          clearTimeout(cartAddedTimeoutRef.current);
       };
     }, []);
 
@@ -330,86 +295,8 @@ const ProductCard = forwardRef(
               />
             </button>
 
-            {/* --- Add to Cart Button --- */}
-            <button
-              onClick={(e) => handleActionClick(e, handleAddToCart)}
-              className={`
-          -ml-px flex-grow flex items-center justify-center gap-2 font-medium 
-          py-3 px-4 rounded-r-xl transition-colors duration-150 hover:shadow-lg cursor-pointer
-          focus:outline-none focus:z-10
-          bg-[#023e8a] text-white hover:bg-[#1054ab]
-        `}
-              aria-live="polite"
-            >
-              {cartLoading ? (
-                <span className="ml-2 flex items-center gap-2 font-semibold">
-                  <svg
-                    className="w-5 h-5 animate-spin"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      strokeWidth="3"
-                      stroke="currentColor"
-                      opacity="0.25"
-                    />
-                    <path
-                      d="M22 12a10 10 0 00-10-10"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <span>ADDING...</span>
-                </span>
-              ) : cartAdded ? (
-                <span className="ml-2 flex items-center gap-2 font-semibold">
-                  <svg
-                    className="w-5 h-5 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <span>ADDED</span>
-                </span>
-              ) : itemIsInCart ? (
-                <span className="ml-2 flex items-center gap-2 font-semibold">
-                  <svg
-                    className="w-5 h-5 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  <span>ADDED</span>
-                </span>
-              ) : (
-                <>
-                  <CartIcon />
-                  <span className="ml-2">ADD TO CART</span>
-                </>
-              )}
-            </button>
+            {/* Add to Cart component */}
+            <AddToCartButton product={product} selectedFlavor={selectedFlavor} />
           </div>
         </div>
       </div>
