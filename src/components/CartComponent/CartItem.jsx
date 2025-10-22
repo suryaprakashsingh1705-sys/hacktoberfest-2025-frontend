@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+const DEBOUNCE_DELAY = 180; // ms: short in-flight guard to avoid rapid-click races
+
 export default function CartItem({ item, onQuantityChange, onRemove, onClose }) {
   const basePrice = item.price || 0;
   const salePercent = item.salePercentage || 0;
@@ -74,7 +76,7 @@ export default function CartItem({ item, onQuantityChange, onRemove, onClose }) 
               try {
                 await onQuantityChange(item, (item.quantity || 1) - 1);
               } finally {
-                setTimeout(() => setInFlight(false), 180);
+                setTimeout(() => setInFlight(false), DEBOUNCE_DELAY);
               }
             }}
             className="px-2 py-1 border border-gray-300 rounded hover:bg-gray-100 transition text-sm"
@@ -95,7 +97,7 @@ export default function CartItem({ item, onQuantityChange, onRemove, onClose }) 
               try {
                 await onQuantityChange(item, (item.quantity || 1) + 1);
               } finally {
-                setTimeout(() => setInFlight(false), 180);
+                setTimeout(() => setInFlight(false), DEBOUNCE_DELAY);
               }
             }}
             className="px-2 py-1 border border-gray-300 rounded hover:bg-gray-100 transition text-sm"

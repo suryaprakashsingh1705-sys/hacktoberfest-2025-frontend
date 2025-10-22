@@ -36,9 +36,6 @@ export default function CartDrawer({ isOpen, onClose }) {
       };
     }
 
-  // Refresh suggestions when drawer opens
-  const cart = contextItems || [];
-  setItems(cart);
 
     const loadSuggestions = async () => {
       try {
@@ -53,7 +50,7 @@ export default function CartDrawer({ isOpen, onClose }) {
         }
 
         // Filter out products already in cart
-  const cartProductIds = cart.map((ci) => ci.id);
+  const cartProductIds = (contextItems || []).map((ci) => ci.id);
         const filtered = all.filter((p) => {
           const prodId = p.id || p._id;
           return !cartProductIds.includes(prodId);

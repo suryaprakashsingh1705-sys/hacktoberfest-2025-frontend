@@ -53,6 +53,16 @@ export function CartProvider({ children }) {
 
   // Sync when other tabs or legacy utilities update the cart
   useEffect(() => {
+    // Shallow comparison: same length and same (key, quantity) pairs in same order
+    const shallowEquals = (a = [], b = []) => {
+      if (a.length !== b.length) return false;
+      for (let i = 0; i < a.length; i++) {
+        if ((a[i].cartItemKey || a[i].id) !== (b[i].cartItemKey || b[i].id)) return false;
+        if ((a[i].quantity || 0) !== (b[i].quantity || 0)) return false;
+      }
+      return true;
+    };
+
     const sync = () => {
       try {
         const external = getCart() || [];
@@ -60,7 +70,7 @@ export function CartProvider({ children }) {
           const key = String(it.cartItemKey || it.id || it.productId || '');
           return { ...it, cartItemKey: key };
         });
-        if (JSON.stringify(normalized) !== JSON.stringify(items)) setItems(normalized);
+        if (!shallowEquals(normalized, items)) setItems(normalized);
       } catch {
         // ignore
       }

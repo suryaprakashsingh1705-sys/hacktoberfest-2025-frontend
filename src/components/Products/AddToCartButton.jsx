@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
 
+const DEBOUNCE_DELAY = 180; // ms: short in-flight guard to avoid rapid-click races
+
 const CartIcon = ({ className = 'h-6 w-6' }) => (
   <img src="/images/cart-icon.svg" alt="Add to cart" className={className} />
 );
@@ -49,7 +51,7 @@ const AddToCartButton = ({ product, selectedFlavor }) => {
       const ok = addItem(product, selectedFlavor, 1);
       if (ok) setLocalQuantity(1);
       // small delay to avoid immediate double clicks
-      setTimeout(() => setInFlight(false), 180);
+  setTimeout(() => setInFlight(false), DEBOUNCE_DELAY);
       triggerCountAnimation('down'); // First addition animates from below
     }
   };
@@ -63,7 +65,7 @@ const AddToCartButton = ({ product, selectedFlavor }) => {
     const ok = updateItemQuantity(product, selectedFlavor, newQuantity);
     if (ok) setLocalQuantity(newQuantity);
     // small delay to avoid rapid click races
-    setTimeout(() => setInFlight(false), 180);
+  setTimeout(() => setInFlight(false), DEBOUNCE_DELAY);
     triggerCountAnimation('down'); // Animation comes from below for increment
   };
 
@@ -74,7 +76,7 @@ const AddToCartButton = ({ product, selectedFlavor }) => {
     const newQuantity = Math.max(0, current - 1);
     const ok = updateItemQuantity(product, selectedFlavor, newQuantity);
     if (ok) setLocalQuantity(newQuantity);
-    setTimeout(() => setInFlight(false), 180);
+  setTimeout(() => setInFlight(false), DEBOUNCE_DELAY);
     triggerCountAnimation('up'); // Animation goes up for decrement
   };
 
