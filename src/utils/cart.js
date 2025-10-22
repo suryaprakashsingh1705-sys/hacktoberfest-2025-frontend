@@ -96,6 +96,53 @@ export function isInCart(product, selectedFlavor = null) {
   }
 }
 
+export function getCartItemQuantity(product, selectedFlavor = null) {
+  if (!product) return 0;
+  try {
+    const cart = getCart();
+    const productId = product.id || product._id;
+    const cartItemKey = selectedFlavor
+      ? `${productId}_${selectedFlavor}`
+      : productId;
+
+    const item = cart.find((item) => item.cartItemKey === cartItemKey);
+    return item ? item.quantity : 0;
+  } catch {
+    return 0;
+  }
+}
+
+export function updateCartItemQuantity(product, selectedFlavor = null, newQuantity) {
+  if (!product || newQuantity < 0) return false;
+  try {
+    const current = getCart();
+    const productId = product.id || product._id;
+    const cartItemKey = selectedFlavor
+      ? `${productId}_${selectedFlavor}`
+      : productId;
+
+    const itemIndex = current.findIndex(
+      (item) => item.cartItemKey === cartItemKey
+    );
+
+    if (itemIndex >= 0) {
+      if (newQuantity === 0) {
+        // Remove item if quantity is 0
+        current.splice(itemIndex, 1);
+      } else {
+        // Update quantity
+        current[itemIndex].quantity = newQuantity;
+      }
+      localStorage.setItem('cart', JSON.stringify(current));
+      window.dispatchEvent(new Event('cartUpdated'));
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
+
 export function toggleCart(product, selectedFlavor = null) {
   if (!product) return false;
 
@@ -122,5 +169,7 @@ export default {
   addToCart,
   removeFromCart,
   isInCart,
+  getCartItemQuantity,
+  updateCartItemQuantity,
   toggleCart,
 };
