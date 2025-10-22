@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
+import Logo from '../components/ui/Logo';
 import { authServices } from '../services/api';
 import {
   registerStart,
@@ -128,11 +129,7 @@ const Register = () => {
           className="focus:outline-none focus:ring-2 focus:ring-[#CBD5E1] rounded"
           aria-label="Go to home page"
         >
-          <img
-            src="/icons/coreX-logo-login.svg"
-            alt="CoreX Logo"
-            className="h-10 object-contain"
-          />
+          <Logo className="h-10 object-contain" />
         </button>
       </div>
 
