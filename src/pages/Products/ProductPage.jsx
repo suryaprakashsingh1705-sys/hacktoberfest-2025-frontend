@@ -8,8 +8,7 @@ import {
 import ProductDetails from '../../components/ProductDetails';
 import { getRecommendedProducts } from '../../api';
 import ProductCard from '../../components/Products/ProductCard';
-import { toggleWishlist, isInWishlist } from '../../utils/wishlist';
-import { toggleCart, isInCart } from '../../utils/cart';
+import { isInWishlist } from '../../utils/wishlist';
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -86,10 +85,7 @@ export default function ProductPage() {
                 key={recProduct.id || recProduct._id}
                 product={recProduct}
                 ref={null}
-                onAddToWishlist={(prod) => toggleWishlist(prod)}
-                onAddToCart={(prod, flavor) => toggleCart(prod, flavor)}
                 isWishlisted={isInWishlist(recProduct.id || recProduct._id)}
-                isInCart={(flavor) => isInCart(recProduct, flavor)}
               />
             ))}
           </div>
