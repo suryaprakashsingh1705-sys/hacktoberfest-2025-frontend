@@ -251,7 +251,7 @@ export default function CollectionPage() {
           style={
             imageUrl
               ? {
-                  '--bg-image': imageUrl ? `url(${imageUrl})` : 'none',
+                  '--bg-image': `url(${imageUrl})`,
                   backgroundImage: `url(${imageUrl})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
