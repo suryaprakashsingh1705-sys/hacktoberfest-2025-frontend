@@ -4,7 +4,6 @@ import * as yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import Logo from '../components/ui/Logo';
 import { authServices } from '../services/api';
 import {
   registerStart,

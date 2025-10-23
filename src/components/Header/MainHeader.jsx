@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from '../Search/SearchBox';
-import Logo from '../ui/Logo';
 import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
 import { Menu, X, ChevronDown, Search, Heart, User } from 'lucide-react';
@@ -44,8 +43,11 @@ export default function Header() {
             {/* Logo */}
             <div className="flex-shrink-0">
               <Link to="/">
-                {/* theme-aware Logo component */}
-                <Logo className="h-10 w-auto" />
+                <img
+                  src="/icons/official-logo-core-x.svg"
+                  alt="CoreX Logo"
+                  className="h-10 w-auto"
+                />
               </Link>
             </div>
 
