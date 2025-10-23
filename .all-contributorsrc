@@ -231,6 +231,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "anya-xcode",
+      "name": "Ananya Gupta",
+      "avatar_url": "https://avatars.githubusercontent.com/u/184568333?v=4",
+      "profile": "https://github.com/anya-xcode",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "commitType": "docs",
