@@ -20,7 +20,7 @@
 
 .collections-banner-div > * {
   position: relative;
-  z-index: 1; /* content is above the fimmmed bger */
+  z-index: 1; /* content is above the dimmed background */
 }
 
 /* Shop by Collection Section */
