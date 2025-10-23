@@ -30,10 +30,7 @@ const HeartIcon = ({
 );
 
 const ProductCard = forwardRef(
-  (
-    { product, isWishlisted: initialWishlisted = false },
-    ref
-  ) => {
+  ({ product, isWishlisted: initialWishlisted = false }, ref) => {
     const navigate = useNavigate();
     const [imageLoaded, setImageLoaded] = useState(false);
     const [imageError, setImageError] = useState(false);
@@ -185,9 +182,13 @@ const ProductCard = forwardRef(
               className={`w-full h-full object-contain transition-opacity duration-500 ${imageLoaded && !imageError ? 'opacity-100' : 'opacity-0'}`}
               onLoad={() => setImageLoaded(true)}
               onError={(e) => {
-                // fallback to default in public folder on load error
-                e.currentTarget.src = '/images/product-default-image.jpg';
-                setImageLoaded(true);
+                const img = e.currentTarget;
+                if (!img.dataset.fallbackTried) {
+                  img.dataset.fallbackTried = '1';
+                  img.src = '/images/product-default-image.jpg';
+                  return;
+                }
+                // default failed too -> switch to SVG fallback
                 setImageError(true);
               }}
             />
@@ -304,7 +305,10 @@ const ProductCard = forwardRef(
             </button>
 
             {/* Add to Cart component */}
-            <AddToCartButton product={product} selectedFlavor={selectedFlavor} />
+            <AddToCartButton
+              product={product}
+              selectedFlavor={selectedFlavor}
+            />
           </div>
         </div>
       </div>
