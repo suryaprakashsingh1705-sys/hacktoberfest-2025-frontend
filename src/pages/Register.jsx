@@ -128,7 +128,11 @@ const Register = () => {
           className="focus:outline-none focus:ring-2 focus:ring-[#CBD5E1] rounded"
           aria-label="Go to home page"
         >
-          <Logo className="h-10 object-contain" />
+          <img
+            src="/icons/coreX-logo-login.svg"
+            alt="CoreX Logo"
+            className="h-10 object-contain"
+          />
         </button>
       </div>
 
