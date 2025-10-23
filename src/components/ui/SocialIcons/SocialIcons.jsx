@@ -71,29 +71,32 @@ export default function SocialIcons() {
       aria-label="Social links"
       className="flex items-center space-x-6 relative z-10 pointer-events-auto"
     >
-      {ICONS.map(({ id, Icon, href, label }, idx) => (
-        <li key={id}>
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={label}
-            aria-label={label}
-            className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
-            onMouseMove={(e) => handleMouseMove(e, idx)}
-            onMouseEnter={() => handleMouseEnter(idx)}
-            onMouseLeave={() => handleMouseLeave(idx)}
-          >
-            <span
-              ref={(el) => (iconRefs.current[idx] = el)}
-              className="inline-flex items-center justify-center"
-              aria-hidden="true"
+      {ICONS.map((item, idx) => {
+        const { id, Icon: IconComponent, href, label } = item;
+        return (
+          <li key={id}>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={label}
+              aria-label={label}
+              className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
+              onMouseMove={(e) => handleMouseMove(e, idx)}
+              onMouseEnter={() => handleMouseEnter(idx)}
+              onMouseLeave={() => handleMouseLeave(idx)}
             >
-              <Icon size={18} />
-            </span>
-          </a>
-        </li>
-      ))}
+              <span
+                ref={(el) => (iconRefs.current[idx] = el)}
+                className="inline-flex items-center justify-center"
+                aria-hidden="true"
+              >
+                <IconComponent size={18} />
+              </span>
+            </a>
+          </li>
+        );
+      })}
     </ul>
   );
 }
