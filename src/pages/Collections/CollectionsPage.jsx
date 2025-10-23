@@ -277,7 +277,7 @@ export default function CollectionPage() {
               </p>
 
               <motion.p
-                className={`${sortedProducts.length > 0 ? '' : 'opacity-0 '} transition-all duration-150 ease-in-out text-salte-200`}
+                className={`${sortedProducts.length > 0 ? '' : 'opacity-0 '} transition-all duration-150 ease-in-out text-slate-200`}
               >
                 {pagination?.total || sortedProducts.length} products available
               </motion.p>
