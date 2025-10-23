@@ -61,7 +61,7 @@ export default function SupplementForGoalsSection() {
     >
       <h2 id="goals-heading" className="section-title">
         <span className="text-[#000]">Supplements for </span>
-        <span className="text-[#f7faff]">every</span>{' '}
+        <span className="text-[#f7faff] stroke-title">every</span>{' '}
         <span className="text-[#000]">goal</span>
       </h2>
 
@@ -97,15 +97,15 @@ function GoalCard({ item, delayIndex = 0, size }) {
   const dimensions =
     size === 'large'
       ? {
-        width: 600,
-        height: 342,
-        minClass: 'min-h-[200px] md:min-h-[224px] lg:min-h-[280px]',
-      }
+          width: 600,
+          height: 342,
+          minClass: 'min-h-[200px] md:min-h-[224px] lg:min-h-[280px]',
+        }
       : {
-        width: 436,
-        height: 220,
-        minClass: 'min-h-[140px] md:min-h-[160px] lg:min-h-[200px]',
-      };
+          width: 436,
+          height: 220,
+          minClass: 'min-h-[140px] md:min-h-[160px] lg:min-h-[200px]',
+        };
 
   return (
     <a

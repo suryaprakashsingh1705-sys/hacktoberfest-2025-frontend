@@ -27,8 +27,8 @@ export default function TopHeader() {
   }, [messages.length]);
 
   return (
-    <header className="w-full bg-[#0D1B2A] py-3 text-white text-sm fixed top-0 left-0 right-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <header className="w-full bg-[#0D1B2A] text-white text-sm fixed top-0 left-0 right-0 z-50 h-[48px]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative h-full">
         <div className="flex items-center h-full">
           {/* Promo Message - Centered across full viewport */}
           <div

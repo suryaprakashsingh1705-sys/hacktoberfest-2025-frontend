@@ -81,7 +81,7 @@ export default function SocialIcons() {
               rel="noopener noreferrer"
               title={label}
               aria-label={label}
-              className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300"
+              className="transform transition-transform duration-200 hover:scale-110 hover:text-gray-300 height-[18px] flex items-center justify-center"
               onMouseMove={(e) => handleMouseMove(e, idx)}
               onMouseEnter={() => handleMouseEnter(idx)}
               onMouseLeave={() => handleMouseLeave(idx)}

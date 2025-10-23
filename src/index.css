@@ -42,11 +42,17 @@
     @apply text-4xl lg:text-heading-xxl font-montserrat font-bold leading-none uppercase text-center tracking-tight;
   }
 
-  .section-title span {
+  /* .section-title span {
     color: var(--color-white-light);
     -webkit-text-stroke: 3px var(--color-black);
     paint-order: stroke fill;
-  }
+  } */
+}
+
+.stroke-title {
+  color: var(--color-white-light);
+  -webkit-text-stroke: 3px var(--color-black);
+  paint-order: stroke fill;
 }
 
 /* ==========================
@@ -83,31 +89,35 @@
    COUNTER ANIMATIONS FOR ADD TO CART BUTTON
 ============================================= */
 @keyframes count-up {
-  0% { 
-    opacity: 0; 
+  0% {
+    opacity: 0;
     transform: translateY(-20px) scale(0.8);
   }
+
   50% {
     opacity: 0.8;
     transform: translateY(-10px) scale(1.1);
   }
-  100% { 
-    opacity: 1; 
+
+  100% {
+    opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
 @keyframes count-down {
-  0% { 
-    opacity: 0; 
+  0% {
+    opacity: 0;
     transform: translateY(20px) scale(0.8);
   }
+
   50% {
     opacity: 0.8;
     transform: translateY(10px) scale(1.1);
   }
-  100% { 
-    opacity: 1; 
+
+  100% {
+    opacity: 1;
     transform: translateY(0) scale(1);
   }
 }

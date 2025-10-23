@@ -65,7 +65,7 @@ const CollectionSection = () => {
     <section className="shop-by-collection">
       <h2 className="section-title mb-12">
         <span className="text-[#000]">SHOP </span>
-        <span>BY </span>
+        <span className="stroke-title">BY </span>
         <span className="text-[#000]">COLLECTION</span>
       </h2>
 
