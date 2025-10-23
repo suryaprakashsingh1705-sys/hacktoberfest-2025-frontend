@@ -36,7 +36,6 @@ export default function CartDrawer({ isOpen, onClose }) {
       };
     }
 
-
     const loadSuggestions = async () => {
       try {
         const response = await getProducts();
@@ -50,7 +49,7 @@ export default function CartDrawer({ isOpen, onClose }) {
         }
 
         // Filter out products already in cart
-  const cartProductIds = (contextItems || []).map((ci) => ci.id);
+        const cartProductIds = (contextItems || []).map((ci) => ci.id);
         const filtered = all.filter((p) => {
           const prodId = p.id || p._id;
           return !cartProductIds.includes(prodId);
@@ -202,7 +201,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                         item.imageUrl ||
                         item.image ||
                         item.img ||
-                        '/assets/missing-picture-product.jpg',
+                        '/images/product-default-image.jpg',
                     }}
                     onQuantityChange={handleQuantityChange}
                     onRemove={handleRemove}
