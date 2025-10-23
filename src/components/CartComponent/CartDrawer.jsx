@@ -2,46 +2,27 @@ import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getProducts } from '../../api/productService';
 import { Link } from 'react-router-dom';
-import { getCart, removeFromCart, addToCart } from '../../utils/cart';
+import { useCart } from '../../context/CartContext';
 import CartItem from './CartItem';
 import CartProgressBar from './CartProgressBar';
 import CartSuggestions from './CartSuggestions';
 
 export default function CartDrawer({ isOpen, onClose }) {
-  const [items, setItems] = useState([]);
+  const { items: contextItems, removeItem, updateItemQuantity } = useCart();
+  const [items, setItems] = useState(contextItems || []);
   const [suggestions, setSuggestions] = useState([]);
 
-  // Load cart and refresh on storage changes + custom cart update event
+  // Sync items from context and handle Escape key
   useEffect(() => {
-    let prevCart = null;
-    const loadCart = () => {
-      const cart = getCart();
-      // Only update state if cart content actually changed
-      if (!prevCart || JSON.stringify(prevCart) !== JSON.stringify(cart)) {
-        setItems(cart);
-        prevCart = cart;
-      }
-    };
+    setItems(contextItems || []);
 
-    loadCart();
-    const handleStorageChange = () => loadCart();
-    const handleCartUpdate = () => loadCart();
     const handleEscape = (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
+      if (e.key === 'Escape' && isOpen) onClose();
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('cartUpdated', handleCartUpdate);
     window.addEventListener('keydown', handleEscape);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('cartUpdated', handleCartUpdate);
-      window.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen, onClose]);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [contextItems, isOpen, onClose]);
 
   // Load random products for "You may also like" - ONLY when drawer opens
   useEffect(() => {
@@ -55,9 +36,6 @@ export default function CartDrawer({ isOpen, onClose }) {
       };
     }
 
-    // Refresh cart items when drawer opens
-    const cart = getCart();
-    setItems(cart);
 
     const loadSuggestions = async () => {
       try {
@@ -72,7 +50,7 @@ export default function CartDrawer({ isOpen, onClose }) {
         }
 
         // Filter out products already in cart
-        const cartProductIds = cart.map((ci) => ci.id);
+  const cartProductIds = (contextItems || []).map((ci) => ci.id);
         const filtered = all.filter((p) => {
           const prodId = p.id || p._id;
           return !cartProductIds.includes(prodId);
@@ -91,7 +69,7 @@ export default function CartDrawer({ isOpen, onClose }) {
     return () => {
       active = false;
     };
-  }, [isOpen]); // fetch only when drawer opens
+  }, [isOpen, contextItems]); // fetch only when drawer opens
 
   const isEmpty = items.length === 0;
 
@@ -115,12 +93,7 @@ export default function CartDrawer({ isOpen, onClose }) {
   const currentMilestone = milestones.find((m) => subtotal < m.amount);
 
   const handleRemove = (cartItemKey) => {
-    removeFromCart(cartItemKey);
-    setTimeout(() => {
-      const cart = getCart();
-      setItems(cart);
-      window.dispatchEvent(new Event('cartUpdated'));
-    }, 0);
+    removeItem(cartItemKey);
   };
 
   const handleQuantityChange = (item, newQty) => {
@@ -128,7 +101,7 @@ export default function CartDrawer({ isOpen, onClose }) {
       handleRemove(item.cartItemKey);
       return;
     }
-    addToCart(
+    updateItemQuantity(
       {
         id: item.id,
         name: item.name,
@@ -139,11 +112,6 @@ export default function CartDrawer({ isOpen, onClose }) {
       item.selectedFlavor,
       newQty
     );
-    setTimeout(() => {
-      const cart = getCart();
-      setItems(cart);
-      window.dispatchEvent(new Event('cartUpdated'));
-    }, 0);
   };
 
   // Ensure cart items are always rendered in the order they were added (by addedAt, oldest first)

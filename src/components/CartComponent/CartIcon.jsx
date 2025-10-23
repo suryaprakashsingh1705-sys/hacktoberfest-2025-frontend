@@ -1,36 +1,26 @@
 import { ShoppingCart } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { getCartItemCount } from '../../utils/cart';
+import { useCart } from '../../context/CartContext';
 
 export default function CartIcon({ onOpen }) {
-  const [count, setCount] = useState(0);
-
-  const updateCount = () => {
-    setCount(getCartItemCount());
-  };
+  const { getItemCount } = useCart();
+  const [count, setCount] = useState(() => getItemCount());
 
   useEffect(() => {
-    // Initial count on mount
-    updateCount();
+    setCount(getItemCount());
+  }, [getItemCount]);
 
-    // Listen for storage changes from other tabs
-    const handleStorageChange = () => updateCount();
+  useEffect(() => {
+    // Keep cross-tab fallback to trigger a full sync in provider
+    const handleStorageChange = () => setCount(getItemCount());
     window.addEventListener('storage', handleStorageChange);
-
-    // Listen for custom cart update events in the same tab
-    const handleCartUpdate = () => updateCount();
-    window.addEventListener('cartUpdated', handleCartUpdate);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('cartUpdated', handleCartUpdate);
-    };
-  }, []);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [getItemCount]);
 
   const displayCount = count > 99 ? '99+' : count;
 
   const handleClick = () => {
-    updateCount(); // Refresh count when opening drawer
+    setCount(getItemCount());
     onOpen();
   };
 

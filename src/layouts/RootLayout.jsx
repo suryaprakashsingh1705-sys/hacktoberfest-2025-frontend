@@ -9,10 +9,11 @@ import MainHeader from '../components/Header';
 import Loader from '../components/Loader';
 import BottomFooter from '../components/BottomFooter';
 import BackToTop from '../components/ui/BackToTopButton/BackToTopButton';
+import { CartProvider } from '../context/CartContext';
 
 function RootLayout() {
   return (
-    <>
+    <CartProvider>
       <ScrollToTop />
       <MainHeader />
       <main className="mt-[84px] min-h-screen">
@@ -41,7 +42,7 @@ function RootLayout() {
         pauseOnHover
       />
       <BackToTop showAfter={250} />
-    </>
+    </CartProvider>
   );
 }
 
