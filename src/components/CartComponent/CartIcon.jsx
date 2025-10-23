@@ -32,7 +32,7 @@ export default function CartIcon({ onOpen }) {
     >
       <ShoppingCart className="h-5 w-5" />
       {count > 0 && (
-        <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+        <span className={`absolute bg-blue-600 text-white font-bold rounded-full flex items-center justify-center ${count > 99 ? 'h-6 w-6 text-[10px] -top-3 -right-3' : 'h-5 w-5 text-xs -top-2 -right-2'}`}>
           {displayCount}
         </span>
       )}
