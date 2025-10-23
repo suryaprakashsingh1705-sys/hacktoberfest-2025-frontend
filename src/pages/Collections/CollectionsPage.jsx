@@ -62,21 +62,31 @@ export default function CollectionPage() {
     };
   }, [dispatch, name]);
 
+  const normalizedProducts = useMemo(() => {
+    if (!collectionProducts || collectionProducts.length === 0) return [];
+    return collectionProducts.map((product) => ({
+      ...product,
+      id: product._id || product.id,
+      imageUrl: product.image,
+      reviewCount: product.reviewsCount,
+    }));
+  }, [collectionProducts]);
+
   // Calculate max price from collection products
   const maxProductPrice = useMemo(() => {
-    if (!collectionProducts || collectionProducts.length === 0) return 100;
-    const prices = collectionProducts
+    if (!normalizedProducts || normalizedProducts.length === 0) return 100;
+    const prices = normalizedProducts
       .map((p) => Number(p.price || 0))
       .filter((p) => !isNaN(p) && p > 0);
     return Math.ceil(Math.max(...prices)) || 100;
-  }, [collectionProducts]);
+  }, [normalizedProducts]);
 
   // Apply filters to collection products
   const filteredProducts = useMemo(() => {
-    if (!collectionProducts || collectionProducts.length === 0) return [];
+    if (!normalizedProducts || normalizedProducts.length === 0) return [];
     const [minPrice, maxPrice] = filters.priceRange || [0, maxProductPrice];
 
-    return collectionProducts.filter((p) => {
+    return normalizedProducts.filter((p) => {
       const price = Number(p.price || 0);
       if (Number.isNaN(price)) return false;
       if (price < minPrice || price > maxPrice) return false;
@@ -98,7 +108,7 @@ export default function CollectionPage() {
 
       return true;
     });
-  }, [collectionProducts, filters, maxProductPrice]);
+  }, [normalizedProducts, filters, maxProductPrice]);
 
   // Apply sorting
   const sortedProducts = useMemo(() => {
@@ -233,10 +243,15 @@ export default function CollectionPage() {
 
         {/* Collection Banner */}
         <section
-          className={`text-white py-20 ${imageUrl ? '' : 'bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900'}`}
+          className={`collections-banner-div text-white py-20 ${
+            imageUrl
+              ? ''
+              : 'bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900'
+          }`}
           style={
             imageUrl
               ? {
+                  '--bg-image': imageUrl ? `url(${imageUrl})` : 'none',
                   backgroundImage: `url(${imageUrl})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
@@ -256,16 +271,13 @@ export default function CollectionPage() {
               <h1 className="text-5xl md:text-6xl font-bold mb-6  font-montserrat text-white mt-6">
                 {collectionTitleCapitalized}
               </h1>
-              <p className="text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
+              <p className="text-xl mb-8 text-slate-100 max-w-2xl mx-auto">
                 Browse our {collectionTitle} collection and find premium
                 supplements that support your fitness goals.
               </p>
 
               <motion.p
-                initial={{ opacity: 0, y: 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 2 }}
-                className="text-blue-200"
+                className={`${sortedProducts.length > 0 ? '' : 'opacity-0 '} transition-all duration-150 ease-in-out text-salte-200`}
               >
                 {pagination?.total || sortedProducts.length} products available
               </motion.p>
@@ -379,7 +391,7 @@ export default function CollectionPage() {
         <FilterPanel
           open={isFilterOpen}
           onClose={() => setIsFilterOpen(false)}
-          products={collectionProducts || []}
+          products={normalizedProducts || []}
           filters={filters}
           onChangeFilters={(next) => {
             const pr = next.priceRange || [0, maxProductPrice];

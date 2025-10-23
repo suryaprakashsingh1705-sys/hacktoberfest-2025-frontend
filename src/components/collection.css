@@ -1,6 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
+.collections-banner-div {
+  position: relative;
+  overflow: hidden;
+}
+
+.collections-banner-div::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: var(--bg-image);
+  filter: brightness(0.6);
+  z-index: 0;
+}
+
+.collections-banner-div > * {
+  position: relative;
+  z-index: 1; /* content is above the fimmmed bger */
+}
+
 /* Shop by Collection Section */
 .shop-by-collection {
   padding: 20px 20px;
