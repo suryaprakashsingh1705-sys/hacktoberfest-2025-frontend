@@ -1,40 +1,115 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { authServices } from '../services/api';
+import { loginStart, loginSuccess, loginFailure } from '../store/authSlice';
+import { useState } from 'react';
+
+// Validation schema
+const loginSchema = yup.object({
+  email: yup
+    .string()
+    .email('Please enter a valid email address.')
+    .required('Email is required.'),
+  password: yup
+    .string()
+    .min(8, 'Password must be at least 8 characters.')
+    .required('Password is required.'),
+});
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
   const [showPassword, setShowPassword] = useState(false);
+  const [touchedFields, setTouchedFields] = useState({
+    email: false,
+    password: false,
+  });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const loading = useSelector((state) => state.auth.loading);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid, isDirty },
+    trigger,
+    setError,
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+    mode: 'onTouched',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  // Custom handleBlur to track touched fields
+  const handleBlur = (fieldName) => {
+    setTouchedFields((prev) => ({ ...prev, [fieldName]: true }));
+    trigger(fieldName);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
+  // Custom onChange to validate only if field was previously touched/had error
+  const handleChange = (fieldName) => {
+    if (touchedFields[fieldName] || errors[fieldName]) {
+      trigger(fieldName);
+    }
+  };
 
-    setFormData({ email: '', password: '' });
+  const onSubmit = async (data) => {
+    try {
+      dispatch(loginStart());
+      const response = await authServices.login({
+        email: data.email,
+        password: data.password,
+      });
+
+      const payload = response?.data ?? {};
+      const token = payload.token || payload?.data?.token;
+      const user = payload.user || payload?.data?.user || { email: data.email };
+
+      if (!token) {
+        throw new Error('No token returned from server');
+      }
+
+      dispatch(loginSuccess({ user, token }));
+      navigate('/');
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || err.message || 'Login failed';
+      dispatch(loginFailure(message));
+      setError('password', { type: 'server', message });
+    } finally {
+      setShowPassword(false);
+    }
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const isFormFilled = formData.email && formData.password;
+  const handleLogoClick = () => {
+    navigate('/');
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAFAFA] px-4">
-      {/* Logo */}
+      {/* Logo with navigation */}
       <div className="flex justify-center mb-6">
+        <button
+          onClick={handleLogoClick}
+          className="focus:outline-none focus:ring-2 focus:ring-[#CBD5E1] rounded"
+          aria-label="Go to home page"
+        >
         <img
-          src="/images/coreX-logo.svg"
-          alt="CoreX Logo"
-          className="h-10 object-contain"
-        />
+            src="/icons/coreX-logo-login.svg"
+            alt="CoreX Logo"
+            className="h-10 object-contain"
+          />
+        </button>
       </div>
 
       {/* Card */}
@@ -45,12 +120,17 @@ const Login = () => {
           style={{ fontFamily: 'var(--font-inter)' }}
         >
           LOGIN <span className="text-[#05254E]/50 font-bold"> / </span>
-          <span
-            className="text-[#05254E] font-medium"
-            style={{ fontFamily: 'var(--font-inter)' }}
+          <Link
+            to="/register"
+            style={{ color: 'inherit', textDecoration: 'none' }}
           >
-            REGISTER
-          </span>
+            <span
+              className="text-[#05254E] font-medium"
+              style={{ fontFamily: 'var(--font-inter)' }}
+            >
+              REGISTER
+            </span>
+          </Link>
         </h2>
 
         <p className="text-left text-xs text-[#6B7280] mb-5 font-poppins">
@@ -60,7 +140,8 @@ const Login = () => {
         {/* Google Sign In */}
         <button
           type="button"
-          className="w-full flex items-center cursor-pointer justify-center gap-2 px-4 py-2 bg-[#B4C2CF] text-[#0B1A2C] text-sm font-medium rounded-md mb-6 hover:bg-[#c1d0dd] transition"
+          aria-label="Sign in with Google"
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#B4C2CF] text-[#0B1A2C] text-sm font-medium rounded-md mb-6 hover:bg-[#c1d0dd] transition"
         >
           <img
             src="/assets/google-icon.svg"
@@ -70,7 +151,10 @@ const Login = () => {
         </button>
 
         {/* Divider */}
-        <div className="flex items-center justify-between mb-4">
+        <div
+          className="flex items-center justify-between mb-4"
+          aria-hidden="true"
+        >
           <hr className="border-t bg-[#B4C2CF] w-full" />
           <span className="px-2 text-sm text-[#89949F] font-poppins">or</span>
           <hr className="border-t bg-[#B4C2CF] w-full" />
@@ -78,54 +162,84 @@ const Login = () => {
 
         {/* Form */}
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="space-y-4"
           style={{ fontFamily: 'var(--font-inter)' }}
+          noValidate
         >
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="w-full px-4 py-2.5 border border-[#D7DDE9] text-base placeholder:text-[#767676] rounded-md focus:outline-none focus:ring-2 focus:ring-[#CBD5E1]"
-            onChange={handleChange}
-            value={formData.email}
-          />
-
-          <div className="relative">
+          <div>
             <input
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              placeholder="Password"
-              className="w-full px-4 py-2.5 pr-12 border border-[#D7DDE9] text-base placeholder:text-[#767676] rounded-md focus:outline-none focus:ring-2 focus:ring-[#CBD5E1]"
-              onChange={handleChange}
-              value={formData.password}
+              type="email"
+              {...register('email', {
+                onChange: () => handleChange('email'),
+              })}
+              onBlur={() => handleBlur('email')}
+              aria-label="Email address"
+              placeholder="Email"
+              autoComplete="email"
+              className={`w-full px-4 py-2.5 border rounded-md text-base placeholder:text-[#767676] focus:outline-none focus:ring-2 ${
+                errors.email
+                  ? 'border-red-500 focus:ring-red-500'
+                  : 'border-[#D7DDE9] focus:ring-[#CBD5E1]'
+              }`}
             />
-            <button
-              type="button"
-              onClick={togglePasswordVisibility}
-              className="absolute cursor-pointer inset-y-0 right-3 flex items-center text-gray-500"
-              tabIndex={-1}
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+
+          {/* Password Field with fixed alignment */}
+          <div>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                {...register('password', {
+                  onChange: () => handleChange('password'),
+                })}
+                onBlur={() => handleBlur('password')}
+                aria-label="Password"
+                placeholder="Password"
+                autoComplete="current-password"
+                className={`w-full px-4 py-2.5 pr-12 border rounded-md text-base placeholder:text-[#767676] focus:outline-none focus:ring-2 ${
+                  errors.password
+                    ? 'border-red-500 focus:ring-red-500'
+                    : 'border-[#D7DDE9] focus:ring-[#CBD5E1]'
+                }`}
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute inset-y-0 right-3 flex items-center text-gray-500 cursor-pointer"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           <button
             type="submit"
+            disabled={!isValid || !isDirty || loading}
             className={`w-full px-4 py-2.5 text-base text-white rounded-md font-medium transition ${
-              isFormFilled
+              isValid && isDirty && !loading
                 ? 'bg-[#023e8a] hover:bg-[#1054ab] cursor-pointer'
                 : 'bg-gray-300 cursor-not-allowed'
             }`}
-            disabled={!isFormFilled}
           >
-            Continue
+            {loading ? 'Signing in...' : 'Continue'}
           </button>
         </form>
 
         {/* Redirect */}
         <div className="mt-6 text-center text-sm text-[#6B7280]">
-          Don’t have an account?{' '}
+          Don't have an account?{' '}
           <Link
             to="/register"
             className="text-[#0B1A2C] font-medium hover:underline"

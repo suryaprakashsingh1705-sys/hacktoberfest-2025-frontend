@@ -1,13 +1,15 @@
 function WhyChoose() {
   return (
-    <section aria-labelledby="why-choose" className="bg-black">
+    <section aria-labelledby="why-choose" className="bg-[#0d1b2a]">
       <h2
         id="why-choose"
         className="bg-white text-4xl lg:text-heading-xxl uppercase py-16 section-title"
       >
-        <span className="text-[#000]">Why </span><span>Choose</span>
+        <span className="text-[#000]">Why </span>
+        <span className="stroke-title">Choose</span>
         <span className="capitalize text-[#000]"> Core</span>
-        <span className="text-red-500">X</span><span className="text-[#000]"> Products</span>
+        <span className="text-red-500">X</span>
+        <span className="text-[#000]"> Products</span>
       </h2>
       <div className="grid grid-cols-1 gap-y-16 lg:grid-cols-3 max-w-5xl mx-auto text-white text-center py-23 leading-normal">
         <div className="flex flex-col items-center space-y-2">

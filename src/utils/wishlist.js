@@ -24,17 +24,25 @@ export function isInWishlist(productId) {
 }
 
 export function addToWishlist(product) {
-  if (!product) return false;
+  if (!product || (!product.id && !product._id)) return false; // Ensure product has an ID
   try {
     const current = getWishlist();
     const productId = product.id || product._id;
 
     // Check if already exists
     const exists = current.some((p) => (p.id || p._id) === productId);
-    if (exists) return false;
+    if (exists) return false; // Prevent adding duplicates
+
+    // Create a sanitized product object to store
+    const sanitizedProduct = {
+      id: productId,
+      name: product.name, // Ensure only non-sensitive data is stored
+      image: product.image, // Example of non-sensitive data
+      // Add other non-sensitive fields as needed
+    };
 
     // Add to wishlist
-    current.push(product);
+    current.push(sanitizedProduct);
     localStorage.setItem('wishlist', JSON.stringify(current));
     return true;
   } catch {
@@ -55,7 +63,7 @@ export function removeFromWishlist(productId) {
 }
 
 export function toggleWishlist(product) {
-  if (!product) return false;
+  if (!product || (!product.id && !product._id)) return false; // Ensure product has an ID
 
   const productId = product.id || product._id;
   const isCurrentlyInWishlist = isInWishlist(productId);

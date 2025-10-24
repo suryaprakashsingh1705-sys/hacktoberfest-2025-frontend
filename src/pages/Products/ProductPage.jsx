@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchProductById,
@@ -8,6 +8,7 @@ import {
 import ProductDetails from '../../components/ProductDetails';
 import { getRecommendedProducts } from '../../api';
 import ProductCard from '../../components/Products/ProductCard';
+import { isInWishlist } from '../../utils/wishlist';
 
 export default function ProductPage() {
   const { id } = useParams();
@@ -16,24 +17,24 @@ export default function ProductPage() {
     (s) => s.products || {}
   );
 
-  const [recommendedProducts, setRecommendedProducts] = useState([])
-
-
+  const [recommendedProducts, setRecommendedProducts] = useState([]);
+  const [fetchAttempted, setFetchAttempted] = useState(false);
 
   useEffect(() => {
     if (!id) return;
     dispatch(fetchProductById(id));
+    setFetchAttempted(true);
 
     const fetchRecommendedProducts = async (id) => {
       try {
-        const products = await getRecommendedProducts(id)
-        setRecommendedProducts(products.data)
+        const products = await getRecommendedProducts(id);
+        setRecommendedProducts(products.data);
       } catch (error) {
         console.error('Error fetching recommended products:', error);
       }
-    }
+    };
 
-    fetchRecommendedProducts(id)
+    fetchRecommendedProducts(id);
     return () => {
       dispatch(clearCurrentProduct());
     };
@@ -61,27 +62,30 @@ export default function ProductPage() {
   }
 
   if (!product) {
-    return (
-      <main className="max-w-6xl mx-auto p-6">
-        <div className="text-center py-12">Product not found.</div>
-      </main>
-    );
+    if (fetchAttempted && !loading) {
+      return <Navigate to="/not-found" replace />;
+    }
   }
 
   return (
     <main className="max-w-6xl mx-auto p-6">
+      {/* Additional Product Information */}
       <article>
         <ProductDetails product={product} />
       </article>
+      {/* Recommended Products Section */}
       {recommendedProducts?.length > 0 && (
         <section className="my-12">
-          <h2 className="text-2xl font-semibold mb-4">Highly Recommended Products</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            Highly Recommended Products
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
             {recommendedProducts?.map((recProduct) => (
               <ProductCard
-                key={recProduct.id}
+                key={recProduct.id || recProduct._id}
                 product={recProduct}
                 ref={null}
+                isWishlisted={isInWishlist(recProduct.id || recProduct._id)}
               />
             ))}
           </div>

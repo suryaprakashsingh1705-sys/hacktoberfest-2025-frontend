@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedinIn,
-} from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import SocialIcons from '../ui/SocialIcons/SocialIcons';
 
 export default function TopHeader() {
   const messages = [
@@ -27,44 +22,33 @@ export default function TopHeader() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % messages.length);
-    }, 10000); // rotates every 10 seconds
+    }, 10000);
     return () => clearInterval(interval);
   }, [messages.length]);
 
   return (
-    <header className="w-full bg-[#0D1B2A] py-2.5 text-white top-0 text-sm fixed z-50 px-4 flex items-center justify-between">
-      {/* Center Promo Message */}
-      <div className="flex-1 text-center font-medium">
-        <p className="transition-opacity duration-500 ease-in-out">
-          {messages[index]}
-        </p>
-      </div>
-      {/* Right Side Icons */}
-      <div className="flex space-x-4 ml-4">
-        <a href="#" aria-label="Facebook" className="hover:text-gray-300">
-          <FaFacebookF
-            size={18}
-            className="fill-current text-white hover:text-gray-300"
-            stroke="none"
-          />
-        </a>
-        <a href="#" aria-label="Twitter" className="hover:text-gray-300">
-          <FaTwitter
-            size={18}
-            className="fill-current text-white hover:text-gray-300"
-            stroke="none"
-          />
-        </a>
-        <a href="#" aria-label="Instagram" className="hover:text-gray-300">
-          <FaInstagram size={18} />
-        </a>
-        <a href="#" aria-label="LinkedIn" className="hover:text-gray-300">
-          <FaLinkedinIn
-            size={18}
-            className="fill-current text-white hover:text-gray-300"
-            stroke="none"
-          />
-        </a>
+    <header className="w-full bg-[#0D1B2A] text-white text-sm fixed top-0 left-0 right-0 z-50 h-[48px]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative h-full">
+        <div className="flex items-center h-full">
+          {/* Promo Message - Centered across full viewport */}
+          <div
+            className="
+              font-medium pointer-events-none
+              text-left md:text-center
+              w-full md:w-auto
+              md:absolute md:left-1/2 md:-translate-x-1/2
+            "
+          >
+            <p className="transition-opacity duration-500 ease-in-out whitespace-nowrap">
+              {messages[index]}
+            </p>
+          </div>
+
+          {/* Right Side Icons - Aligned with main header icons */}
+          <div className="ml-auto">
+            <SocialIcons />
+          </div>
+        </div>
       </div>
     </header>
   );

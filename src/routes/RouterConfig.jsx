@@ -17,13 +17,20 @@ const ShippingPolicy = lazy(
 );
 const Products = lazy(() => import('../pages/Products/Products'));
 const ProductPage = lazy(() => import('../pages/Products/ProductPage'));
+
 const TermsOfService = lazy(
   () => import('../pages/TermsOfService/TermsOfService')
 );
 const GarageSale = lazy(() => import('../pages/GarageSale/GarageSale'));
 
+const CollectionsPage = lazy(
+  () => import('../pages/Collections/CollectionsPage')
+);
+
 const Register = lazy(() => import('../pages/Register'));
 const Login = lazy(() => import('../pages/Login'));
+
+const NotFound = lazy(() => import('../pages/PageNotFound/NotFound'));
 
 // Router configuration
 export const RouterConfig = () =>
@@ -34,15 +41,16 @@ export const RouterConfig = () =>
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Home />} />
         <Route path="/products" element={<Products />} />
-        <Route path="product/:id" element={<ProductPage />} />
+        <Route path="products/:id" element={<ProductPage />} />
+        <Route path="garage-sale" element={<GarageSale />} />
+        <Route path="collections/:name" element={<CollectionsPage />} />
+        <Route path="about-corex" element={<About />} />
         <Route path="accessibility" element={<Accessibility />} />
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="return-policy" element={<ReturnPolicy />} />{' '}
-        {/* changed to singular for clarity */}
-        <Route path="about-corex" element={<About />} />
+        <Route path="return-policy" element={<ReturnPolicy />} />
         <Route path="shipping-policy" element={<ShippingPolicy />} />
         <Route path="terms-of-service" element={<TermsOfService />} />
-        <Route path="garage-sale" element={<GarageSale />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </>
   );

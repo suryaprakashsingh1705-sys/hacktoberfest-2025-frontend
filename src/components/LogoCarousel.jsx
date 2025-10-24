@@ -2,17 +2,19 @@ import './LogoCarousel.css';
 
 const LogoCarousel = () => {
   const logos = [
-    { name: 'Pulse', imgSrc: '/images/brand-logos/pulse.svg' },
-    { name: 'Zen Mode', imgSrc: '/images/brand-logos/zen-mode.svg' },
-    { name: 'Core Mass', imgSrc: '/images/brand-logos/core-mass.svg' },
-    { name: 'Storm', imgSrc: '/images/brand-logos/storm.svg' },
-    { name: 'Primal Fuel', imgSrc: '/images/brand-logos/primal-fuel.svg' },
-    { name: 'Revive', imgSrc: '/images/brand-logos/revive.svg' },
-    { name: 'Vital Edge', imgSrc: '/images/brand-logos/vital-edge.svg' },
+    { name: 'Pulse', imgSrc: '/icons/brand-logos/pulse.svg' },
+    { name: 'Zen Mode', imgSrc: '/icons/brand-logos/zen-mode.svg' },
+    { name: 'Core Mass', imgSrc: '/icons/brand-logos/core-mass.svg' },
+    { name: 'Storm', imgSrc: '/icons/brand-logos/storm.svg' },
+    {
+      name: 'Primal Fuel',
+      imgSrc: '/icons/brand-logos/primal-fuel.svg',
+    },
+    { name: 'Revive', imgSrc: '/icons/brand-logos/revive.svg' },
+    { name: 'Vital Edge', imgSrc: '/icons/brand-logos/vital-edge.svg' },
   ];
 
   const duplicatedLogos = [...logos, ...logos];
-
 
   return (
     <section className="carousel-section">
@@ -43,4 +45,3 @@ const LogoCarousel = () => {
 };
 
 export default LogoCarousel;
-

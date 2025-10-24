@@ -1,4 +1,5 @@
 import ProductCard from './ProductCard';
+import { isInWishlist } from '../../utils/wishlist';
 
 export default function ProductGrid({ products, lastProductElementRef }) {
   if (!products || products.length === 0) {
@@ -20,6 +21,7 @@ export default function ProductGrid({ products, lastProductElementRef }) {
                 ? lastProductElementRef
                 : null
             }
+            isWishlisted={isInWishlist(product.id || product._id)}
           />
         );
       })}

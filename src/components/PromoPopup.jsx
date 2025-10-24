@@ -11,6 +11,7 @@ const PromoPopup = () => {
   const [emailError, setEmailError] = useState('');
   const [nameError, setNameError] = useState('');
   const [phoneError, setPhoneError] = useState('');
+  const [goalError, setGoalError] = useState('');
 
   useEffect(() => {
     const popupFlag = localStorage.getItem('promoPopupShown');
@@ -21,7 +22,6 @@ const PromoPopup = () => {
       return () => clearTimeout(timer);
     }
   }, []);
-
   const closePopup = () => {
     setShowPopup(false);
     localStorage.setItem('promoPopupShown', 'true');
@@ -41,6 +41,7 @@ const PromoPopup = () => {
     setNameError('');
     setEmailError('');
     setPhoneError('');
+    setGoalError('');
 
     let hasErrors = false;
 
@@ -54,8 +55,10 @@ const PromoPopup = () => {
       hasErrors = true;
     }
 
-    if (!phone.trim()) {
-      setPhoneError('Phone number is required');
+    // Phone is optional - no validation needed
+
+    if (!goal || goal === '') {
+      setGoalError('Please select your fitness goal');
       hasErrors = true;
     }
 
@@ -75,7 +78,7 @@ const PromoPopup = () => {
       <div className="relative bg-white rounded-lg shadow-lg overflow-hidden flex max-w-4xl w-full mx-4">
         {/* Close button */}
         <button
-          className="absolute top-4 right-4 z-10 text-[#FAFAF9] rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-100 border-2 border-gray-300"
+          className="absolute top-4 right-4 z-10 text-[#000000] md:text-[#FAFAF9] rounded-full w-8 h-8 flex items-center justify-center border-2 border-gray-300"
           onClick={closePopup}
         >
           ✕
@@ -139,14 +142,13 @@ const PromoPopup = () => {
                 </div>
                 <input
                   type="tel"
-                  placeholder="Phone Number *"
+                  placeholder="Phone Number (Optional)"
                   value={phone}
                   onChange={(e) => {
                     setPhone(e.target.value);
                     setPhoneError('');
                   }}
                   className="flex-1 px-4 py-3 border-2 border-gray-400 rounded-r focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
                 />
               </div>
               {phoneError && (
@@ -157,7 +159,10 @@ const PromoPopup = () => {
             <div>
               <select
                 value={goal}
-                onChange={(e) => setGoal(e.target.value)}
+                onChange={(e) => {
+                  setGoal(e.target.value);
+                  setGoalError('');
+                }}
                 className="w-full px-4 py-3 border-2 border-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700"
               >
                 <option value="">What's Your Fitness Goal?</option>
@@ -167,6 +172,9 @@ const PromoPopup = () => {
                 <option>General Wellness</option>
                 <option>Recovery</option>
               </select>
+              {goalError && (
+                <p className="text-red-500 text-xs mt-1">{goalError}</p>
+              )}
             </div>
 
             <div className="space-y-3 pt-4">

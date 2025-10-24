@@ -2,34 +2,62 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Accent Fonts */
+  /* Fonts */
   --font-montserrat: 'Montserrat', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
   --font-inter: 'Inter', sans-serif;
 
-  /* Custom Font Sizes */
+  /* Font Sizes */
   --text-heading-xxl: 4rem;
   /* 64px */
 
+  /* Colors */
   --color-white-light: #fafaf9;
   --color-main: #023e8a;
-  --color-white-back: #F7FAFF;
+  --color-white-back: #f7faff;
   --color-black: #010409;
-}
 
-@layer components {
-  .section-title {
-    @apply text-4xl lg:text-heading-xxl font-montserrat font-bold leading-none uppercase text-center tracking-tight;
+  --animate-fade-slide-up: fade-slide-up 0.8s ease-out 0.3s both;
 
-    & span {
-      color: white;
-      -webkit-text-stroke: 3px black;
-      paint-order: stroke fill;
+  @keyframes fade-slide-up {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }
 
-/* Product Card Action Button Animations */
+/* ==========================
+   COMPONENTS
+========================== */
+@layer components {
+
+  /* Section Title */
+  .section-title {
+    @apply text-4xl lg:text-heading-xxl font-montserrat font-bold leading-none uppercase text-center tracking-tight;
+  }
+
+  /* .section-title span {
+    color: var(--color-white-light);
+    -webkit-text-stroke: 3px var(--color-black);
+    paint-order: stroke fill;
+  } */
+}
+
+.stroke-title {
+  color: var(--color-white-light);
+  -webkit-text-stroke: 3px var(--color-black);
+  paint-order: stroke fill;
+}
+
+/* ==========================
+   BUTTON ANIMATIONS
+========================== */
 @keyframes double-pop {
   0% {
     transform: scale(1);
@@ -57,13 +85,102 @@
   animation: double-pop 520ms cubic-bezier(.22, 1, .36, 1) both;
 }
 
-.link-underline {
+/* ==========================================
+   COUNTER ANIMATIONS FOR ADD TO CART BUTTON
+============================================= */
+@keyframes count-up {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.8);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translateY(-10px) scale(1.1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes count-down {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translateY(10px) scale(1.1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-count-up {
+  animation: count-up 150ms cubic-bezier(0.23, 1, 0.320, 1) both;
+}
+
+.animate-count-down {
+  animation: count-down 150ms cubic-bezier(0.23, 1, 0.320, 1) both;
+}
+
+/* ==========================
+   SHOP MENU ANIMATIONS
+========================== */
+@keyframes slide-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scaleY(0.95);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-20px) scaleY(0.95);
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateY(-20px) scaleY(0.95);
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-in forwards;
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+}
+
+/* ==========================
+   LINK UNDERLINE EFFECTS
+========================== */
+.link-underline,
+.link-underline-inverse {
   position: relative;
   display: inline-block;
   text-decoration: none;
   color: inherit;
 }
 
+/* Regular underline */
 .link-underline::after {
   content: '';
   position: absolute;
@@ -77,19 +194,13 @@
   transition: transform 260ms ease;
 }
 
-.link-underline:hover::after {
+.link-underline:hover::after,
+.link-underline:focus::after {
   transform-origin: left;
   transform: scaleX(1);
 }
 
-.link-underline-inverse {
-  position: relative;
-  display: inline-block;
-  text-decoration: none;
-  color: inherit;
-}
-
-/* start full (100%) — expand/contract direction controlled by transform-origin */
+/* Inverse underline */
 .link-underline-inverse::after {
   content: '';
   position: absolute;
@@ -99,23 +210,44 @@
   height: 2px;
   background: currentColor;
   transform: scaleX(1);
-  /* visible by default */
   transform-origin: left;
-  /* collapse/expand will use left as origin when returning */
   transition: transform 260ms ease;
 }
 
-/* on hover collapse toward the right (animate to 0%) */
 .link-underline-inverse:hover::after,
 .link-underline-inverse:focus::after {
   transform-origin: right;
-  /* collapse toward right */
   transform: scaleX(0);
 }
 
-/* respect reduced motion */
+/* ==========================
+   ACCESSIBILITY
+========================== */
 @media (prefers-reduced-motion: reduce) {
-  .link-underline-inverse::after {
-    transition: none;
+
+  .link-underline::after,
+  .link-underline-inverse::after,
+  .animate-double-pop,
+  .animate-slide-down,
+  .animate-slide-up {
+    animation: none !important;
+    transition: none !important;
   }
+}
+
+.close-icon {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #374151;
+  transition-property: transform, color;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  transform: rotate(0deg) scale(1);
+}
+
+.close-icon:hover,
+.close-icon:focus {
+  transform: rotate(90deg) scale(1.1);
+  /* color: #ef4444; */
 }

@@ -60,6 +60,7 @@ You can explore our creative Figma design and UI references here:
 - [Contributing](#contributing)
 - [Hacktoberfest Contribution Guide](#hacktoberfest-contribution-guide)
 - [Documentation](#documentation)
+- [Contributor Recognition](#-contributor-recognition)
 - [Contributors](#contributors)
 - [Security](#security)
 - [License](#license)
@@ -252,6 +253,34 @@ Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on how to 
 
 ---
 
+## 🏅 Contributor Recognition
+
+We’re proud to recognize everyone who contributes to **Open Code Chicago × CoreX**!
+
+Contributors can earn **exclusive digital badges** via [Holopin](https://holopin.io) — our official badge partner for open source recognition.
+
+| Badge | Description |
+|-------|--------------|
+| 🧑‍💻 **CoreX Contributor 2025** | Awarded for a merged PR during Hacktoberfest 2025 |
+| ✨ **First PR Merged** | Celebrates your very first open-source contribution under Open Code Chicago |
+| 🎨 **UI Builder** | For impactful frontend or UI/UX work |
+| ⚙️ **Backend Engineer** | For backend, API, or database contributions |
+| 💬 **Community Supporter** | For exceptional engagement, documentation, or testing contributions |
+
+After your PR is merged, maintainers will comment with a **unique claim link** to receive your badge on [Holopin](https://holopin.io).
+
+You can display your earned badges on:
+- Your **Holopin board**
+- Your **GitHub profile** (via Holopin widget)
+- **LinkedIn** (as a verified digital credential)
+
+➡️ Check out the full badge set on our Holopin board:  
+[**Open Code Chicago × CoreX 2025 Badges**](https://www.holopin.io/@opencodechicago)
+
+Let’s build, learn, and grow together 🚀
+
+---
+
 ## Contributors
 
 Thanks goes to these wonderful people:
@@ -282,6 +311,17 @@ Thanks goes to these wonderful people:
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/codervipul775"><img src="https://avatars.githubusercontent.com/u/184411035?v=4?s=100" width="100px;" alt="Vipul"/><br /><sub><b>Vipul</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=codervipul775" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Turbash"><img src="https://avatars.githubusercontent.com/u/170945289?v=4?s=100" width="100px;" alt="Turbash Negi"/><br /><sub><b>Turbash Negi</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=Turbash" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/NirajDN"><img src="https://avatars.githubusercontent.com/u/149431848?v=4?s=100" width="100px;" alt="Niraj Nillawar"/><br /><sub><b>Niraj Nillawar</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=NirajDN" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Sushil010"><img src="https://avatars.githubusercontent.com/u/58940037?v=4?s=100" width="100px;" alt="Sushil"/><br /><sub><b>Sushil</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=Sushil010" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/techieadi4703"><img src="https://avatars.githubusercontent.com/u/154405757?v=4?s=100" width="100px;" alt="ADITYA SRIVASTAVA"/><br /><sub><b>ADITYA SRIVASTAVA</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=techieadi4703" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/fudailzafar"><img src="https://avatars.githubusercontent.com/u/142711828?v=4?s=100" width="100px;" alt="Fudail Mohammed Zafar"/><br /><sub><b>Fudail Mohammed Zafar</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=fudailzafar" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://sabarishvs.codes"><img src="https://avatars.githubusercontent.com/u/135982365?v=4?s=100" width="100px;" alt="Sabarish V S"/><br /><sub><b>Sabarish V S</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=Sabarish2317" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://portfolio-mu-gules-67.vercel.app/"><img src="https://avatars.githubusercontent.com/u/174240048?v=4?s=100" width="100px;" alt="Aryan gupta"/><br /><sub><b>Aryan gupta</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=Aryan0512398" title="Code">💻</a> <a href="#ideas-Aryan0512398" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/yashseth391"><img src="https://avatars.githubusercontent.com/u/115554024?v=4?s=100" width="100px;" alt="Yash Seth"/><br /><sub><b>Yash Seth</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=yashseth391" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/PranavTamada"><img src="https://avatars.githubusercontent.com/u/68816381?v=4?s=100" width="100px;" alt="Pranav Tamada"/><br /><sub><b>Pranav Tamada</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=PranavTamada" title="Code">💻</a> <a href="#ideas-PranavTamada" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/anya-xcode"><img src="https://avatars.githubusercontent.com/u/184568333?v=4?s=100" width="100px;" alt="Ananya Gupta"/><br /><sub><b>Ananya Gupta</b></sub></a><br /><a href="https://github.com/OpenCodeChicago/hacktoberfest-2025-frontend/commits?author=anya-xcode" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
