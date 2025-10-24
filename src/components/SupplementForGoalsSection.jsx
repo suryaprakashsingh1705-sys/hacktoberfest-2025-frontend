@@ -65,7 +65,7 @@ export default function SupplementForGoalsSection() {
         <span className="text-[#000]">goal</span>
       </h2>
 
-      <div className="space-y-10">
+      <div className="space-y-10 md:py-0 md:px-16">
         <div className="flex justify-center flex-col md:flex-row gap-10">
           {goalCards.slice(0, 2).map((goalCard, index) => (
             <GoalCard
