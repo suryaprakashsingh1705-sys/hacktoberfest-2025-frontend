@@ -7,7 +7,7 @@ const PromoPopup = () => {
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [goal, setGoal] = useState('Build Muscle');
+  const [goal, setGoal] = useState('');
   const [emailError, setEmailError] = useState('');
   const [nameError, setNameError] = useState('');
   const [phoneError, setPhoneError] = useState('');
