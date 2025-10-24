@@ -4,7 +4,7 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import PhoneInputCustom from '../PhoneInputCustom/PhoneInputCustom';
 import {useDebounce} from '../../hooks/useDebounce'
 
-const PopupDialogBox = forwardRef(({ trigger, setTrigger, closePopup }, ref) => {
+const PopupDialogBox = forwardRef(({ trigger, closePopup }, ref) => {
 
     const [goal, setGoal] = useState("");
     const [email, setEmail] = useState("");
@@ -49,7 +49,7 @@ const PopupDialogBox = forwardRef(({ trigger, setTrigger, closePopup }, ref) => 
 
                         <PhoneInputCustom />
 
-                        <select value={goal} onChange={(e) => {setPhone(e.target.value);setGoal(e.target.value)}}  className={`w-full border-2 border-gray-400 focus:border-black rounded-md  py-3 px-5 mb-2 ${goal===""?`text-gray-400`:`text-black`} cursor-pointer`}>
+                        <select value={goal} onChange={(e) => {setGoal(e.target.value)}}  className={`w-full border-2 border-gray-400 focus:border-black rounded-md  py-3 px-5 mb-2 ${goal===""?`text-gray-400`:`text-black`} cursor-pointer`}>
                             <option value="" >What's Your Fitness Goal ?</option>
                             <option value="muscle" >Build Muscle</option>
                             <option value="weight" >Lose Weight</option>
