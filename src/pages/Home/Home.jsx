@@ -7,37 +7,9 @@ import {
   WhyChoose,
   SupplementForGoalsSection,
 } from '../../components';
-import { useState, useRef, useEffect } from 'react';
 import ReviewsSection from '../../components/ReviewsSection';
-import PopupDialogBox from '../../components/PopupDialogBox/PopupdialogBox';
 
 export default function Home() {
-  const [trigger, setTrigger] = useState(false);
-  const popupRef = useRef();
-
-  useEffect(() => {
-    const hasSeenPopup = localStorage.getItem('corex_popup_shown');
-    if (!hasSeenPopup) {
-      const timer = setTimeout(() => setTrigger(true), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (trigger && popupRef.current && !popupRef.current.contains(e.target))
-        closePopup();
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [trigger]);
-
-  function closePopup() {
-    setTrigger(false);
-    localStorage.setItem('corex_popup_shown', 'true');
-  }
-
   return (
     <>
       <a
@@ -65,7 +37,6 @@ export default function Home() {
         />
         <CollectionSection />
         <ReviewsSection />
-        <PopupDialogBox closePopup={closePopup} trigger={trigger} />
       </main>
     </>
   );
