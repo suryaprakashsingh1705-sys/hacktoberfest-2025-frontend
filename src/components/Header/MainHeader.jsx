@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from '../Search/SearchBox';
 import TopHeader from '../TopHeader/TopHeader';
@@ -26,6 +26,23 @@ export default function Header() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
+
+  const handleLogout = useCallback(async () => {
+    try {
+      await authServices.logout();
+    } catch (e) {
+      if (import.meta.env.DEV) console.debug('Logout request failed', e?.message || e);
+    } finally {
+      try {
+        localStorage.removeItem('hasSession');
+      } catch (err) {
+        if (import.meta.env.DEV) console.debug('Failed to clear hasSession flag', err?.message || err);
+      }
+      dispatch(logoutAction());
+      setUserMenuOpen(false);
+      navigate('/');
+    }
+  }, [dispatch, navigate]);
 
   // Handle shop button click
   const handleShopClick = () => {
@@ -135,7 +152,14 @@ export default function Header() {
                   )}
                 </button>
 
-                <div className="relative" ref={userMenuRef}>
+                <div
+                  className="relative"
+                  ref={userMenuRef}
+                  onMouseEnter={() => {
+                    if (isAuthenticated) setUserMenuOpen(true);
+                  }}
+                  onMouseLeave={() => setUserMenuOpen(false)}
+                >
                   <button
                     aria-label="User Account"
                     aria-haspopup="true"
@@ -144,15 +168,16 @@ export default function Header() {
                       if (!isAuthenticated) navigate('/login');
                       else setUserMenuOpen((s) => !s);
                     }}
-                    className="transform transition-transform duration-200 hover:scale-110 hover:text-black"
+                    className="transform transition-transform duration-200 hover:scale-110 hover:text-black cursor-pointer p-2 inline-flex items-center justify-center"
                   >
                     <User className="h-5 w-5" />
                   </button>
 
                   {/* Dropdown for authenticated users */}
                   {isAuthenticated && userMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                    <div role="menu" aria-label="Account menu" className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
                       <button
+                        role="menuitem"
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={() => {
                           setUserMenuOpen(false);
@@ -162,20 +187,9 @@ export default function Header() {
                         Profile
                       </button>
                       <button
+                        role="menuitem"
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={async () => {
-                          try {
-                            // Attempt server logout (cookie clear)
-                            await authServices.logout();
-                          } catch (e) {
-                            // ignore network errors during logout
-                            if (import.meta.env.DEV) console.debug('Logout request failed', e?.message || e);
-                          } finally {
-                            dispatch(logoutAction());
-                            setUserMenuOpen(false);
-                            navigate('/');
-                          }
-                        }}
+                        onClick={handleLogout}
                       >
                         Logout
                       </button>

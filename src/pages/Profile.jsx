@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { getDisplayName } from '../utils/authHelpers';
 
 export default function Profile() {
-  const user = useSelector((state) => state.auth.user) || {};
-  const name = user.name || user.fullName || user.username || user.email || 'User';
+  const user = useSelector((state) => state.auth.user) || null;
+  const name = getDisplayName(user);
 
   return (
     <div className="max-w-4xl mx-auto p-6">

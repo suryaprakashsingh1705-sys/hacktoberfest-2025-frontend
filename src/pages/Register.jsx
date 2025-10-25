@@ -10,6 +10,7 @@ import {
   registerSuccess,
   registerFailure,
 } from '../store/authSlice';
+import { extractToken, normalizeUser } from '../utils/authHelpers';
 import { useState } from 'react';
 
 // Validation schema
@@ -86,25 +87,20 @@ const Register = () => {
       });
 
       const payload = response?.data ?? {};
-      const token = payload.token || payload?.data?.token || payload?.user?.token || payload?.data?.user?.token;
-
-      // Normalize user object: backend may return { user: { ... } } or top-level fields
-      let user = null;
-      if (payload.user) user = payload.user;
-      else if (payload?.data?.user) user = payload.data.user;
-      else if (payload.name || payload.email) user = { name: payload.name, email: payload.email };
-      else {
-        user = {
-          email: data.email,
-          name: data.name,
-        };
-      }
+      const token = extractToken(payload);
+      const user = normalizeUser(payload, { email: data.email, name: data.name });
 
       if (!token) {
         throw new Error('No token returned from server');
       }
 
       dispatch(registerSuccess({ user, token }));
+      try {
+        // mark that a session exists so startup can attempt a silent refresh
+        localStorage.setItem('hasSession', '1');
+      } catch {
+        // ignore storage errors
+      }
       if (import.meta.env.DEV) console.debug('registerSuccess dispatched:', { user, token });
       navigate('/');
     } catch (err) {

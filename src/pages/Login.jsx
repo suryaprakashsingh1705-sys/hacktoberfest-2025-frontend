@@ -6,6 +6,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authServices } from '../services/api';
 import { loginStart, loginSuccess, loginFailure } from '../store/authSlice';
+import { extractToken, normalizeUser } from '../utils/authHelpers';
 import { useState } from 'react';
 
 // Validation schema
@@ -68,20 +69,20 @@ const Login = () => {
       });
 
       const payload = response?.data ?? {};
-      const token = payload.token || payload?.data?.token || payload?.user?.token || payload?.data?.user?.token;
-
-      // Normalize user object: backend may return { user: { ... } } or top-level fields
-      let user = null;
-      if (payload.user) user = payload.user;
-      else if (payload?.data?.user) user = payload.data.user;
-      else if (payload.name || payload.email) user = { name: payload.name, email: payload.email };
-      else user = { email: data.email };
+      const token = extractToken(payload);
+      const user = normalizeUser(payload, { email: data.email });
 
       if (!token) {
         throw new Error('No token returned from server');
       }
 
       dispatch(loginSuccess({ user, token }));
+      try {
+        // mark that a session exists so startup can attempt a silent refresh
+        localStorage.setItem('hasSession', '1');
+      } catch {
+        // ignore storage errors
+      }
       if (import.meta.env.DEV) console.debug('loginSuccess dispatched:', { user, token });
       navigate('/');
     } catch (err) {
