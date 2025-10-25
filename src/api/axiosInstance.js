@@ -18,7 +18,11 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
   try {
     const token = store.getState()?.auth?.token;
-    if (token && config && config.url && String(config.url).startsWith(API_BASE)) {
+    // Attach Authorization header for relative URLs (not starting with 'http') or absolute URLs matching API_BASE
+    const urlStr = String(config.url);
+    const isRelative = !urlStr.startsWith('http');
+    const isApiBase = urlStr.startsWith(API_BASE);
+    if (token && config && config.url && (isRelative || isApiBase)) {
       config.headers = config.headers || {};
       config.headers.Authorization = `Bearer ${token}`;
     }
