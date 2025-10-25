@@ -33,7 +33,7 @@ if (!skip) {
       const userPayload = userResp?.data || {};
       const user = userPayload.user || userPayload.data || null;
 
-      if (user) {
+      if (user && token) {
         store.dispatch(loginSuccess({ user, token }));
       }
     } catch (err) {
