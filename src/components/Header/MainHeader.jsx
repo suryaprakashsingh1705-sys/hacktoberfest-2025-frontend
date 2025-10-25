@@ -1,10 +1,12 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from '../Search/SearchBox';
 import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
 import { Menu, X, ChevronDown, Search, Heart, User } from 'lucide-react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout as logoutAction } from '../../store/authSlice';
+import { authServices } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import WishListScreen from '../WishList/WishListScreen';
 import CartIcon from '../CartComponent/CartIcon';
@@ -20,6 +22,9 @@ export default function Header() {
 
   const wishListData = useSelector((state) => state.wishList);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef(null);
   const navigate = useNavigate();
 
   // Handle shop button click
@@ -34,6 +39,18 @@ export default function Header() {
       handleShopClick();
     }
   };
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const onDocClick = (e) => {
+      if (userMenuOpen && userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', onDocClick);
+    return () => document.removeEventListener('mousedown', onDocClick);
+  }, [userMenuOpen]);
 
   return (
     <>
@@ -118,16 +135,53 @@ export default function Header() {
                   )}
                 </button>
 
-                <button
-                  aria-label="User Account"
-                  onClick={() => {
-                    if (!isAuthenticated) navigate('/login');
-                    else navigate('/profile');
-                  }}
-                  className="transform transition-transform duration-200 hover:scale-110 hover:text-black"
-                >
-                  <User className="h-5 w-5" />
-                </button>
+                <div className="relative" ref={userMenuRef}>
+                  <button
+                    aria-label="User Account"
+                    aria-haspopup="true"
+                    aria-expanded={userMenuOpen}
+                    onClick={() => {
+                      if (!isAuthenticated) navigate('/login');
+                      else setUserMenuOpen((s) => !s);
+                    }}
+                    className="transform transition-transform duration-200 hover:scale-110 hover:text-black"
+                  >
+                    <User className="h-5 w-5" />
+                  </button>
+
+                  {/* Dropdown for authenticated users */}
+                  {isAuthenticated && userMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                      <button
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          navigate('/profile');
+                        }}
+                      >
+                        Profile
+                      </button>
+                      <button
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={async () => {
+                          try {
+                            // Attempt server logout (cookie clear)
+                            await authServices.logout();
+                          } catch (e) {
+                            // ignore network errors during logout
+                            if (import.meta.env.DEV) console.debug('Logout request failed', e?.message || e);
+                          } finally {
+                            dispatch(logoutAction());
+                            setUserMenuOpen(false);
+                            navigate('/');
+                          }
+                        }}
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
 
                 <CartIcon onOpen={() => setCartOpen(true)} />
               </div>
