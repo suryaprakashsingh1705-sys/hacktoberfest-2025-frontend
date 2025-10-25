@@ -5,6 +5,7 @@ import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
 import { Menu, X, ChevronDown, Search, Heart, User } from 'lucide-react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import WishListScreen from '../WishList/WishListScreen';
 import CartIcon from '../CartComponent/CartIcon';
 import CartDrawer from '../CartComponent/CartDrawer';
@@ -18,6 +19,8 @@ export default function Header() {
   const [wishListOpen, setWishListOpen] = useState(false);
 
   const wishListData = useSelector((state) => state.wishList);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const navigate = useNavigate();
 
   // Handle shop button click
   const handleShopClick = () => {
@@ -106,24 +109,25 @@ export default function Header() {
                   className="relative transform transition-transform duration-200 hover:scale-110 hover:text-black cursor-pointer"
                 >
                   <Heart className="h-5 w-5" />
-
                   {wishListData.items.length > 0 && (
                     <span
-                      className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold
-                     rounded-full h-4 w-4 flex items-center justify-center"
+                      className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center"
                     >
                       {wishListData.items.length}
                     </span>
                   )}
                 </button>
 
-                <Link
-                  to="/login"
+                <button
                   aria-label="User Account"
+                  onClick={() => {
+                    if (!isAuthenticated) navigate('/login');
+                    else navigate('/profile');
+                  }}
                   className="transform transition-transform duration-200 hover:scale-110 hover:text-black"
                 >
                   <User className="h-5 w-5" />
-                </Link>
+                </button>
 
                 <CartIcon onOpen={() => setCartOpen(true)} />
               </div>
@@ -312,22 +316,36 @@ export default function Header() {
               <Heart className="h-5 w-5" />
               <span>Wishlist</span>
             </a>
-            <a
-              href="#"
-              className="flex items-center space-x-2 text-gray-700 hover:text-black"
-              onClick={() => setMobileOpen(false)}
-            >
-              <User className="h-5 w-5" />
-              <span>Account</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center space-x-2 text-gray-700 hover:text-black"
-              onClick={() => setMobileOpen(false)}
-            >
-              <CartIcon onOpen={() => setCartOpen(true)} />
-              <span>Cart</span>
-            </a>
+                <button
+                  className="flex items-center space-x-2 text-gray-700 hover:text-black"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    if (!isAuthenticated) navigate('/login');
+                    else navigate('/profile');
+                  }}
+                >
+                  <User className="h-5 w-5" />
+                  <span>Account</span>
+                </button>
+              <div
+                role="button"
+                tabIndex={0}
+                className="flex items-center space-x-2 text-gray-700 hover:text-black cursor-pointer"
+                onClick={() => {
+                  setMobileOpen(false);
+                  setCartOpen(true);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setMobileOpen(false);
+                    setCartOpen(true);
+                  }
+                }}
+              >
+                <CartIcon onOpen={() => setCartOpen(true)} />
+                <span>Cart</span>
+              </div>
           </div>
         </div>
       </div>
