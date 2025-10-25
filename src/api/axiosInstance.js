@@ -1,6 +1,6 @@
 import axios from 'axios';
 import store from '../store';
-import { setToken, logout } from '../store/authSlice';
+import { setToken, logout, loginSuccess } from '../store/authSlice';
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:5000/api';
 
@@ -70,8 +70,15 @@ axiosInstance.interceptors.response.use(
           // If refresh succeeded but no token, attempt to fetch /users/current to populate user
           return axios
             .get(`${API_BASE}/users/current`, { withCredentials: true })
-            .then(() => {
-              // no token, but session is valid - retry original request
+            .then((userRes) => {
+              // Dispatch user to store so Redux reflects the valid session
+              const userPayload = userRes?.data || {};
+              const user = userPayload.user || userPayload.data || null;
+              if (user) {
+                // token may be null here if server relies purely on cookies
+                store.dispatch(loginSuccess({ user, token: newToken || null }));
+              }
+              // session is valid - retry original request
               return axiosInstance(originalRequest);
             })
             .catch(() => {
