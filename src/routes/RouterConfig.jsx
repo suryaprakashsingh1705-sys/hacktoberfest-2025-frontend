@@ -1,6 +1,8 @@
 import { lazy } from 'react';
 import { createRoutesFromElements, Route } from 'react-router-dom';
 import RootLayout from '../layouts/RootLayout';
+import PrivateRoute from '../components/Auth/PrivateRoute';
+import RestrictedRoute from '../components/Auth/RestrictedRoute';
 
 // Lazy-loaded pages
 const Home = lazy(() => import('../pages/Home/Home'));
@@ -29,6 +31,8 @@ const CollectionsPage = lazy(
 
 const Register = lazy(() => import('../pages/Register'));
 const Login = lazy(() => import('../pages/Login'));
+const Profile = lazy(() => import('../pages/Profile'));
+const Checkout = lazy(() => import('../pages/Checkout'));
 
 const NotFound = lazy(() => import('../pages/PageNotFound/NotFound'));
 
@@ -36,12 +40,20 @@ const NotFound = lazy(() => import('../pages/PageNotFound/NotFound'));
 export const RouterConfig = () =>
   createRoutesFromElements(
     <>
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      {/* Restrict login/register pages when user is authenticated */}
+      <Route path="/register" element={<RestrictedRoute><Register /></RestrictedRoute>} />
+      
+      <Route path="/login" element={<RestrictedRoute><Login /></RestrictedRoute>} />
+
       <Route path="/" element={<RootLayout />}>
         <Route index element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="products/:id" element={<ProductPage />} />
+        
+        {/* Example protected routes */}
+        <Route path="profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path="checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
+
         <Route path="garage-sale" element={<GarageSale />} />
         <Route path="collections/:name" element={<CollectionsPage />} />
         <Route path="about-corex" element={<About />} />
