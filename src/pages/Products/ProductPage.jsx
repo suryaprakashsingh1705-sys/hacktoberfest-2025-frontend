@@ -95,7 +95,7 @@ export default function ProductPage() {
               <div className="relative flex w-[400px] shadow-sm ">
                 <img
                   className="object-cover "
-                  src="/images/products/nova-whey-vanilla-protein.jpg"
+                  src={product.image || "/images/products/nova-whey-vanilla-protein.jpg"}
                   alt={product.name}
                 />
                 <h3 className="absolute top-0 right-0 bg-blue-500 text-white text-xs font-medium py-1 px-2 ">
