@@ -8,7 +8,6 @@ import {
 import ProductDetails from '../../components/ProductDetails';
 import { getRecommendedProducts } from '../../api';
 import ProductCard from '../../components/Products/ProductCard';
-import { isInWishlist } from '../../utils/wishlist';
 import { Clock, PackageIcon } from 'lucide-react';
 import { renderStars } from '../../components/common/ReviewStars';
 import AddToCartButton from '../../components/Products/AddToCartButton';
@@ -95,7 +94,10 @@ export default function ProductPage() {
               <div className="relative flex w-[400px] shadow-sm ">
                 <img
                   className="object-cover "
-                  src={product.image || "/images/products/nova-whey-vanilla-protein.jpg"}
+                  src={
+                    product.image ||
+                    '/images/products/nova-whey-vanilla-protein.jpg'
+                  }
                   alt={product.name}
                 />
                 <h3 className="absolute top-0 right-0 bg-blue-500 text-white text-xs font-medium py-1 px-2 ">
