@@ -5,7 +5,6 @@ import {
   fetchProductById,
   clearCurrentProduct,
 } from '../../store/productSlice';
-import {} from 'react-icons/fa';
 import ProductDetails from '../../components/ProductDetails';
 import { getRecommendedProducts } from '../../api';
 import ProductCard from '../../components/Products/ProductCard';
