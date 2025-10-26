@@ -152,7 +152,7 @@ export default function ProductPage() {
             <h1 className="text-4xl font-bold mb-2">{product.name}</h1>
             <p className="text-gray-700">{product.longDescription}</p>
             {/* Flavour and size selection */}
-            <section className="falvours-size-section flex flex-col gap-4 ">
+            <section className="flavours-size-section flex flex-col gap-4 ">
               {/* flavour selection */}
               <div className="flavours-selection items-center justify-start flex flex-row gap-4 ">
                 <h3 className="text-gray-800 font-semibold ">Flavors :</h3>
