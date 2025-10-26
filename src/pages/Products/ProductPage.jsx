@@ -195,7 +195,7 @@ export default function ProductPage() {
                   Add to Cart
                 </button> */}
                 <AddToCartButton
-                  className="rounded-md! w-full "
+                  className="!rounded-md w-full "
                   product={product}
                   selectedFlavor={'Vanilla Ice Cream'}
                 />
