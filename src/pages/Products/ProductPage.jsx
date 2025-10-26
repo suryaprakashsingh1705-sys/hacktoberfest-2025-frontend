@@ -116,7 +116,7 @@ export default function ProductPage() {
                 />
               </button>
             </div>
-            {/* Addiontal image section */}
+            {/* Additional image section */}
             <section className="additional-images-grid grid grid-cols-4 gap-4 px-4 mt-4">
               <img
                 className="w-full h-auto object-cover rounded-lg cursor-pointer"
