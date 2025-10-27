@@ -1,16 +1,15 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from '../Search/SearchBox';
 import TopHeader from '../TopHeader/TopHeader';
 import ShopMenu from '../ShopMenu';
 import { Menu, X, ChevronDown, Search, Heart, User } from 'lucide-react';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout as logoutAction } from '../../store/authSlice';
-import { authServices } from '../../services/api';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import WishListScreen from '../WishList/WishListScreen';
 import CartIcon from '../CartComponent/CartIcon';
 import CartDrawer from '../CartComponent/CartDrawer';
+import ProfileMenu from './ProfileMenu/ProfileMenu';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -22,27 +21,7 @@ export default function Header() {
 
   const wishListData = useSelector((state) => state.wishList);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const dispatch = useDispatch();
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const userMenuRef = useRef(null);
   const navigate = useNavigate();
-
-  const handleLogout = useCallback(async () => {
-    try {
-      await authServices.logout();
-    } catch (e) {
-      if (import.meta.env.DEV) console.debug('Logout request failed', e?.message || e);
-    } finally {
-      try {
-        localStorage.removeItem('hasSession');
-      } catch (err) {
-        if (import.meta.env.DEV) console.debug('Failed to clear hasSession flag', err?.message || err);
-      }
-      dispatch(logoutAction());
-      setUserMenuOpen(false);
-      navigate('/');
-    }
-  }, [dispatch, navigate]);
 
   // Handle shop button click
   const handleShopClick = () => {
@@ -56,18 +35,6 @@ export default function Header() {
       handleShopClick();
     }
   };
-
-  // Close user menu when clicking outside
-  useEffect(() => {
-    const onDocClick = (e) => {
-      if (userMenuOpen && userMenuRef.current && !userMenuRef.current.contains(e.target)) {
-        setUserMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', onDocClick);
-    return () => document.removeEventListener('mousedown', onDocClick);
-  }, [userMenuOpen]);
 
   return (
     <>
@@ -144,58 +111,13 @@ export default function Header() {
                 >
                   <Heart className="h-5 w-5" />
                   {wishListData.items.length > 0 && (
-                    <span
-                      className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center"
-                    >
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
                       {wishListData.items.length}
                     </span>
                   )}
                 </button>
 
-                <div
-                  className="relative"
-                  ref={userMenuRef}
-                  onMouseEnter={() => {
-                    if (isAuthenticated) setUserMenuOpen(true);
-                  }}
-                  onMouseLeave={() => setUserMenuOpen(false)}
-                >
-                  <button
-                    aria-label="User Account"
-                    aria-haspopup="true"
-                    aria-expanded={userMenuOpen}
-                    onClick={() => {
-                      if (!isAuthenticated) navigate('/login');
-                      else setUserMenuOpen((s) => !s);
-                    }}
-                    className="transform transition-transform duration-200 hover:scale-110 hover:text-black cursor-pointer p-2 inline-flex items-center justify-center"
-                  >
-                    <User className="h-5 w-5" />
-                  </button>
-
-                  {/* Dropdown for authenticated users */}
-                  {isAuthenticated && userMenuOpen && (
-                    <div role="menu" aria-label="Account menu" className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                      <button
-                        role="menuitem"
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => {
-                          setUserMenuOpen(false);
-                          navigate('/profile');
-                        }}
-                      >
-                        Profile
-                      </button>
-                      <button
-                        role="menuitem"
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={handleLogout}
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  )}
-                </div>
+                <ProfileMenu />
 
                 <CartIcon onOpen={() => setCartOpen(true)} />
               </div>
@@ -384,36 +306,36 @@ export default function Header() {
               <Heart className="h-5 w-5" />
               <span>Wishlist</span>
             </a>
-                <button
-                  className="flex items-center space-x-2 text-gray-700 hover:text-black"
-                  onClick={() => {
-                    setMobileOpen(false);
-                    if (!isAuthenticated) navigate('/login');
-                    else navigate('/profile');
-                  }}
-                >
-                  <User className="h-5 w-5" />
-                  <span>Account</span>
-                </button>
-              <div
-                role="button"
-                tabIndex={0}
-                className="flex items-center space-x-2 text-gray-700 hover:text-black cursor-pointer"
-                onClick={() => {
+            <button
+              className="flex items-center space-x-2 text-gray-700 hover:text-black"
+              onClick={() => {
+                setMobileOpen(false);
+                if (!isAuthenticated) navigate('/login');
+                else navigate('/profile');
+              }}
+            >
+              <User className="h-5 w-5" />
+              <span>Account</span>
+            </button>
+            <div
+              role="button"
+              tabIndex={0}
+              className="flex items-center space-x-2 text-gray-700 hover:text-black cursor-pointer"
+              onClick={() => {
+                setMobileOpen(false);
+                setCartOpen(true);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
                   setMobileOpen(false);
                   setCartOpen(true);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    setMobileOpen(false);
-                    setCartOpen(true);
-                  }
-                }}
-              >
-                <CartIcon onOpen={() => setCartOpen(true)} />
-                <span>Cart</span>
-              </div>
+                }
+              }}
+            >
+              <CartIcon onOpen={() => setCartOpen(true)} />
+              <span>Cart</span>
+            </div>
           </div>
         </div>
       </div>
